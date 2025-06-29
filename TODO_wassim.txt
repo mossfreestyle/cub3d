@@ -1,0 +1,498 @@
+CUB3D - ROADMAP BACKEND DÉTAILLÉE
+=================================
+
+📋 TABLE DES MATIÈRES
+=====================
+1. SETUP INITIAL DU PROJET
+2. STRUCTURES DE DONNÉES
+3. PARSING ET VALIDATION
+4. MOTEUR RAYCASTING
+5. GESTION JOUEUR
+6. OPTIMISATIONS
+7. TESTS ET DEBUG
+8. BONUS (SI TEMPS)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+1. SETUP INITIAL DU PROJET
+===========================
+
+1.1 STRUCTURE DES DOSSIERS
+---------------------------
+cub3d/
+├── Makefile
+├── includes/
+│   └── cub3d.h
+├── src/
+│   ├── main.c
+│   ├── parsing/
+│   │   ├── parser.c
+│   │   ├── map_validator.c
+│   │   ├── texture_loader.c
+│   │   └── color_parser.c
+│   ├── raycasting/
+│   │   ├── raycasting.c
+│   │   ├── ray_utils.c
+│   │   ├── dda_algorithm.c
+│   │   └── wall_detection.c
+│   ├── player/
+│   │   ├── player_init.c
+│   │   ├── movement.c
+│   │   ├── rotation.c
+│   │   └── collision.c
+│   ├── rendering/
+│   │   ├── texture_mapping.c
+│   │   ├── drawing.c
+│   │   └── color_utils.c
+│   └── utils/
+│       ├── math_utils.c
+│       ├── memory_manager.c
+│       ├── error_handler.c
+│       └── cleanup.c
+├── textures/
+├── maps/
+└── libft/ (si autorisé)
+
+1.2 MAKEFILE CONFIGURATION
+---------------------------
+- Compiler avec gcc
+- Flags: -Wall -Wextra -Werror
+- Lier avec MinilibX (-lmlx -lXext -lX11 -lm)
+- Règles: all, clean, fclean, re
+- Variables: NAME, SRCS, OBJS, CC, CFLAGS
+
+1.3 HEADER PRINCIPAL (cub3d.h)
+-------------------------------
+- Inclusions système (#include <math.h>, <fcntl.h>, etc.)
+- Inclusion MinilibX
+- Définition des constantes (largeur/hauteur fenêtre, vitesses)
+- Déclaration de toutes les structures
+- Prototypes de toutes les fonctions
+
+═══════════════════════════════════════════════════════════════════════════════
+
+2. STRUCTURES DE DONNÉES
+=========================
+
+2.1 STRUCTURE PRINCIPALE DU JEU
+--------------------------------
+typedef struct s_game {
+    void        *mlx;           // Pointeur MLX
+    void        *win;           // Fenêtre
+    void        *img;           // Image buffer
+    char        *addr;          // Adresse pixel data
+    int         bits_per_pixel; // Bits par pixel
+    int         line_length;    // Longueur ligne
+    int         endian;         // Endianness
+    t_map       *map;           // Données carte
+    t_player    *player;        // Données joueur
+    t_texture   *textures;      // Textures chargées
+    int         keys[256];      // État des touches
+} t_game;
+
+2.2 STRUCTURE CARTE
+-------------------
+typedef struct s_map {
+    char    **grid;             // Grille 2D (malloc'd)
+    int     width;              // Largeur
+    int     height;             // Hauteur
+    char    *north_texture;     // Chemin texture N
+    char    *south_texture;     // Chemin texture S
+    char    *west_texture;      // Chemin texture W
+    char    *east_texture;      // Chemin texture E
+    int     floor_color;        // RGB sol
+    int     ceiling_color;      // RGB plafond
+    int     player_start_x;     // Position initiale X
+    int     player_start_y;     // Position initiale Y
+    char    player_direction;   // Direction initiale (N/S/E/W)
+} t_map;
+
+2.3 STRUCTURE JOUEUR
+--------------------
+typedef struct s_player {
+    double  x;                  // Position X (coordonnées monde)
+    double  y;                  // Position Y
+    double  dir_x;              // Vecteur direction X
+    double  dir_y;              // Vecteur direction Y
+    double  plane_x;            // Plan caméra X
+    double  plane_y;            // Plan caméra Y
+    double  move_speed;         // Vitesse déplacement
+    double  rot_speed;          // Vitesse rotation
+} t_player;
+
+2.4 STRUCTURE RAYON
+-------------------
+typedef struct s_ray {
+    double  camera_x;           // Position sur plan caméra [-1, 1]
+    double  ray_dir_x;          // Direction rayon X
+    double  ray_dir_y;          // Direction rayon Y
+    int     map_x;              // Case carte X
+    int     map_y;              // Case carte Y
+    double  side_dist_x;        // Distance au prochain côté X
+    double  side_dist_y;        // Distance au prochain côté Y
+    double  delta_dist_x;       // Distance entre intersections X
+    double  delta_dist_y;       // Distance entre intersections Y
+    double  perp_wall_dist;     // Distance perpendiculaire mur
+    int     step_x;             // Direction pas X (-1 ou 1)
+    int     step_y;             // Direction pas Y (-1 ou 1)
+    int     hit;                // Mur touché (0/1)
+    int     side;               // Côté mur (0=NS, 1=EW)
+    int     line_height;        // Hauteur ligne à dessiner
+    int     draw_start;         // Pixel début dessin
+    int     draw_end;           // Pixel fin dessin
+} t_ray;
+
+2.5 STRUCTURE TEXTURE
+---------------------
+typedef struct s_texture {
+    void    *img;               // Image MLX
+    char    *addr;              // Adresse données
+    int     width;              // Largeur texture
+    int     height;             // Hauteur texture
+    int     bits_per_pixel;     // Bits par pixel
+    int     line_length;        // Longueur ligne
+    int     endian;             // Endianness
+} t_texture;
+
+═══════════════════════════════════════════════════════════════════════════════
+
+3. PARSING ET VALIDATION
+=========================
+
+3.1 PARSER PRINCIPAL (parser.c)
+-------------------------------
+FONCTION: parse_cub_file(char *filename, t_map *map)
+ÉTAPES:
+1. Ouvrir fichier .cub
+2. Lire ligne par ligne
+3. Identifier type de ligne (texture/couleur/carte)
+4. Appeler parser spécialisé
+5. Valider complétude des données
+6. Fermer fichier
+
+DÉTAILS TECHNIQUES:
+- Utiliser get_next_line ou read() + buffer
+- Ignorer lignes vides et commentaires
+- Vérifier extension .cub
+- Gérer erreurs ouverture fichier
+
+3.2 VALIDATION CARTE (map_validator.c)
+--------------------------------------
+FONCTION: validate_map(t_map *map)
+VALIDATIONS REQUISES:
+1. Carte entourée de murs ('1')
+2. Caractères valides uniquement ('0', '1', 'N', 'S', 'E', 'W', ' ')
+3. Un seul point de départ joueur
+4. Pas de trous dans les murs
+5. Carte rectangulaire (remplir espaces avec ' ')
+
+ALGORITHME FLOOD FILL:
+- Partir de la position joueur
+- Marquer toutes cases '0' accessibles
+- Vérifier qu'aucune case marquée touche bord/espace
+
+3.3 CHARGEUR TEXTURES (texture_loader.c)
+----------------------------------------
+FONCTION: load_texture(char *path, t_texture *texture)
+ÉTAPES:
+1. Vérifier existence fichier
+2. Charger avec mlx_xpm_file_to_image()
+3. Récupérer adresse données avec mlx_get_data_addr()
+4. Stocker dimensions et métadonnées
+5. Gérer erreurs chargement
+
+VALIDATIONS:
+- Extensions autorisées (.xpm)
+- Taille texture raisonnable
+- Format image valide
+
+3.4 PARSER COULEURS (color_parser.c)
+------------------------------------
+FONCTION: parse_color(char *line, int *color)
+FORMAT ATTENDU: "F 220,100,0" ou "C 225,30,0"
+ÉTAPES:
+1. Extraire valeurs R,G,B
+2. Vérifier plage [0,255]
+3. Convertir en entier RGB (R << 16 | G << 8 | B)
+4. Gérer erreurs format
+
+═══════════════════════════════════════════════════════════════════════════════
+
+4. MOTEUR RAYCASTING
+====================
+
+4.1 BOUCLE PRINCIPALE (raycasting.c)
+------------------------------------
+FONCTION: cast_rays(t_game *game)
+POUR CHAQUE COLONNE X (0 à SCREEN_WIDTH-1):
+1. Calculer camera_x = 2 * x / (double)SCREEN_WIDTH - 1
+2. Calculer direction rayon
+3. Initialiser variables DDA
+4. Exécuter algorithme DDA
+5. Calculer distance et hauteur mur
+6. Dessiner colonne de pixels
+
+OPTIMISATION:
+- Pré-calculer certaines valeurs
+- Utiliser lookup tables pour trigonométrie
+- Minimiser allocations mémoire
+
+4.2 ALGORITHME DDA (dda_algorithm.c)
+------------------------------------
+FONCTION: perform_dda(t_game *game, t_ray *ray)
+INITIALISATION:
+1. Calculer delta_dist_x = |1/ray_dir_x|
+2. Calculer delta_dist_y = |1/ray_dir_y|
+3. Déterminer step et side_dist initiales
+
+BOUCLE DDA:
+while (ray->hit == 0) {
+    if (side_dist_x < side_dist_y) {
+        side_dist_x += delta_dist_x;
+        map_x += step_x;
+        side = 0;
+    } else {
+        side_dist_y += delta_dist_y;
+        map_y += step_y;
+        side = 1;
+    }
+    if (map[map_x][map_y] == '1') hit = 1;
+}
+
+4.3 CALCULS GÉOMÉTRIQUES (ray_utils.c)
+--------------------------------------
+FONCTION: calculate_wall_distance(t_ray *ray, t_player *player)
+- Calculer distance perpendiculaire au mur
+- Éviter effet "fisheye"
+- Calculer hauteur ligne à dessiner
+- Déterminer pixels début/fin
+
+FONCTION: calculate_texture_coordinates(t_ray *ray, t_player *player)
+- Déterminer quelle texture utiliser (N/S/E/W)
+- Calculer coordonnée X sur la texture
+- Gérer cas où rayon frappe côté ou face
+
+4.4 DÉTECTION MURS (wall_detection.c)
+-------------------------------------
+FONCTION: is_wall(t_map *map, int x, int y)
+- Vérifier limites carte
+- Retourner 1 si '1', 0 sinon
+- Gérer espaces comme murs pour sécurité
+
+═══════════════════════════════════════════════════════════════════════════════
+
+5. GESTION JOUEUR
+=================
+
+5.1 INITIALISATION (player_init.c)
+----------------------------------
+FONCTION: init_player(t_map *map, t_player *player)
+ÉTAPES:
+1. Trouver position joueur sur carte (N/S/E/W)
+2. Définir position initiale (centre de la case)
+3. Définir vecteur direction selon orientation
+4. Définir plan caméra (perpendiculaire à direction)
+5. Définir vitesses mouvement/rotation
+
+ORIENTATIONS INITIALES:
+- N: dir(-1,0), plane(0,0.66)
+- S: dir(1,0), plane(0,-0.66)
+- E: dir(0,1), plane(0.66,0)
+- W: dir(0,-1), plane(-0.66,0)
+
+5.2 SYSTÈME MOUVEMENT (movement.c)
+----------------------------------
+FONCTION: handle_movement(t_game *game)
+TOUCHES WSAD:
+- W: avancer (direction actuelle)
+- S: reculer (direction opposée)
+- A: strafe gauche (perpendiculaire gauche)
+- D: strafe droite (perpendiculaire droite)
+
+CALCULS:
+new_x = player->x + dir_x * move_speed * delta_time
+new_y = player->y + dir_y * move_speed * delta_time
+
+VÉRIFICATIONS:
+- Collision avec murs
+- Limites carte
+- Vitesse frame-indépendante
+
+5.3 SYSTÈME ROTATION (rotation.c)
+---------------------------------
+FONCTION: handle_rotation(t_game *game)
+TOUCHES FLÈCHES:
+- Gauche: rotation sens antihoraire
+- Droite: rotation sens horaire
+
+ROTATION MATRICIELLE:
+old_dir_x = player->dir_x
+player->dir_x = dir_x * cos(rot_speed) - dir_y * sin(rot_speed)
+player->dir_y = old_dir_x * sin(rot_speed) + dir_y * cos(rot_speed)
+
+old_plane_x = player->plane_x
+player->plane_x = plane_x * cos(rot_speed) - plane_y * sin(rot_speed)
+player->plane_y = old_plane_x * sin(rot_speed) + plane_y * cos(rot_speed)
+
+5.4 DÉTECTION COLLISION (collision.c)
+-------------------------------------
+FONCTION: check_collision(t_map *map, double x, double y)
+VÉRIFICATIONS:
+1. Position dans limites carte
+2. Case destination n'est pas mur
+3. Buffer sécurité autour joueur (0.1 unité)
+
+FONCTION: can_move_to(t_map *map, double x, double y)
+- Tester 4 coins du joueur (hitbox carrée)
+- Retourner 0 si collision, 1 si libre
+
+═══════════════════════════════════════════════════════════════════════════════
+
+6. OPTIMISATIONS
+================
+
+6.1 OPTIMISATIONS MATHÉMATIQUES
+-------------------------------
+LOOKUP TABLES:
+- Précalculer sin/cos pour rotations communes
+- Table distances pour éviter sqrt()
+- Cache résultats calculs coûteux
+
+ARITHMÉTIQUE ENTIÈRE:
+- Utiliser fixed-point quand possible
+- Éviter divisions par multiplications inverses
+- Optimiser boucles critiques
+
+6.2 OPTIMISATIONS MÉMOIRE
+-------------------------
+POOLS MÉMOIRE:
+- Pré-allouer structures rayons
+- Réutiliser buffers temporaires
+- Minimiser malloc/free en runtime
+
+CACHE EFFICIENCY:
+- Structures alignées mémoire
+- Accès séquentiels aux textures
+- Localité spatiale données
+
+6.3 OPTIMISATIONS RENDU
+-----------------------
+CULLING:
+- Ne pas calculer rayons hors écran
+- Skip pixels transparents
+- Optimiser boucles dessin
+
+FRAME TIMING:
+- Target 60 FPS
+- Delta time pour mouvements fluides
+- Limiter recalculs inutiles
+
+═══════════════════════════════════════════════════════════════════════════════
+
+7. TESTS ET DEBUG
+=================
+
+7.1 TESTS UNITAIRES
+-------------------
+PARSER:
+- Fichiers .cub valides/invalides
+- Cartes avec erreurs diverses
+- Textures manquantes/corrompues
+- Couleurs hors limites
+
+RAYCASTING:
+- Précision calculs DDA
+- Gestion cas limites (coins)
+- Performance grandes cartes
+- Mémoire (valgrind)
+
+7.2 OUTILS DEBUG
+----------------
+DEBUG VISUEL:
+- Affichage minimap 2D
+- Rayons visibles
+- Position/direction joueur
+- FPS counter
+
+DEBUG CONSOLE:
+- Logs détaillés parsing
+- État interne structures
+- Profiling performance
+- Détection fuites mémoire
+
+7.3 GESTION ERREURS
+-------------------
+TYPES ERREURS:
+- "Error\nInvalid map format"
+- "Error\nTexture file not found"
+- "Error\nInvalid color format"
+- "Error\nMap not enclosed"
+
+CLEANUP:
+- Libérer toute mémoire allouée
+- Fermer fichiers ouverts
+- Détruire images MLX
+- Exit propre
+
+═══════════════════════════════════════════════════════════════════════════════
+
+8. BONUS (SI TEMPS)
+===================
+
+8.1 AMÉLIORATIONS VISUELLES
+---------------------------
+- Sprites 2D (objets, ennemis)
+- Animation textures
+- Effets de lumière
+- Shadows/fog
+
+8.2 GAMEPLAY
+------------
+- Collision sprites
+- Portes ouvrables
+- Son spatial
+- Minimapa temps réel
+
+8.3 OPTIMISATIONS AVANCÉES
+--------------------------
+- Multi-threading raycasting
+- Frustum culling
+- Level-of-detail textures
+- Compression carte
+
+═══════════════════════════════════════════════════════════════════════════════
+
+📝 NOTES IMPORTANTES
+====================
+
+NORMINETTE:
+- Maximum 25 lignes par fonction
+- Maximum 80 colonnes
+- Noms variables/fonctions explicites
+- Commentaires si nécessaire
+
+PERFORMANCE TARGETS:
+- 60 FPS constant
+- < 16ms par frame
+- Mémoire stable (pas de leaks)
+- Responsive aux inputs
+
+GESTION ERREURS:
+- Toujours vérifier retours malloc
+- Gérer tous cas d'erreur fichier
+- Messages erreur explicites
+- Cleanup complet avant exit
+
+TESTS OBLIGATOIRES:
+- Cartes minimales (3x3)
+- Cartes complexes
+- Formats invalides
+- Textures manquantes
+- Limites système
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Ce document couvre TOUT ce que tu dois implémenter pour la partie backend.
+Imprime-le et coche chaque item au fur et à mesure !
+
+Bon courage !
