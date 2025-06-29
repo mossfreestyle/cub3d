@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 22:21:13 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/28 23:46:07 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:52:44 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 
 int	close_window(t_info *info)
 {
-	// destroy_all(info, &info->assets);
-	// free_all(info);
-	(void)info;
-	return (0);
+	destroy_all(info);
+	free_all(info);
+	exit(EXIT_SUCCESS);
 }
 
 int	check_arg(char *msg, int exit_code)
@@ -29,11 +28,11 @@ int	check_arg(char *msg, int exit_code)
 
 int	error(t_info *info, char *msg, int exit_code)
 {
-	(void)info;
-	// need free et destroy
+	destroy_all(info);
+	free_all(info);
 	ft_putstr_fd(ERROR_MSG, 2);
 	ft_putendl_fd(msg, 2);
-	return (exit_code);
+	exit(exit_code);
 }
 
 int	move(t_info *info)

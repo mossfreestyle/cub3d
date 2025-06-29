@@ -1,0 +1,31 @@
+
+
+// voir si on met differentes couleur de mur
+
+//voir si on fais les bonus pour rajouter des structs, bool door, struct minimap; 
+
+
+
+//addr + (y * size_line + x * (bpp / 8)) -> pour draw un pixel 
+
+
+
+size_line = largeur de la ligne en mémoire
+endian = ordre des couleurs dans la mémoire
+
+
+
+
+//fonction error_msg qui renvoie Error\n avec le message entre en parametre
+
+
+fix makefile make fclean puis make
+
+
+
+
+Pour les espace dans la map
+Comme le dit le sujet en anglais Spaces are a valid part of the map and are up to you to handle. 
+Ou en francais Les espaces sont une partie valable de la carte, c’est à vous de les gérer correctement.
+Donc pour faire assez simple c'est un peu comme tu veux mais ils doivent être gérés.
+Perso on est parti sur espace = mur = 1

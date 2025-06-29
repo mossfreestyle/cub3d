@@ -6,7 +6,9 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/cub3D",
-            "args": [],
+            "args": [
+                "maps/map.cub"
+            ],
             "MIMode": "gdb",
             "cwd": "${workspaceFolder}",
             "preLaunchTask": "Build cub3D",

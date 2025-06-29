@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 18:17:05 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/29 00:43:47 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:53:23 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,19 @@
 
 int	main(int ac, char **av)
 {
-	t_info *info;
+	t_info	*info;
+
 	if (ac != 2)
 		return (check_arg("Only need a map", 1));
 	info = malloc(sizeof(t_info));
 	if (!info)
 		return (1);
-	init_info(info);
+	if (init_all(info))
+		return (error(info, "Problem during the initiation", 1));
 	(void)av;
 	handle_events(info);
+	mlx_loop(info->mlx->mlx);
+	destroy_all(info);
+	free_all(info);
 	return (0);
 }

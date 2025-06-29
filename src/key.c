@@ -6,27 +6,29 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 23:13:20 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/28 23:45:27 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:52:33 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	key_info(t_info *info, int keycode)
+int	key_info(int keycode, void *param)
 {
-	t_player	*player;
+	t_info	*info;
 
-	player = info->player;
-	if (keycode == info->key->key_w)
-        is_w(info, player);
+	info = (t_info *)param;
+	if (keycode == info->key->esc)
+		is_esc(info);
+	else if (keycode == info->key->key_w)
+		is_w(info, info->player);
 	else if (keycode == info->key->key_s)
-        is_s(info, player);
+		is_s(info, info->player);
 	else if (keycode == info->key->key_a)
-        is_a(info, player);
+		is_a(info, info->player);
 	else if (keycode == info->key->key_d)
-        is_d(info, player);
+		is_d(info, info->player);
 	// move(info);
-    return (0);
+	return (0);
 }
 
 void	reset_key(t_info *info)

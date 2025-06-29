@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 18:18:04 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/28 23:43:32 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:28:37 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,15 @@
 
 # ifndef ERROR_MSG
 #  define ERROR_MSG "Error\n"
+# endif
+
+# ifndef WIDTH_DISPLAY
+#  define WIDTH_DISPLAY 2560
+# endif
+
+# ifndef HEIGHT_DISPLAY
+#  define HEIGHT_DISPLAY 1440
+# endif
 
 typedef enum s_orientation
 {
@@ -134,15 +143,15 @@ typedef struct s_info
 }					t_info;
 
 //////////INIT//////////
-void				init_info(t_info *info);
+int				init_all(t_info *info);
 
-int					key_info(t_info *info, int keycode);
+int					key_info(int keycode, void *param);
 ///////IS_PRESSED//////////
 void				is_w(t_info *info, t_player *player);
 void				is_s(t_info *info, t_player *player);
 void				is_a(t_info *info, t_player *player);
 void				is_d(t_info *info, t_player *player);
-void				is_esc(t_info *info, t_player *player);
+void				is_esc(t_info *info);
 
 ///////UTILS////////////////
 int					close_window(t_info *info);
@@ -151,5 +160,8 @@ int					check_arg(char *msg, int exit_code);
 
 //////Handle events////////////
 void				handle_events(t_info *info);
-# endif
+
+/////////CLOSE N DESTROY//////////
+void				free_all(t_info *info);
+void				destroy_all(t_info *info);
 #endif
