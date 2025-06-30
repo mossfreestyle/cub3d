@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 12:05:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/29 13:52:29 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/30 22:43:16 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ void	free_all(t_info *info)
 		free_tab(info->map_info->stash);
 	if (info->map_info->map)
 		free_tab(info->map_info->map);
-	if (info->map_file)
-		free(info->map_file);
 	if (info->radius_buffer)
 		free(info->radius_buffer);
 	if (info->key)

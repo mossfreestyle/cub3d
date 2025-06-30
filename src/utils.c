@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 22:21:13 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/29 13:52:44 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/30 21:24:14 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,18 @@ int	move(t_info *info)
 		info->player->x += 1;
 	// update_map(info);
 	return (0);
+}
+bool	ft_isspace(int c)
+{
+	if ((c >= 9 && c <= 13) || c == ' ')
+		return (1);
+	return (0);
+}
+
+
+bool ft_is_rgb(int c)
+{
+	if (c < 0 && c > 255)
+		return (false);
+	return (true);
 }

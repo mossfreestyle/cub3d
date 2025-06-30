@@ -29,3 +29,32 @@ Comme le dit le sujet en anglais Spaces are a valid part of the map and are up t
 Ou en francais Les espaces sont une partie valable de la carte, c’est à vous de les gérer correctement.
 Donc pour faire assez simple c'est un peu comme tu veux mais ils doivent être gérés.
 Perso on est parti sur espace = mur = 1
+
+
+//use gnl pour recup les infos de la map
+
+
+//check que le perso ne peux pas reach d espace vide et qu il est pas sur un rebord
+
+Check si le premier caractère est n ou s ...
+Puis envoyer a l exec
+Un *path[4]
+Et floor et ceiling
+Check les doubles virgules
+Et la validité des paths
+Check les bords si ça existe
+X - 1
+X + 1
+Ou espace
+Ou \n
+
+
+//check si il y a un doublon de de texture genre SO, etc, check bien xpm, check que le dernier element du fichier
+c est la map, check si il y a des lignes \n tu skip sinon tu error si c est inconnu
+
+
+//implémenter fleche gauche et droite
+
+
+
+//check quand file to image est valide sinon error

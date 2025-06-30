@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 18:18:04 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/29 13:28:37 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/30 22:47:36 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ typedef struct s_player
 	double			x;
 	double			y;
 	double			angle;
+	float			speed;
+	float			speed_rot;
 
 }					t_player;
 
@@ -89,8 +91,8 @@ typedef struct s_assets
 	char			*path_so;
 	char			*path_we;
 	char			*path_ea;
-	int				ceiling_color;
-	int				floor_color;
+	int				*ceiling_color[3];
+	int				*floor_color[3];
 	void			*no;
 	void			*so;
 	void			*we;
@@ -138,12 +140,12 @@ typedef struct s_info
 	double *radius_buffer; // buffer qui contient toutes les tailles des rayons
 	bool			valid_map;
 	bool			valid_assets;
-	char			*map_file;
+	int				map_file;
 
 }					t_info;
 
 //////////INIT//////////
-int				init_all(t_info *info);
+int					init_all(t_info *info);
 
 int					key_info(int keycode, void *param);
 ///////IS_PRESSED//////////
@@ -164,4 +166,11 @@ void				handle_events(t_info *info);
 /////////CLOSE N DESTROY//////////
 void				free_all(t_info *info);
 void				destroy_all(t_info *info);
+
+///////PARSING///////////////
+void				fill_stash(t_info *info, char **av);
+void				check_info(t_info *info, char *stash);
+char				*check_valid_path(t_info *info, char *stash);
+void				add_rgb(t_info *info, char **tmp, char c);
+int					check_valid_rgb(t_info *info, char c);
 #endif

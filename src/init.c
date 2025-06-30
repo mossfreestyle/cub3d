@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 22:54:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/29 13:53:11 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/30 21:54:14 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static void	init_player(t_info *info, t_player *player)
 	player->angle = 0;
 	player->x = info->map_info->x_spawn;
 	player->y = info->map_info->y_spawn;
+	player->speed = 0.5;
+	player->speed_rot = 0.5;
 }
 
 static int	init_mlx(t_mlx *mlx)
@@ -82,9 +84,6 @@ int	init_all(t_info *info)
 		return (1);
 	info->assets = malloc(sizeof(t_assets));
 	if (!info->assets)
-		return (1);
-	info->map_file = malloc(1);
-	if (!info->map_file)
 		return (1);
 	info->radius_buffer = malloc(1);
 	if (!info->radius_buffer)
