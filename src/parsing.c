@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 20:36:36 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/30 23:01:35 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/01 00:07:27 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	fill_stash(t_info *info, char **av)
 {
 	int	i;
+	int	j;
 
 	i = -1;
 	info->map_file = open(av[1], O_RDONLY);
@@ -22,9 +23,15 @@ void	fill_stash(t_info *info, char **av)
 		error(info, "Cant open the file\n", 1);
 	while ((info->map_info->stash[++i] = get_next_line(info->map_file)) != NULL)
 	{
-		if (info->map_info->stash[i][0] == '\n')
+		if (info->in_map)
+			info->map_info->map = parse_map(info, info->map_info->stash[i]);
+		else if (info->map_info->stash[i][0] == '\n')
 			continue ;
-		check_info(info, info->map_info->stash[i]);
+		else if (!info->valid_assets)
+			check_info(info, info->map_info->stash[i]);
+		if (info->valid_map)
+			break;
+		info->in_map = true;
 	}
 }
 
@@ -33,14 +40,8 @@ void	check_info(t_info *info, char *stash)
 	char	**tmp;
 
 	tmp = NULL;
-	if (stash[0] == 'N' && stash[1] == 'O')
-		info->assets->path_no = check_valid_path(info, stash);
-	else if (stash[0] == 'S' && stash[1] == 'O')
-		info->assets->path_so = check_valid_path(info, stash);
-	else if (stash[0] == 'E' && stash[1] == 'A')
-		info->assets->path_ea = check_valid_path(info, stash);
-	else if (stash[0] == 'W' && stash[1] == 'E')
-		info->assets->path_we = check_valid_path(info, stash);
+	if (check_path(info, stash))
+		return ;
 	else if (stash[0] == 'C' && ft_isspace(stash[1]))
 	{
 		tmp = ft_split(stash, ',');
@@ -57,6 +58,10 @@ void	check_info(t_info *info, char *stash)
 	}
 	if (tmp)
 		free_tab(tmp);
+	if (info->assets->path_no && info->assets->path_so && info->assets->path_we
+		&& info->assets->path_ea && info->assets->c_color
+		&& info->assets->f_color)
+		info->valid_assets = true;
 }
 
 char	*check_valid_path(t_info *info, char *stash)
@@ -97,25 +102,7 @@ void	add_rgb(t_info *info, char **tmp, char c)
 		free_tab(tmp);
 		error(info, "Wrong Format for rgb\n", 1);
 	}
-	while (ft_isspace(*str))
-		str++;
-	if (c == 'C')
-	{
-		info->assets->ceiling_color[0] = ft_atoi(str);
-		info->assets->ceiling_color[1] = ft_atoi(tmp[1]);
-		info->assets->ceiling_color[2] = ft_atoi(tmp[2]);
-	}
-	else if (c == 'F')
-	{
-		info->assets->floor_color[0] = ft_atoi(str);
-		info->assets->floor_color[1] = ft_atoi(tmp[1]);
-		info->assets->floor_color[2] = ft_atoi(tmp[2]);
-	}
-	if (!check_valid_rgb(info, c))
-    {
-        free_tab(tmp);
-		error(info, "Wrong character to add rgb values\n", 1);
-    }
+	put_color(info, tmp, str, c);
 	return ;
 }
 
@@ -142,4 +129,51 @@ int	check_valid_rgb(t_info *info, char c)
 		return (1);
 	}
 	return (0);
+}
+
+int	check_path(t_info *info, char *stash)
+{
+	if (stash[0] == 'N' && stash[1] == 'O')
+		info->assets->path_no = check_valid_path(info, stash);
+	else if (stash[0] == 'S' && stash[1] == 'O')
+		info->assets->path_so = check_valid_path(info, stash);
+	else if (stash[0] == 'E' && stash[1] == 'A')
+		info->assets->path_ea = check_valid_path(info, stash);
+	else if (stash[0] == 'W' && stash[1] == 'E')
+		info->assets->path_we = check_valid_path(info, stash);
+	else
+		return (0);
+	return (1);
+}
+
+void	put_color(t_info *info, char **tmp, char *str, char c)
+{
+	if (c == 'C')
+	{
+		info->assets->ceiling_color[0] = ft_atoi(str);
+		info->assets->ceiling_color[1] = ft_atoi(tmp[1]);
+		info->assets->ceiling_color[2] = ft_atoi(tmp[2]);
+		info->assets->c_color = true;
+	}
+	else if (c == 'F')
+	{
+		info->assets->floor_color[0] = ft_atoi(str);
+		info->assets->floor_color[1] = ft_atoi(tmp[1]);
+		info->assets->floor_color[2] = ft_atoi(tmp[2]);
+		info->assets->f_color = true;
+	}
+	else
+	{
+		free_tab(tmp);
+		error(info, "Wrong character to add rgb values\n", 1);
+	}
+	if (!check_valid_rgb(info, c))
+	{
+		free_tab(tmp);
+		error(info, "Wrong rgb values values\n", 1);
+	}
+}
+char *parse_map(t_info *info, char *stash)
+{
+	if ()
 }

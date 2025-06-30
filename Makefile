@@ -34,7 +34,8 @@ FILES = init.c \
         handle_events.c \
         utils.c \
         is_pressed.c \
-		free_n_destroy.c
+		free_n_destroy.c \
+		parsing .c
 
 SRCS		= $(addprefix $(SRC_DIR)/, $(MAIN_FILES)) \
                 $(addprefix $(SRC_DIR)/, $(FILES))

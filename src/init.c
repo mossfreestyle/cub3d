@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 22:54:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/30 21:54:14 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/30 23:57:53 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ static void	init_assets(t_assets *assets)
 	assets->so = NULL;
 	assets->ea = NULL;
 	assets->we = NULL;
+	assets->c_color = false;
+	assets->f_color = false;
 }
 
 static void	init_map(t_map *map_info)
@@ -88,6 +90,7 @@ int	init_all(t_info *info)
 	info->radius_buffer = malloc(1);
 	if (!info->radius_buffer)
 		return (1);
+	info->in_map = false;
 	if (init_mlx(info->mlx))
 		return (1);
 	init_player(info, info->player);

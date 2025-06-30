@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 18:18:04 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/30 22:47:36 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/30 23:57:25 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,10 @@ typedef struct s_assets
 	char			*path_so;
 	char			*path_we;
 	char			*path_ea;
-	int				*ceiling_color[3];
-	int				*floor_color[3];
+	int				ceiling_color[3];
+	int				floor_color[3];
+	bool			c_color;
+	bool			f_color;
 	void			*no;
 	void			*so;
 	void			*we;
@@ -138,6 +140,7 @@ typedef struct s_info
 	t_mlx			*mlx;
 	t_key			*key;
 	double *radius_buffer; // buffer qui contient toutes les tailles des rayons
+	bool			in_map;
 	bool			valid_map;
 	bool			valid_assets;
 	int				map_file;
