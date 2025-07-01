@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 22:54:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/01 02:17:17 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:27:20 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	init_key(t_key *key)
 static void	init_player(t_info *info, t_player *player)
 {
 	player->view = N;
-    player->move = m_forward;
+	player->move = m_forward;
 	player->angle = 0;
 	player->x = info->map_info->x_spawn;
 	player->y = info->map_info->y_spawn;

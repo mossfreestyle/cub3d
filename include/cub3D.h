@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 18:18:04 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/01 00:58:03 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:32:34 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,8 @@ typedef struct s_info
 int					init_all(t_info *info);
 
 int					key_info(int keycode, void *param);
+void				reset_key(t_info *info);
+
 ///////IS_PRESSED//////////
 void				is_w(t_info *info, t_player *player);
 void				is_s(t_info *info, t_player *player);
@@ -165,6 +167,9 @@ void				is_esc(t_info *info);
 int					close_window(t_info *info);
 int					error(t_info *info, char *msg, int exit_code);
 int					check_arg(char *msg, int exit_code);
+int					move(t_info *info);
+bool				ft_isspace(int c);
+bool				ft_is_rgb(int c);
 
 //////Handle events////////////
 void				handle_events(t_info *info);
@@ -179,4 +184,16 @@ void				check_info(t_info *info, char *stash);
 char				*check_valid_path(t_info *info, char *stash);
 void				add_rgb(t_info *info, char **tmp, char c);
 int					check_valid_rgb(t_info *info, char c);
+int					check_path(t_info *info, char *stash);
+void				put_color(t_info *info, char **tmp, char *str, char c);
+char				**parse_map(t_info *info);
+int					find_longuest_line(char **map);
+int					get_nb_lines(char **map);
+int					only_white_spaces(char *str);
+int					get_nb_players(t_info *info, char **map);
+int					is_valid(t_info *info, char *str);
+char				*ft_strjoin_to_line_max(char *src, int limit);
+char				**add_tmp(t_info *info, char **tmp);
+int					check_map_is_last(t_info *info);
+
 #endif

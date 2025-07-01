@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 20:36:36 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/01 11:59:18 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:34:45 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,23 @@ void	fill_stash(t_info *info, char **av)
 	while ((info->map_info->stash[++i] = get_next_line(info->map_file)) != NULL)
 	{
 		if (info->in_map)
+		{
 			info->map_info->first_map[j++] = ft_strdup(info->map_info->stash[i]);
+			if (!info->map_info->first_map[j - 1])
+				error(info, "Problem during allocation when reading the map",
+					1);
+		}
 		else if (info->map_info->stash[i][0] == '\n')
 			continue ;
 		else if (!info->valid_assets)
 			check_info(info, info->map_info->stash[i]);
 		info->in_map = true;
 	}
+	if (check_map_is_last(info))
+		error(info, "The map isnt the last part of the file\n", 1);
 	tmp = parse_map(info);
-	info->map_info->final_map = add_tmp(info, tmp); // permet de choisir le bout de map ou se trouve le player
+	info->map_info->final_map = add_tmp(info, tmp);
+	// permet de choisir le bout de map ou se trouve le player
 	free_tab(tmp);
 	// check_final_map_is_valid();
 	// setup struct genre indice de spawn, x max, y max, etc ...
@@ -61,6 +69,8 @@ void	check_info(t_info *info, char *stash)
 			error(info, "Split Failed for floor value\n", 1);
 		add_rgb(info, tmp, 'F');
 	}
+	else
+		error(info, "File contains bad data\n", 1);
 	if (tmp)
 		free_tab(tmp);
 	if (info->assets->path_no && info->assets->path_so && info->assets->path_we
@@ -216,8 +226,8 @@ char	**parse_map(t_info *info)
 
 int	find_longuest_line(char **map)
 {
-	int	i;
-	int	max_line;
+	int		i;
+	size_t	max_line;
 
 	i = -1;
 	max_line = 0;
@@ -292,7 +302,7 @@ int	is_valid(t_info *info, char *str)
 	while (str[++i])
 	{
 		if (str[i] == '0' || str[i] == '1' || str[i] == '\n'
-			|| str[i] == info->player->view)
+			|| str[i] == (char)info->player->view)
 			continue ;
 		else
 			return (0);
@@ -301,12 +311,10 @@ int	is_valid(t_info *info, char *str)
 }
 char	*ft_strjoin_to_line_max(char *src, int limit)
 {
-	size_t	i;
-	size_t	j;
+	int		i;
 	char	*res;
 
 	i = -1;
-	j = 0;
 	res = malloc(sizeof(char) * (limit + 1));
 	if (!res)
 		return (NULL);
@@ -324,16 +332,31 @@ char	**add_tmp(t_info *info, char **tmp)
 	int		first;
 	int		last;
 	char	**res;
+	int		flag;
 
 	i = -1;
+	flag = 0;
 	while (tmp[i] && only_white_spaces(tmp[i]))
 		i++;
 	if (tmp[i])
 		first = i;
 	while (tmp[i] && !only_white_spaces(tmp[i]))
+	{
+		if (ft_strchr(tmp[i], info->player->view))
+			flag = 1;
 		i++;
-	if (tmp[i])
-		last = i;
+	}
+	if (!tmp[i])
+	{
+		if (!flag)
+			error(info, "Player not found in map\n", 1);
+	}
+	else
+	{
+		if (!flag)
+			return (add_tmp(info, tmp + i));
+	}
+	last = i - 1;
 	res = malloc(sizeof(char *) * (last - first + 2));
 	if (!res)
 	{
@@ -344,7 +367,7 @@ char	**add_tmp(t_info *info, char **tmp)
 	while (i <= last)
 	{
 		res[i - first] = ft_strdup(tmp[i]);
-		if (!res)
+		if (!res[i - first])
 		{
 			free_tab(res);
 			free_tab(tmp);
@@ -354,4 +377,21 @@ char	**add_tmp(t_info *info, char **tmp)
 	}
 	res[last - first + 1] = NULL;
 	return (res);
+}
+int	check_map_is_last(t_info *info)
+{
+	int	i;
+
+	i = 0;
+	while (only_white_spaces(info->map_info->first_map[i]))
+		i++;
+	while (is_valid(info, info->map_info->first_map[i]))
+		i++;
+	while (info->map_info->first_map[i])
+	{
+		if (!only_white_spaces(info->map_info->first_map[i]))
+			return (1);
+		i++;
+	}
+	return (0);
 }

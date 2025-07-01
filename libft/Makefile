@@ -36,7 +36,9 @@ MY_SOURCES = ft_isalpha.c \
 			ft_putstr_fd.c  \
 			ft_putendl_fd.c \
 			ft_putnbr_fd.c \
-			ft_swap.c 
+			ft_swap.c \
+			gnl/get_next_line.c \
+    		gnl/get_next_line_utils.c
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o)
 
@@ -52,11 +54,11 @@ MY_SOURCES_BONUS = ft_lstnew.c \
 
 MY_OBJECTS_BONUS = $(MY_SOURCES_BONUS:.c=.o)
 
-MY_INCLUDES = libft.h
+MY_INCLUDES = -I. -Ignl
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fPIC
 
 MY_OPTIONS = -I -c $(MY_INCLUDES)
 
@@ -69,7 +71,7 @@ bonus : $(MY_OBJECTS) $(MY_OBJECTS_BONUS)
 	@ar rcs $(NAME) $(MY_OBJECTS_BONUS)
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(MY_INCLUDES) -c $< -o $@
 
 clean :  
 	@rm -f $(MY_OBJECTS) $(MY_OBJECTS_BONUS)

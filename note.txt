@@ -63,3 +63,10 @@ c est la map, check si il y a des lignes \n tu skip sinon tu error si c est inco
 éléments peut être dans n’importe quel ordre
 
 //check si la map est close est check si le player est sur un bord
+
+
+Wall collisions.
+
+A minimap system
+
+Rotate the point of view with the mouse
