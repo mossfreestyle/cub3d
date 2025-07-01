@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 20:36:36 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/01 02:18:39 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/01 11:59:18 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	fill_stash(t_info *info, char **av)
 {
-	int	i;
-	int	j;
-	char **tmp;
+	int		i;
+	int		j;
+	char	**tmp;
 
 	i = -1;
 	j = 0;
@@ -34,9 +34,9 @@ void	fill_stash(t_info *info, char **av)
 		info->in_map = true;
 	}
 	tmp = parse_map(info);
-	info->map_info->final_map = add_tmp(info); //permet de choisir le bout de map ou se trouve le player
-	//free_tab(tmp);
-	//check_final_map_is_valid();
+	info->map_info->final_map = add_tmp(info, tmp); // permet de choisir le bout de map ou se trouve le player
+	free_tab(tmp);
+	// check_final_map_is_valid();
 	// setup struct genre indice de spawn, x max, y max, etc ...
 }
 
@@ -315,5 +315,43 @@ char	*ft_strjoin_to_line_max(char *src, int limit)
 	while (i < limit)
 		res[i++] = '1';
 	res[i] = '\0';
+	return (res);
+}
+
+char	**add_tmp(t_info *info, char **tmp)
+{
+	int		i;
+	int		first;
+	int		last;
+	char	**res;
+
+	i = -1;
+	while (tmp[i] && only_white_spaces(tmp[i]))
+		i++;
+	if (tmp[i])
+		first = i;
+	while (tmp[i] && !only_white_spaces(tmp[i]))
+		i++;
+	if (tmp[i])
+		last = i;
+	res = malloc(sizeof(char *) * (last - first + 2));
+	if (!res)
+	{
+		free_tab(tmp);
+		error(info, "Problem during allocation to crop the map\n", 1);
+	}
+	i = first;
+	while (i <= last)
+	{
+		res[i - first] = ft_strdup(tmp[i]);
+		if (!res)
+		{
+			free_tab(res);
+			free_tab(tmp);
+			error(info, "Problem when copy the good part of map\n", 1);
+		}
+		i++;
+	}
+	res[last - first + 1] = NULL;
 	return (res);
 }
