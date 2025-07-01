@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 20:36:36 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/01 13:34:45 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:21:44 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	fill_stash(t_info *info, char **av)
 	info->map_info->final_map = add_tmp(info, tmp);
 	// permet de choisir le bout de map ou se trouve le player
 	free_tab(tmp);
+	set_up_final_map(info);
 	// check_final_map_is_valid();
 	// setup struct genre indice de spawn, x max, y max, etc ...
 }
@@ -213,7 +214,8 @@ char	**parse_map(t_info *info)
 			continue ;
 		if (!is_valid(info, map->first_map[i]))
 			error(info, "Invalid character in map\n", 1);
-		tab[j] = ft_strjoin_to_line_max(map->first_map[i], map->line_max);
+		// tab[j] = ft_strjoin_to_line_max(map->first_map[i], map->line_max);
+		tab[j] = ft_strdup(map->first_map[i]);
 		if (!tab[j++])
 		{
 			free_tab(tab);
@@ -394,4 +396,82 @@ int	check_map_is_last(t_info *info)
 		i++;
 	}
 	return (0);
+}
+
+
+void	set_up_final_map(t_info *info)
+{
+	int i;
+
+	i = -1;
+	info->map_info->line_max = find_longuest_line(info->map_info->final_map); 
+	if (check_is_closed(info, info->map_info->final_map))
+		error(info, "The map is not closed by only wall\n", 1);
+	info->map_info->closed = true;
+	while(info->map_info->final_map[++i])
+	{
+		info->map_info->final_map = ft_strdup(ft_strjoin_to_lien_max(info->map_info->final_map[i], info->map_info->line_max));
+		if (!info->map_info->final_map[i])
+			error(info, "Problem when replacigng empty char for final map\n", 1);
+	}
+	info->map_info->x_max = (int)ft_strlen(info->map_info->final_map[i]) - 1;
+	info->map_info->y_max = (int)ft_strlenlen(info->map_info->final_map) - 1;
+	info->map_info->nb_lines = info->map_info->y_max;
+}
+
+
+int check_is_closed(t_info *info, char **map)
+{
+	int x;
+	int y;
+	
+	y = -1;
+	while(map[++y])
+	{
+		x = -1;
+		while(map[y][++x])
+		{
+			if (!map[y + 1] || map[0])
+			{
+			}
+		}
+	}
+}
+
+// int	check_is_closed(t_info *info, char **map)
+// {
+//     int	y, x;
+//     int	len;
+
+//     for (y = 0; map[y]; y++)
+//     {
+//         len = ft_strlen(map[y]);
+//         for (x = 0; x < len; x++)
+//         {
+//             if (map[y][x] == '0' || is_spawn(map[y][x]))
+//             {
+//                 // Vérifie si sur un bord vertical ou horizontal
+//                 if (y == 0 || !map[y + 1] || x == 0 || x == (int)ft_strlen(map[y]) - 1)
+//                     return (1); // Pas fermé
+//                 // Vérifie si une case adjacente n'existe pas ou est un espace ou hors ligne
+//                 if (x >= (int)ft_strlen(map[y - 1]) || map[y - 1][x] == ' ' ||
+//                     x >= (int)ft_strlen(map[y + 1]) || map[y + 1][x] == ' ' ||
+//                     map[y][x - 1] == ' ' ||
+//                     x + 1 >= (int)ft_strlen(map[y]) || map[y][x + 1] == ' ')
+//                     return (1); // Pas fermé
+//             }
+//         }
+//     }
+//     return (0); // OK
+// }
+
+
+size_t ft_strlenlen(char **tab)
+{
+	int	i;
+
+	i = -1;
+	while(tab[i])
+		i++;
+	return (i);
 }
