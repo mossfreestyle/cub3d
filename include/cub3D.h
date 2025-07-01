@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 18:18:04 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/30 23:57:25 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/01 00:58:03 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,16 +105,19 @@ typedef struct s_assets
 
 typedef struct s_map
 {
-	char **stash; // mettre tout le file ici
-	char **map;   // map final bien parse
+	char **stash;     // mettre tout le file ici
+	char **final_map; // map final bien parse
+	char **first_map; // map sans les texture et rgb
 	char			player_dir;
 	int				x_max;
 	int				y_max;
 	bool			closed;
 	int				distance_to_wall;
 	int				nb_players;
+	int				nb_lines;
 	int				x_spawn;
 	int				y_spawn;
+	int				line_max;
 
 }					t_map;
 

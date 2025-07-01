@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 20:36:36 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/01 00:07:27 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/01 02:18:39 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,28 @@ void	fill_stash(t_info *info, char **av)
 {
 	int	i;
 	int	j;
+	char **tmp;
 
 	i = -1;
+	j = 0;
 	info->map_file = open(av[1], O_RDONLY);
 	if (info->map_file < 0)
 		error(info, "Cant open the file\n", 1);
 	while ((info->map_info->stash[++i] = get_next_line(info->map_file)) != NULL)
 	{
 		if (info->in_map)
-			info->map_info->map = parse_map(info, info->map_info->stash[i]);
+			info->map_info->first_map[j++] = ft_strdup(info->map_info->stash[i]);
 		else if (info->map_info->stash[i][0] == '\n')
 			continue ;
 		else if (!info->valid_assets)
 			check_info(info, info->map_info->stash[i]);
-		if (info->valid_map)
-			break;
 		info->in_map = true;
 	}
+	tmp = parse_map(info);
+	info->map_info->final_map = add_tmp(info); //permet de choisir le bout de map ou se trouve le player
+	//free_tab(tmp);
+	//check_final_map_is_valid();
+	// setup struct genre indice de spawn, x max, y max, etc ...
 }
 
 void	check_info(t_info *info, char *stash)
@@ -173,7 +178,142 @@ void	put_color(t_info *info, char **tmp, char *str, char c)
 		error(info, "Wrong rgb values values\n", 1);
 	}
 }
-char *parse_map(t_info *info, char *stash)
+char	**parse_map(t_info *info)
 {
-	if ()
+	int		i;
+	t_map	*map;
+	char	**tab;
+	int		j;
+
+	i = -1;
+	j = 0;
+	map = info->map_info;
+	map->line_max = find_longuest_line(map->first_map);
+	map->nb_lines = get_nb_lines(map->first_map);
+	map->nb_players = get_nb_players(info, map->first_map);
+	if (map->nb_players != 1)
+		error(info, "Wrong number of players\n", 1);
+	tab = malloc(sizeof(char *) * (map->nb_lines + 1));
+	if (!tab)
+		error(info, "Error when during the allocation of the map\n", 1);
+	while (++i < map->nb_lines)
+	{
+		if (only_white_spaces(map->first_map[i])
+			|| map->first_map[i][0] == '\n')
+			continue ;
+		if (!is_valid(info, map->first_map[i]))
+			error(info, "Invalid character in map\n", 1);
+		tab[j] = ft_strjoin_to_line_max(map->first_map[i], map->line_max);
+		if (!tab[j++])
+		{
+			free_tab(tab);
+			error(info, "Error of allocation when add empty char the map\n", 1);
+		}
+	}
+	tab[j] = NULL;
+	return (tab);
+}
+
+int	find_longuest_line(char **map)
+{
+	int	i;
+	int	max_line;
+
+	i = -1;
+	max_line = 0;
+	while (map[++i])
+	{
+		if (ft_strlen(map[i]) > max_line)
+			max_line = ft_strlen(map[i]);
+	}
+	return (max_line);
+}
+
+int	get_nb_lines(char **map)
+{
+	int	i;
+
+	i = -1;
+	while (map[++i])
+		continue ;
+	return (i);
+}
+
+int	only_white_spaces(char *str)
+{
+	int	i;
+
+	i = -1;
+	if (!str)
+		return (1);
+	while (str[++i])
+	{
+		if (((str[i] >= 9 && str[i] <= 13) || str[i] == 32) && str[i] != '\n'
+			&& str[i])
+			continue ;
+		return (0);
+	}
+	return (1);
+}
+
+int	get_nb_players(t_info *info, char **map)
+{
+	int		i;
+	int		j;
+	int		count;
+	char	c;
+
+	c = 0;
+	i = -1;
+	count = 0;
+	while (map[++i])
+	{
+		j = -1;
+		while (map[i][++j])
+		{
+			if ((map[i][j] == 'N' || map[i][j] == 'E' || map[i][j] == 'S'
+					|| map[i][j] == 'O'))
+			{
+				count++;
+				if (count == 1)
+					c = map[i][j];
+			}
+		}
+	}
+	if (count == 1)
+		info->player->view = c;
+	return (count);
+}
+int	is_valid(t_info *info, char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == '0' || str[i] == '1' || str[i] == '\n'
+			|| str[i] == info->player->view)
+			continue ;
+		else
+			return (0);
+	}
+	return (1);
+}
+char	*ft_strjoin_to_line_max(char *src, int limit)
+{
+	size_t	i;
+	size_t	j;
+	char	*res;
+
+	i = -1;
+	j = 0;
+	res = malloc(sizeof(char) * (limit + 1));
+	if (!res)
+		return (NULL);
+	ft_strlcpy(res, src, limit + 1);
+	i = ft_strlen(res);
+	while (i < limit)
+		res[i++] = '1';
+	res[i] = '\0';
+	return (res);
 }

@@ -58,3 +58,8 @@ c est la map, check si il y a des lignes \n tu skip sinon tu error si c est inco
 
 
 //check quand file to image est valide sinon error
+
+ La description de la carte sera toujours en dernier dans le fichier, le reste des
+éléments peut être dans n’importe quel ordre
+
+//check si la map est close est check si le player est sur un bord

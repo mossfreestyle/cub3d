@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 22:54:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/30 23:57:53 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/01 02:17:17 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static void	init_key(t_key *key)
 
 static void	init_player(t_info *info, t_player *player)
 {
+	player->view = N;
+    player->move = m_forward;
 	player->angle = 0;
 	player->x = info->map_info->x_spawn;
 	player->y = info->map_info->y_spawn;
@@ -65,9 +67,17 @@ static void	init_assets(t_assets *assets)
 static void	init_map(t_map *map_info)
 {
 	map_info->stash = NULL;
-	map_info->map = NULL;
+	map_info->final_map = NULL;
+	map_info->first_map = NULL;
 	map_info->x_spawn = 5;
 	map_info->y_spawn = 5;
+	map_info->line_max = 0;
+	map_info->closed = false;
+	map_info->distance_to_wall = 0;
+	map_info->nb_players = 0;
+	map_info->x_max = 0;
+	map_info->y_max = 0;
+	map_info->nb_lines = 0;
 }
 
 int	init_all(t_info *info)
