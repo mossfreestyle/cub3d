@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 20:36:36 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/01 19:27:26 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/02 12:09:01 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	fill_stash(t_info *info, char **av)
 		else if (!info->valid_assets)
 		{
 			check_info(info, info->map_info->stash[i]);
-			continue;
+			continue ;
 		}
 		info->in_map = true;
 	}
@@ -291,7 +291,11 @@ int	get_nb_players(t_info *info, char **map)
 			{
 				count++;
 				if (count == 1)
+				{
 					c = map[i][j];
+					info->map_info->x_spawn = j;
+					info->map_info->y_spawn = i;
+				}
 			}
 		}
 	}
@@ -401,38 +405,41 @@ int	check_map_is_last(t_info *info)
 	return (0);
 }
 
-
 void	set_up_final_map(t_info *info)
 {
-	int i;
+	int		i;
+	char	*old_line;
 
 	i = -1;
-	info->map_info->line_max = find_longuest_line(info->map_info->final_map); 
+	old_line = NULL;
+	info->map_info->line_max = find_longuest_line(info->map_info->final_map);
 	if (check_is_closed(info, info->map_info->final_map))
 		error(info, "The map is not closed by only wall\n", 1);
 	info->map_info->closed = true;
-	while(info->map_info->final_map[++i])
+	while (info->map_info->final_map[++i])
 	{
-		info->map_info->final_map = ft_strdup(ft_strjoin_to_line_max(info->map_info->final_map[i], info->map_info->line_max));
+		old_line = info->map_info->final_map[i];
+		info->map_info->final_map[i] = ft_strjoin_to_line_max(old_line,
+				info->map_info->line_max);
+		free(old_line);
 		if (!info->map_info->final_map[i])
-			error(info, "Problem when replacigng empty char for final map\n", 1);
+			error(info, "Problem when replacing empty char for final map\n", 1);
 	}
 	info->map_info->x_max = (int)ft_strlen(info->map_info->final_map[i]) - 1;
 	info->map_info->y_max = (int)ft_strlenlen(info->map_info->final_map) - 1;
 	info->map_info->nb_lines = info->map_info->y_max;
 }
 
-
-int check_is_closed(t_info *info, char **map)
+int	check_is_closed(t_info *info, char **map)
 {
-	int x;
-	int y;
-	
+	int	x;
+	int	y;
+
 	y = -1;
-	while(map[++y])
+	while (map[++y])
 	{
 		x = -1;
-		while(map[y][++x])
+		while (map[y][++x])
 		{
 			if (!map[y + 1] || map[0])
 			{
@@ -454,27 +461,37 @@ int check_is_closed(t_info *info, char **map)
 //             if (map[y][x] == '0' || is_spawn(map[y][x]))
 //             {
 //                 // Vérifie si sur un bord vertical ou horizontal
-//                 if (y == 0 || !map[y + 1] || x == 0 || x == (int)ft_strlen(map[y]) - 1)
-//                     return (1); // Pas fermé
-//                 // Vérifie si une case adjacente n'existe pas ou est un espace ou hors ligne
-//                 if (x >= (int)ft_strlen(map[y - 1]) || map[y - 1][x] == ' ' ||
-//                     x >= (int)ft_strlen(map[y + 1]) || map[y + 1][x] == ' ' ||
-//                     map[y][x - 1] == ' ' ||
-//                     x + 1 >= (int)ft_strlen(map[y]) || map[y][x + 1] == ' ')
-//                     return (1); // Pas fermé
-//             }
-//         }
-//     }
-//     return (0); // OK
+//                 if (y == 0 || !map[y + 1] || x == 0
+// || x == (int)ft_strlen(map[y]) - 1)
+// //                     return (1); // Pas fermé
+// //
+// // Vérifie si une case adjacente n'existe pas ou est un espace ou hors ligne
+// //                 if (x >= (int)ft_strlen(map[y - 1]) || map[y - 1][x] == ' '
+// ||
+// 	//                     x >= (int)ft_strlen(map[y + 1]) || map[y
+// 		+ 1][x] == ' '
+// 	||
+// 	//                     map[y][x - 1] == ' ' ||
+// 	//                     x + 1 >= (int)ft_strlen(map[y]) || map[y][x
+// 		+ 1] == ' ')
+// 	//                     return (1); // Pas fermé
+// 	//             }
+// 	//         }
+// 	//     }
+// 	//     return (0); // OK
+// 	// }
+
+// 	int is_spawn(char c)
+// {
+//     return (c == 'N' || c == 'S' || c == 'E' || c == 'O');
 // }
 
-
-size_t ft_strlenlen(char **tab)
+	size_t ft_strlenlen(char **tab)
 {
-	int	i;
+	int i;
 
-	i = -1;
-	while(tab[i])
+	i = 0;
+	while (tab[i])
 		i++;
 	return (i);
 }
