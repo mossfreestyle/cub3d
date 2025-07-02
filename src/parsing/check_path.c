@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:27:19 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/02 14:13:53 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/03 00:45:27 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,14 @@ static char	*check_valid_path(t_info *info, char *stash)
 {
 	char	*path;
 	int		len;
+	int i;
 
 	len = ft_strlen(stash);
-	if (len < 4 || ft_strncmp(stash + len - 4, ".xpm", 4))
+	i = 0;
+	while (ft_isspace(stash[len]))
+		len--;
+	if (ft_strncmp(stash + len - 4, ".xpm", 4))
 		error(info, "Need a valid .xpm file\n", 1);
-	stash += 2;
 	while (ft_isspace(*stash))
 		stash++;
 	path = ft_strdup(stash);
@@ -40,7 +43,7 @@ static char	*check_valid_path(t_info *info, char *stash)
 static int	check_path(t_info *info, char *stash)
 {
 	if (stash[0] == 'N' && stash[1] == 'O')
-		info->assets->path_no = check_valid_path(info, stash);
+		info->assets->path_no = check_valid_path(info, stash + 2);
 	else if (stash[0] == 'S' && stash[1] == 'O')
 		info->assets->path_so = check_valid_path(info, stash);
 	else if (stash[0] == 'E' && stash[1] == 'A')

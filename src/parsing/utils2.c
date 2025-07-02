@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:37:20 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/02 16:14:54 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/03 00:48:15 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,36 +31,19 @@ int	check_map_is_last(t_info *info)
 	int	i;
 
 	i = 0;
-	while (only_white_spaces(info->map_info->first_map[i]))
+	while (only_white_spaces(info->map_info->stash[i]))
 		i++;
-	while (is_valid(info, info->map_info->first_map[i]))
+	while (is_valid(info, info->map_info->stash[i]))
 		i++;
-	while (info->map_info->first_map[i])
+	while (info->map_info->stash[i])
 	{
-		if (!only_white_spaces(info->map_info->first_map[i]))
+		if (!only_white_spaces(info->map_info->stash[i]))
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
-int	check_is_closed(t_info *info, char **map)
-{
-	int	x;
-	int	y;
-
-	y = -1;
-	while (map[++y])
-	{
-		x = -1;
-		while (map[y][++x])
-		{
-			if (!map[y + 1] || map[0])
-			{
-			}
-		}
-	}
-}
 
 int	check_is_closed(t_info *info, char **map)
 {

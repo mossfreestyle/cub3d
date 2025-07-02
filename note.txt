@@ -75,3 +75,6 @@ Rotate the point of view with the mouse
 
 //voir la gestion des back slash N
 et peut etre remplace les espaces vides par des X   
+
+
+check map.cup
