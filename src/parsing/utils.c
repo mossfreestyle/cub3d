@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:34:23 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/02 12:48:40 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/07/02 14:22:37 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
 
 int	get_nb_lines(char **map)
 {
@@ -25,21 +24,18 @@ int	get_nb_lines(char **map)
 
 int	only_white_spaces(char *str)
 {
-	int	i;
+    int	i;
 
-	i = -1;
-	if (!str)
-		return (1);
-	while (str[++i])
-	{
-		if (((str[i] >= 9 && str[i] <= 13) || str[i] == 32) && str[i] != '\n'
-			&& str[i])
-			continue ;
-		return (0);
-	}
-	return (1);
+    if (!str)
+        return (1);
+    i = -1;
+    while (str[++i])
+    {
+        if (str[i] != ' ' && str[i] != '\t' && str[i] != '\n')
+            return (0);
+    }
+    return (1);
 }
-
 
 int	get_nb_players(t_info *info, char **map)
 {
@@ -70,7 +66,16 @@ int	get_nb_players(t_info *info, char **map)
 		}
 	}
 	if (count == 1)
-		info->player->view = c;
+	{
+		if (c == 'N')
+			info->player->view = N;
+		else if (c == 'S')
+			info->player->view = S;
+		else if (c == 'E')
+			info->player->view = E;
+		else if (c == 'W')
+			info->player->view = W;
+	}
 	return (count);
 }
 

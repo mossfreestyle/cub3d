@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_stash.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:26:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/02 12:39:35 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/07/02 15:15:30 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*ft_strjoin_to_line_max(char *src, int limit)
 	ft_strlcpy(res, src, limit + 1);
 	i = ft_strlen(res);
 	while (i < limit)
-		res[i++] = '1';
+		res[i++] = 'X';
 	res[i] = '\0';
 	return (res);
 }

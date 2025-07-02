@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   final_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:26:16 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/02 12:39:09 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/07/02 14:20:53 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D.h"
 
 
 void	set_up_final_map(t_info *info)
@@ -33,7 +33,7 @@ void	set_up_final_map(t_info *info)
 		if (!info->map_info->final_map[i])
 			error(info, "Problem when replacing empty char for final map\n", 1);
 	}
-	info->map_info->x_max = (int)ft_strlen(info->map_info->final_map[i]) - 1;
+	info->map_info->x_max = info->map_info->line_max - 1;
 	info->map_info->y_max = (int)ft_strlenlen(info->map_info->final_map) - 1;
-	info->map_info->nb_lines = info->map_info->y_max;
+	info->map_info->nb_lines = info->map_info->y_max + 1;
 }

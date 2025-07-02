@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 20:36:36 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/02 12:46:05 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/07/02 14:35:40 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ static void	init_some_data(t_info *info)
 {
 	info->map_info->line_max = find_longuest_line(info->map_info->first_map);
 	info->map_info->nb_lines = get_nb_lines(info->map_info->first_map);
-	info->map_info->nb_players = get_nb_players(info, info->map_info->first_map);
+	info->map_info->nb_players = get_nb_players(info,
+			info->map_info->first_map);
 	if (info->map_info->nb_players != 1)
 		error(info, "Wrong number of players\n", 1);
 }
-
 
 char	**parse_map(t_info *info)
 {
@@ -36,10 +36,9 @@ char	**parse_map(t_info *info)
 		error(info, "Error when during the allocation of the map\n", 1);
 	while (++i < info->map_info->nb_lines)
 	{
-		if (only_white_spaces(info->map_info->first_map[i])
-			|| info->map_info->first_map[i][0] == '\n')
-			continue ;
-		if (!is_valid(info, info->map_info->first_map[i]))
+		if (!only_white_spaces(info->map_info->first_map[i])
+			&& info->map_info->first_map[i][0] != '\n' && !is_valid(info,
+				info->map_info->first_map[i]))
 			error(info, "Invalid character in map\n", 1);
 		tab[j] = ft_strdup(info->map_info->first_map[i]);
 		if (!tab[j++])
@@ -48,6 +47,5 @@ char	**parse_map(t_info *info)
 			error(info, "Error of allocation when add empty char the map\n", 1);
 		}
 	}
-	tab[j] = NULL;
-	return ((tab[j] = NULL,)tab);
+	return (tab[j] = NULL, tab);
 }
