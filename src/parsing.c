@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 20:36:36 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/01 14:21:44 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/01 19:27:26 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ void	fill_stash(t_info *info, char **av)
 		else if (info->map_info->stash[i][0] == '\n')
 			continue ;
 		else if (!info->valid_assets)
+		{
 			check_info(info, info->map_info->stash[i]);
+			continue;
+		}
 		info->in_map = true;
 	}
 	if (check_map_is_last(info))
@@ -410,7 +413,7 @@ void	set_up_final_map(t_info *info)
 	info->map_info->closed = true;
 	while(info->map_info->final_map[++i])
 	{
-		info->map_info->final_map = ft_strdup(ft_strjoin_to_lien_max(info->map_info->final_map[i], info->map_info->line_max));
+		info->map_info->final_map = ft_strdup(ft_strjoin_to_line_max(info->map_info->final_map[i], info->map_info->line_max));
 		if (!info->map_info->final_map[i])
 			error(info, "Problem when replacigng empty char for final map\n", 1);
 	}
