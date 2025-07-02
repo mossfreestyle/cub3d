@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 22:21:13 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/30 21:24:14 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/02 12:50:49 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,3 @@ bool	ft_isspace(int c)
 }
 
 
-bool ft_is_rgb(int c)
-{
-	if (c < 0 && c > 255)
-		return (false);
-	return (true);
-}

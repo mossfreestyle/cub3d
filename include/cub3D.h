@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 18:18:04 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/01 13:32:34 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/02 12:50:49 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ typedef struct s_info
 	t_assets		*assets;
 	t_mlx			*mlx;
 	t_key			*key;
+	t_ray			*ray;
 	double *radius_buffer; // buffer qui contient toutes les tailles des rayons
 	bool			in_map;
 	bool			valid_map;
@@ -149,6 +150,23 @@ typedef struct s_info
 	int				map_file;
 
 }					t_info;
+
+typedef struct s_ray
+{
+	double			dir_x;
+	double			dir_y;
+	int				map_x;
+	int				map_y;
+	double			s_dist_x;
+	double			s_dist_y;
+	double			d_dist_x;
+	double			d_dist_y;
+	int				step_x;
+	int				step_y;
+	int				side;
+	int				hit;
+	double			wall_dist;
+}					t_ray;
 
 //////////INIT//////////
 int					init_all(t_info *info);
