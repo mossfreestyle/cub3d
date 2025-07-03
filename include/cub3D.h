@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 18:18:04 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/03 01:01:19 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/03 03:00:01 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_assets
 	int				floor_color[3];
 	bool			c_color;
 	bool			f_color;
+	bool			valid_cardinals;
 	void			*no;
 	void			*so;
 	void			*we;
@@ -142,7 +143,7 @@ typedef struct s_info
 	t_assets		*assets;
 	t_mlx			*mlx;
 	t_key			*key;
-	t_ray			*ray;
+	// t_ray			*ray;
 	double *radius_buffer; // buffer qui contient toutes les tailles des rayons
 	bool			in_map;
 	bool			valid_map;
@@ -151,22 +152,22 @@ typedef struct s_info
 
 }					t_info;
 
-typedef struct s_ray
-{
-	double			dir_x;
-	double			dir_y;
-	int				map_x;
-	int				map_y;
-	double			s_dist_x;
-	double			s_dist_y;
-	double			d_dist_x;
-	double			d_dist_y;
-	int				step_x;
-	int				step_y;
-	int				side;
-	int				hit;
-	double			wall_dist;
-}					t_ray;
+// typedef struct s_ray
+// {
+// 	double			dir_x;
+// 	double			dir_y;
+// 	int				map_x;
+// 	int				map_y;
+// 	double			s_dist_x;
+// 	double			s_dist_y;
+// 	double			d_dist_x;
+// 	double			d_dist_y;
+// 	int				step_x;
+// 	int				step_y;
+// 	int				side;
+// 	int				hit;
+// 	double			wall_dist;
+// }					t_ray;
 
 //////////INIT//////////
 int					init_all(t_info *info);
@@ -187,7 +188,6 @@ int					error(t_info *info, char *msg, int exit_code);
 int					check_arg(char *msg, int exit_code);
 int					move(t_info *info);
 bool				ft_isspace(int c);
-bool				ft_is_rgb(int c);
 
 //////Handle events////////////
 void				handle_events(t_info *info);
@@ -199,11 +199,7 @@ void				destroy_all(t_info *info);
 ///////PARSING///////////////
 void				fill_stash(t_info *info, char **av);
 void				check_info(t_info *info, char *stash);
-char				*check_valid_path(t_info *info, char *stash);
-void				add_rgb(t_info *info, char **tmp, char c);
-int					check_valid_rgb(t_info *info, char c);
-int					check_path(t_info *info, char *stash);
-void				put_color(t_info *info, char **tmp, char *str, char c);
+int				put_color(t_info *info, char **tmp, char *str, char c);
 char				**parse_map(t_info *info);
 int					find_longuest_line(char **map);
 int					get_nb_lines(char **map);
@@ -213,5 +209,37 @@ int					is_valid(t_info *info, char *str);
 char				*ft_strjoin_to_line_max(char *src, int limit);
 char				**add_tmp(t_info *info, char **tmp);
 int					check_map_is_last(t_info *info);
+
+///////UTILS////////////////
+char	*recup_gnl(int fd);
+int					close_window(t_info *info);
+int					error(t_info *info, char *msg, int exit_code);
+int					check_arg(char *msg, int exit_code);
+int					move(t_info *info);
+bool				ft_isspace(int c);
+size_t				ft_strlenlen(char **tab);
+int					check_is_closed(t_info *info, char **map);
+
+//////Handle events////////////
+void				handle_events(t_info *info);
+
+/////////CLOSE N DESTROY//////////
+void				free_all(t_info *info);
+void				destroy_all(t_info *info);
+
+///////PARSING///////////////
+void				fill_stash(t_info *info, char **av);
+void				check_info(t_info *info, char *stash);
+void				add_rgb(t_info *info, char **tmp, char c);
+char				**parse_map(t_info *info);
+int					find_longuest_line(char **map);
+int					get_nb_lines(char **map);
+int					only_white_spaces(char *str);
+int					get_nb_players(t_info *info, char **map);
+int					is_valid(t_info *info, char *str);
+char				*ft_strjoin_to_line_max(char *src, int limit);
+char				**add_tmp(t_info *info, char **tmp);
+int					check_map_is_last(t_info *info);
+void				set_up_final_map(t_info *info);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 22:54:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/01 13:27:20 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/03 03:00:11 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static void	init_assets(t_assets *assets)
 	assets->we = NULL;
 	assets->c_color = false;
 	assets->f_color = false;
+	assets->valid_cardinals = false;
 }
 
 static void	init_map(t_map *map_info)
@@ -101,11 +102,12 @@ int	init_all(t_info *info)
 	if (!info->radius_buffer)
 		return (1);
 	info->in_map = false;
-	if (init_mlx(info->mlx))
-		return (1);
+	info->valid_assets = false;
+	// if (init_mlx(info->mlx))
+	// 	return (1);
 	init_player(info, info->player);
 	init_map(info->map_info);
-	init_key(info->key);
+	// init_key(info->key);
 	init_assets(info->assets);
 	return (0);
 }

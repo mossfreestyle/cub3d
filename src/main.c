@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 18:17:05 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/29 13:53:23 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/03 02:06:28 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,19 @@ int	main(int ac, char **av)
 		return (1);
 	if (init_all(info))
 		return (error(info, "Problem during the initiation", 1));
-	(void)av;
-	handle_events(info);
-	mlx_loop(info->mlx->mlx);
-	destroy_all(info);
-	free_all(info);
+	fill_stash(info, av);
+	printf("NO = %s\n", info->assets->path_no);
+	printf("SO = %s\n", info->assets->path_so);
+	printf("EA = %s\n", info->assets->path_ea);
+	printf("WE = %s\n", info->assets->path_we);
+	for (int i = 0; i < 3; i++)
+	{
+		printf("C[%d] = %d\n", i, info->assets->ceiling_color[i]);
+		printf("F[%d] = %d\n", i, info->assets->floor_color[i]);
+	}
+	// handle_events(info);
+	// mlx_loop(info->mlx->mlx);
+	// destroy_all(info);
+	// free_all(info);
 	return (0);
 }

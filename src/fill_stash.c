@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:26:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/03 00:46:49 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/03 05:23:09 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,32 +17,39 @@ void	fill_stash(t_info *info, char **av)
 	int		i;
 	int		j;
 	char	**tmp;
+	char *str;
 
 	i = -1;
 	j = 0;
 	info->map_file = open(av[1], O_RDONLY);
 	if (info->map_file < 0)
-		error(info, "Cant open the file\n", 1);
-	while ((info->map_info->stash[++i] = get_next_line(info->map_file)) != NULL)
+		error(info, "Cant open the file", 1);
+	str = recup_gnl(info->map_file);
+	if (!str)
+		error(info, "error recup gnl", 1);
+	info->map_info->stash = ft_split(str, "\n");
+	i = -1;
+	while (info->map_info->stash[++i] != NULL)
 	{
-		if (info->in_map)
-		{
-			info->map_info->first_map[j++] = ft_strdup(info->map_info->stash[i]);
-			if (!info->map_info->first_map[j - 1])
-				error(info, "Problem during allocation when reading the map",
-					1);
-		}
-		else if (info->map_info->stash[i][0] == '\n')
+		// if (info->in_map)
+		// {
+		// 	info->map_info->first_map[j++] = ft_strdup(info->map_info->stash[i]);
+		// 	if (!info->map_info->first_map[j - 1])
+		// 		error(info, "Problem during allocation when reading the map",
+		// 			1);
+		// }
+		if (!ft_strncmp(info->map_info->stash[i], "\n", 1))
 			continue ;
-		else if (!info->valid_assets)
+		if (!info->valid_assets)
 		{
 			check_info(info, info->map_info->stash[i]);
 			continue ;
 		}
 		info->in_map = true;
 	}
+	return ;
 	if (check_map_is_last(info))
-		error(info, "The map isnt the last part of the file\n", 1);
+	error(info, "The map isnt the last part of the file", 1);
 	tmp = parse_map(info);
 	info->map_info->final_map = add_tmp(info, tmp);
 	// permet de choisir le bout de map ou se trouve le player
@@ -93,7 +100,7 @@ char	**add_tmp(t_info *info, char **tmp)
 	if (!tmp[i])
 	{
 		if (!flag)
-			error(info, "Player not found in map\n", 1);
+			error(info, "Player not found in map", 1);
 	}
 	else
 	{
@@ -105,7 +112,7 @@ char	**add_tmp(t_info *info, char **tmp)
 	if (!res)
 	{
 		free_tab(tmp);
-		error(info, "Problem during allocation to crop the map\n", 1);
+		error(info, "Problem during allocation to crop the map", 1);
 	}
 	i = first;
 	while (i <= last)
@@ -115,7 +122,7 @@ char	**add_tmp(t_info *info, char **tmp)
 		{
 			free_tab(res);
 			free_tab(tmp);
-			error(info, "Problem when copy the good part of map\n", 1);
+			error(info, "Problem when copy the good part of map", 1);
 		}
 		i++;
 	}

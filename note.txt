@@ -77,4 +77,10 @@ Rotate the point of view with the mouse
 et peut etre remplace les espaces vides par des X   
 
 
-check map.cup
+check map.cub
+
+//check double virgule
+
+
+
+possible de gerer le cas d un double \n dans la map comme une erreur de parsing car ca peut creer des invalides read of size

@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:37:20 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/03 00:48:15 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/03 01:21:09 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	check_is_closed(t_info *info, char **map)
 		x = -1;
 		while (++x < len)
 		{
-			if (map[y][x] == '0' || map[x][y] == info->player->view)
+			if (map[y][x] == '0' || map[x][y] == (char)info->player->view)
 			{
 				if (y == 0 || !map[y + 1] || x == 0
 					|| x == (int)ft_strlen(map[y]) - 1)

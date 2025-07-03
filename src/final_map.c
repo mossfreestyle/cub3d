@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:26:16 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/02 14:20:53 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/03 02:16:59 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	set_up_final_map(t_info *info)
 	old_line = NULL;
 	info->map_info->line_max = find_longuest_line(info->map_info->final_map);
 	if (check_is_closed(info, info->map_info->final_map))
-		error(info, "The map is not closed by only wall\n", 1);
+		error(info, "The map is not closed by only wall", 1);
 	info->map_info->closed = true;
 	while (info->map_info->final_map[++i])
 	{
@@ -31,7 +31,7 @@ void	set_up_final_map(t_info *info)
 				info->map_info->line_max);
 		free(old_line);
 		if (!info->map_info->final_map[i])
-			error(info, "Problem when replacing empty char for final map\n", 1);
+			error(info, "Problem when replacing empty char for final map", 1);
 	}
 	info->map_info->x_max = info->map_info->line_max - 1;
 	info->map_info->y_max = (int)ft_strlenlen(info->map_info->final_map) - 1;

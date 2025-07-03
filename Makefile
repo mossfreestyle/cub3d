@@ -16,7 +16,7 @@ GREEN = \033[38;5;46m
 # ================================ VARIABLES ================================== #
 NAME		= cub3D
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror -g3
+CFLAGS		= -g3 #-Wall -Wextra -Werror 
 INCLUDES	= -I./include -I./libft
 LIBFT_DIR	= ./libft
 LIBFT		= $(LIBFT_DIR)/libft.a
@@ -28,17 +28,9 @@ MLX_FLAGS	= -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
 LIBS		= -L$(LIBFT_DIR) -lft -lreadline $(MLX_FLAGS)
 
 SRC_DIR		= src
-MAIN_FILES	= main.c
-FILES = init.c \
-        key.c \
-        handle_events.c \
-        utils.c \
-        is_pressed.c \
-		free_n_destroy.c \
-		parsing.c 
+FILES = $(wildcard $(SRC_DIR)/*.c)
 
-SRCS		= $(addprefix $(SRC_DIR)/, $(MAIN_FILES)) \
-                $(addprefix $(SRC_DIR)/, $(FILES))
+SRCS		= $(FILES)
 OBJ_DIR		= obj
 OBJS		= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
