@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 22:21:13 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/03 02:14:47 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/03 23:22:44 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	check_arg(char *msg, int exit_code)
 
 int	error(t_info *info, char *msg, int exit_code)
 {
+	(void)info;
 	// destroy_all(info);
 	// free_all(info);
 	ft_putstr_fd(ERROR_MSG, 2);

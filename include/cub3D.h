@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 18:18:04 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/03 21:51:30 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/03 23:25:28 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ typedef struct s_info
 //////////INIT//////////
 int					init_all(t_info *info);
 
+//////////KEY//////////
 int					key_info(int keycode, void *param);
 void				reset_key(t_info *info);
 
@@ -181,44 +182,6 @@ void				is_s(t_info *info, t_player *player);
 void				is_a(t_info *info, t_player *player);
 void				is_d(t_info *info, t_player *player);
 void				is_esc(t_info *info);
-
-///////UTILS////////////////
-int					close_window(t_info *info);
-int					error(t_info *info, char *msg, int exit_code);
-int					check_arg(char *msg, int exit_code);
-int					move(t_info *info);
-bool				ft_isspace(int c);
-
-//////Handle events////////////
-void				handle_events(t_info *info);
-
-/////////CLOSE N DESTROY//////////
-void				free_all(t_info *info);
-void				destroy_all(t_info *info);
-
-///////PARSING///////////////
-void				fill_stash(t_info *info, char **av);
-void				check_info(t_info *info, char *stash);
-int				put_color(t_info *info, char **tmp, char *str, char c);
-char				**parse_map(t_info *info);
-int					find_longuest_line(char **map);
-int					get_nb_lines(char **map);
-int					only_white_spaces(char *str);
-int					get_nb_players(t_info *info, char **map);
-int					is_valid(t_info *info, char *str);
-char				*ft_strjoin_to_line_max(char *src, int limit);
-char				**add_tmp(t_info *info, char **tmp);
-int					check_map_is_last(t_info *info, char **map);
-
-///////UTILS////////////////
-char	*recup_gnl(int fd);
-int					close_window(t_info *info);
-int					error(t_info *info, char *msg, int exit_code);
-int					check_arg(char *msg, int exit_code);
-int					move(t_info *info);
-bool				ft_isspace(int c);
-size_t				ft_strlenlen(char **tab);
-int					check_is_closed(t_info *info, char **map);
 
 //////Handle events////////////
 void				handle_events(t_info *info);
@@ -239,6 +202,19 @@ int					get_nb_players(t_info *info, char **map);
 int					is_valid(t_info *info, char *str);
 char				*ft_strjoin_to_line_max(char *src, int limit);
 char				**add_tmp(t_info *info, char **tmp);
+int					check_map_is_last(t_info *info, char **map);
 void				set_up_final_map(t_info *info);
+void				print_map(char **map);
+int					put_color(t_info *info, char **tmp);
+
+///////UTILS////////////////
+char				*recup_gnl(int fd);
+int					close_window(t_info *info);
+int					error(t_info *info, char *msg, int exit_code);
+int					check_arg(char *msg, int exit_code);
+int					move(t_info *info);
+bool				ft_isspace(int c);
+size_t				ft_strlenlen(char **tab);
+int					check_is_closed(t_info *info, char **map);
 
 #endif

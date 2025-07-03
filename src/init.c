@@ -6,26 +6,27 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 22:54:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/03 21:05:44 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/03 23:23:15 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static void	init_key(t_key *key)
-{
-	key->key_w = 119;
-	key->key_s = 115;
-	key->key_a = 97;
-	key->key_d = 100;
-	key->esc = 65307;
-	key->press_w = False;
-	key->press_s = False;
-	key->press_a = False;
-	key->press_d = False;
-	key->press_turn_left = False;
-	key->press_turn_right = False;
-}
+// static void	init_key(t_key *key)
+// {
+// 	key->key_w = 119;
+// 	key->key_s = 115;
+// 	key->key_a = 97;
+// 	key->key_d = 100;
+// 	key->esc = 65307;
+// 	key->press_w = False;
+// 	key->press_s = False;
+// 	key->press_a = False;
+// 	key->press_d = False;
+// 	key->press_turn_left = False;
+// 	key->press_turn_right = False;
+//faire les fleches 
+// }
 
 static void	init_player(t_info *info, t_player *player)
 {
@@ -38,17 +39,17 @@ static void	init_player(t_info *info, t_player *player)
 	player->speed_rot = 0.5;
 }
 
-static int	init_mlx(t_mlx *mlx)
-{
-	mlx->mlx = mlx_init();
-	if (!mlx->mlx)
-		return (1);
-	mlx->window = mlx_new_window(mlx->mlx, WIDTH_DISPLAY, HEIGHT_DISPLAY,
-			"Cub3D");
-	if (!mlx->window)
-		return (1);
-	return (0);
-}
+// static int	init_mlx(t_mlx *mlx)
+// {
+// 	mlx->mlx = mlx_init();
+// 	if (!mlx->mlx)
+// 		return (1);
+// 	mlx->window = mlx_new_window(mlx->mlx, WIDTH_DISPLAY, HEIGHT_DISPLAY,
+// 			"Cub3D");
+// 	if (!mlx->window)
+// 		return (1);
+// 	return (0);
+// }
 
 static void	init_assets(t_assets *assets)
 {

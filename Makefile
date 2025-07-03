@@ -16,7 +16,7 @@ GREEN = \033[38;5;46m
 # ================================ VARIABLES ================================== #
 NAME		= cub3D
 CC			= gcc
-CFLAGS		= -g3 #-Wall -Wextra -Werror 
+CFLAGS		= -g3 -Wall -Wextra -Werror 
 INCLUDES	= -I./include -I./libft
 LIBFT_DIR	= ./libft
 LIBFT		= $(LIBFT_DIR)/libft.a

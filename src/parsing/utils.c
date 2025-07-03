@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:34:23 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/03 22:17:39 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/03 23:51:05 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,52 +96,22 @@ int	find_longuest_line(char **map)
 
 int	is_valid(t_info *info, char *str)
 {
-	int	i;
+    int	i;
 
-	(void)info;
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] == '0' || str[i] == '1' || str[i] == '\n' || str[i] == ' '
-			|| str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'O')
-			continue;
-		else
-			return (0);
-	}
-	return (1);
+    if (!str)
+        return (0);
+    (void)info;
+    i = -1;
+    while (str[++i])
+    {
+        if (str[i] == '0' || str[i] == '1' || str[i] == '\n' || str[i] == ' '
+            || str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'O')
+            continue;
+        else
+            return (0);
+    }
+    return (1);
 }
-
-
-// int	is_valid(t_info *info, char *str)
-// {
-//     int	i;
-
-//     printf("DEBUG: is_valid called with str = %p\n", str);
-//     if (!str)
-//     {
-//         printf("ERROR: str is NULL in is_valid\n");
-//         return (0);
-//     }
-//     printf("DEBUG: str content: '%.50s'\n", str);
-//     printf("DEBUG: str length: %zu\n", ft_strlen(str));
-
-//     (void)info;
-//     i = -1;
-//     while (str[++i])
-//     {
-//         printf("DEBUG: checking str[%d] = '%c' (ASCII: %d)\n", i, str[i], (int)str[i]);
-//         if (str[i] == '0' || str[i] == '1' || str[i] == '\n' || str[i] == ' '
-//             || str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'O')
-//             continue;
-//         else
-//         {
-//             printf("DEBUG: Invalid character found: '%c'\n", str[i]);
-//             return (0);
-//         }
-//     }
-//     printf("DEBUG: is_valid returning 1\n");
-//     return (1);
-// }
 
 
 char	*recup_gnl(int fd)

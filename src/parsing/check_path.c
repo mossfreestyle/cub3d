@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:27:19 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/03 21:35:17 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/03 23:42:39 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static char	*check_valid_path(t_info *info, char *stash)
 {
 	char	*path;
 	int		len;
-	int		i;
 
 	len = ft_strlen(stash);
 	if (ft_strncmp(stash + len - 4, ".xpm", 4))
@@ -92,38 +91,6 @@ static int	check_path(t_info *info, char **stash)
 	return (1);
 }
 
-// void	check_info(t_info *info, char *stash)
-// {
-// 	char	**tmp;
-
-// 	tmp = ft_split(stash, " ");
-// 	if (!tmp)
-// 	{
-// 		free_tab(tmp);
-// 		error(info, "failed malloc", 1);
-// 	}
-// 	printf("%s\n", stash);
-// 	if (!info->assets->valid_cardinals && check_path(info, tmp))
-// 		return (free_tab(tmp));
-// 	free_tab(tmp);
-// 	printf("%s\n", info->assets->path_no);
-// 	printf("%s\n", info->assets->path_so);
-// 	printf("%s\n", info->assets->path_ea);
-// 	printf("%s\n", info->assets->path_we);
-// 	for (int i = 0; i < 3;i++)
-// 		printf("%d\n", info->assets->ceiling_color[i]);
-// 	for (int j = 0; j < 3;j++)
-// 		printf("%d\n", info->assets->ceiling_color[j]);
-// 	check_double_comma(info, stash);
-// 	tmp = ft_split(stash, " ,");
-// 	if (!tmp)
-// 		error(info, "Split Failed for floor value", 1);
-// 	add_rgb(info, tmp, tmp[0][0]);
-// 	free_tab(tmp);
-// 	put_true_to_valid_assets(info);
-// 	printf("%d\n", info->valid_assets);
-// }
-
 static int	is_texture_line(char **stash)
 {
 	if (!stash[0])
@@ -131,57 +98,6 @@ static int	is_texture_line(char **stash)
 	return (!ft_strncmp("NO", stash[0], 2) || !ft_strncmp("SO", stash[0], 2)
 		|| !ft_strncmp("EA", stash[0], 2) || !ft_strncmp("WE", stash[0], 2));
 }
-
-// void	check_info(t_info *info, char *stash)
-// {
-// 	char	**tmp;
-
-// 	tmp = ft_split(stash, " ");
-// 	if (!tmp)
-// 		error(info, "failed malloc", 1);
-// 	printf("Processing: %s\n", stash);
-// 	// Traite les textures (NO, SO, EA, WE)
-// 	if (!info->assets->valid_cardinals && is_texture_line(tmp))
-// 	{
-// 		check_path(info, tmp);
-// 		free_tab(tmp);
-// 		return ;
-// 	}
-// 	if (tmp[0][0] == 'C' || tmp[0][0] == 'F')
-// 	{
-// 		free_tab(tmp);
-// 		check_double_comma(info, stash);
-// 		tmp = ft_split(stash, " ,");
-// 		if (!tmp)
-// 			error(info, "Split Failed for RGB values", 1);
-// 		add_rgb(info, tmp, tmp[0][0]);
-// 		free_tab(tmp);
-// 		if (!info->assets->c_color ||!info->assets->f_color)
-// 			return ;
-// 	}
-// 	else
-// 		return ;
-// 	put_true_to_valid_assets(info);
-// 	free_tab(tmp);
-// 	// Debug final
-// 	printf("save\n");
-// 	if (info->valid_assets)
-// 	{
-// 		printf("NO: %s\n", info->assets->path_no);
-// 		printf("SO: %s\n", info->assets->path_so);
-// 		printf("EA: %s\n", info->assets->path_ea);
-// 		printf("WE: %s\n", info->assets->path_we);
-// 		printf("Ceiling colors: ");
-// 		for (int i = 0; i < 3; i++)
-// 			printf("%d ", info->assets->ceiling_color[i]);
-// 		printf("\nFloor colors: ");
-// 		for (int j = 0; j < 3; j++)
-// 			printf("%d ", info->assets->floor_color[j]);
-// 		printf("\n%d ", info->assets->f_color);
-// 		printf("%d ", info->assets->c_color);
-		// printf("\nValid assets: %d\n", info->valid_assets);
-	// }
-// }
 
 void	check_info(t_info *info, char *stash)
 {
@@ -197,8 +113,6 @@ void	check_info(t_info *info, char *stash)
         put_true_to_valid_assets(info);
         return ;
     }
-    
-    // Traite les couleurs (C, F)
     if (tmp[0][0] == 'C' || tmp[0][0] == 'F')
     {
         free_tab(tmp);

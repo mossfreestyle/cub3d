@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:29:30 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/03 21:35:24 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/03 23:42:07 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,6 @@ static int	check_valid_rgb(t_info *info, char c)
 
 void	add_rgb(t_info *info, char **tmp, char c)
 {
-	char	*str;
-
-	
 	if (ft_strlenlen(tmp) != 4)
 	{
 		free_tab(tmp);
@@ -58,24 +55,12 @@ void	add_rgb(t_info *info, char **tmp, char c)
 	}
 	if (c != 'C' && c != 'F')
 		error(info, "Error rgb", 1);
-	// str = tmp[0];
-	// if (str[0]== c)
-	// {
-	// 	str++;
-	// 	while (ft_isspace(*str))
-	// 		str++;
-	// }
-	// else
-	// {
-	// 	free_tab(tmp);
-	// 	error(info, "Wrong Format for rgb", 1);
-	// }
-	if (put_color(info, tmp, str, c))
+	if (put_color(info, tmp))
 		error(info, "problem with rgb", 1);
 	return ;
 }
 
-int	put_color(t_info *info, char **tmp, char *str, char c)
+int	put_color(t_info *info, char **tmp)
 {
 	int i;
 	int j;
