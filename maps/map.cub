@@ -1,12 +1,12 @@
-NO ./textures/so.xpm
+NO ./assests/north.xpm
 C 225,30,255
 F 220, 1,6
-SO ./textures/wolfenstein/purple_stone.xpm        
-EA ./textures/wolfenstein/wood.xpm
-WE ./textures/wolfenstein/wood.xpm
+SO ./assests/south.xpm   
+EA ./assests/east.xpm
+WE ./assests/west.xpm
 
 1111111111  
 1010010101  11111   111
 1N11011101 10001    101
 1000011101 11111  11111    111
-1111111111
+111111111111111111

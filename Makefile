@@ -28,9 +28,27 @@ MLX_FLAGS	= -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
 LIBS		= -L$(LIBFT_DIR) -lft -lreadline $(MLX_FLAGS)
 
 SRC_DIR		= src
-FILES = $(wildcard $(SRC_DIR)/*.c)
+PARSE_DIR = $(SRC_DIR)/parsing
 
-SRCS		= $(FILES)
+FILES = main.c \
+		utils3.c \
+		key.c \
+		is_pressed.c \
+		init.c \
+		handle_events.c \
+
+PARSE_FILES = check_cnf.c \
+				check_map.c \
+				check_path.c \
+				fill_stash.c \
+				final_map.c \
+				free_n_destroy.c \
+				utils.c \
+				utils2.c 
+
+
+SRCS		= $(addprefix $(SRC_DIR)/, $(FILES)) \
+			$(addprefix $(PARSE_DIR)/, $(PARSE_FILES))
 OBJ_DIR		= obj
 OBJS		= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

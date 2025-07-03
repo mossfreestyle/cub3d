@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 18:18:04 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/03 03:00:01 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/03 21:51:30 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,7 @@ int					get_nb_players(t_info *info, char **map);
 int					is_valid(t_info *info, char *str);
 char				*ft_strjoin_to_line_max(char *src, int limit);
 char				**add_tmp(t_info *info, char **tmp);
-int					check_map_is_last(t_info *info);
+int					check_map_is_last(t_info *info, char **map);
 
 ///////UTILS////////////////
 char	*recup_gnl(int fd);
@@ -239,7 +239,6 @@ int					get_nb_players(t_info *info, char **map);
 int					is_valid(t_info *info, char *str);
 char				*ft_strjoin_to_line_max(char *src, int limit);
 char				**add_tmp(t_info *info, char **tmp);
-int					check_map_is_last(t_info *info);
 void				set_up_final_map(t_info *info);
 
 #endif

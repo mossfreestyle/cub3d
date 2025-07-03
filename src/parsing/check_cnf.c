@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:29:30 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/03 03:55:02 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/03 21:35:24 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ int	put_color(t_info *info, char **tmp, char *str, char c)
 	}
 	if (tmp[0][0] == 'C')
 	{
+		if (info->assets->c_color)
+			error(info, "data x2 is forbidden !!!!!!!", 1);
 		info->assets->ceiling_color[0] = ft_atoi(tmp[1]);
 		info->assets->ceiling_color[1] = ft_atoi(tmp[2]);
 		info->assets->ceiling_color[2] = ft_atoi(tmp[3]);
@@ -104,6 +106,8 @@ int	put_color(t_info *info, char **tmp, char *str, char c)
 	}
 	else if (tmp[0][0] == 'F')
 	{
+		if (info->assets->f_color)
+			error(info, "data x2 is forbidden !!!!!!!", 1);
 		info->assets->floor_color[0] = ft_atoi(tmp[1]);
 		info->assets->floor_color[1] = ft_atoi(tmp[2]);
 		info->assets->floor_color[2] = ft_atoi(tmp[3]);

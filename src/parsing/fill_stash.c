@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:26:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/03 05:23:09 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/03 22:15:05 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,46 @@ void	fill_stash(t_info *info, char **av)
 	if (!str)
 		error(info, "error recup gnl", 1);
 	info->map_info->stash = ft_split(str, "\n");
+	free(str);
 	i = -1;
 	while (info->map_info->stash[++i] != NULL)
 	{
-		// if (info->in_map)
-		// {
-		// 	info->map_info->first_map[j++] = ft_strdup(info->map_info->stash[i]);
-		// 	if (!info->map_info->first_map[j - 1])
-		// 		error(info, "Problem during allocation when reading the map",
-		// 			1);
-		// }
+		if (info->in_map)
+		{
+			if (!info->map_info->first_map)
+			{
+				info->map_info->first_map = malloc(sizeof(char *) * (get_nb_lines(info->map_info->stash + i) + 1));
+				if (!info->map_info->first_map)
+					error(info, "probelem malloc", 1);
+			}
+			info->map_info->first_map[j++] = ft_strdup(info->map_info->stash[i]);  //bizarre i - 1 mais sinon j ai pas la premiere ligne de ma map mais a check
+			if (!info->map_info->first_map[j - 1])
+				error(info, "Problem during allocation when reading the map",
+					1);
+		}
 		if (!ft_strncmp(info->map_info->stash[i], "\n", 1))
 			continue ;
 		if (!info->valid_assets)
 		{
 			check_info(info, info->map_info->stash[i]);
+			if (info->valid_assets)
+				info->in_map = true;
 			continue ;
 		}
 		info->in_map = true;
 	}
-	return ;
-	if (check_map_is_last(info))
-	error(info, "The map isnt the last part of the file", 1);
+	printf("NO=%s\n", info->assets->path_no);
+	printf("SO=%s\n", info->assets->path_so);
+	printf("EA=%s\n", info->assets->path_ea);
+	printf("WE=%s\n", info->assets->path_we);
+	// for (int i = 0; i < 3; i++)
+		// printf("C[%d]=%d\n", i, info->assets->ceiling_color[i]);
+	// for (int j = 0; j < 3; j++)
+		// printf("F[%d]=%d\n", j, info->assets->floor_color[j]);
+	printf("VALID=%d\n", info->valid_assets);
+	info->map_info->first_map[j] = NULL;
+	if (check_map_is_last(info, info->map_info->first_map))
+		error(info, "The map isnt the last part of the file", 1);
 	tmp = parse_map(info);
 	info->map_info->final_map = add_tmp(info, tmp);
 	// permet de choisir le bout de map ou se trouve le player

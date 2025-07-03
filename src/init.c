@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 22:54:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/03 03:00:11 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/03 21:05:44 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,6 @@ int	init_all(t_info *info)
 	init_map(info->map_info);
 	// init_key(info->key);
 	init_assets(info->assets);
+	// init_ray(info->)
 	return (0);
 }
