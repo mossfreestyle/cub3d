@@ -5,42 +5,46 @@
 ## 🟢 PARSING
 
 ### ✅ Déjà fait
-- Lecture du fichier map avec GNL
-- Parsing des textures et couleurs (NO, SO, WE, EA, F, C)
-- Vérification de l’unicité des textures et couleurs
-- Vérification de l’extension `.xpm` pour les textures
-- Vérification que la map est le dernier élément du fichier
-- Gestion des lignes vides dans la map
-- Extraction du bloc de map contenant le joueur (`add_tmp`)
-- Vérification du nombre de joueurs (exactement 1)
-- Récupération de la position et de la direction du joueur
-- Vérification des caractères valides dans la map
-- Remplissage des espaces vides par un caractère spécifique (`X`)
-- Vérification que la map est bien fermée par des murs (`check_is_closed`)
-- Gestion des erreurs et libération mémoire
+- ✅ Lecture du fichier map avec GNL
+- ✅ Parsing des textures et couleurs (NO, SO, WE, EA, F, C)
+- ✅ Vérification de l'unicité des textures et couleurs
+- ✅ Vérification de l'extension `.xpm` pour les textures
+- ✅ Vérification de l'extension `.cub` pour le fichier map
+- ✅ Vérification que la map est le dernier élément du fichier
+- ✅ Gestion des lignes vides dans la map
+- ✅ Vérification du nombre de joueurs (exactement 1)
+- ✅ Récupération de la position et de la direction du joueur
+- ✅ Vérification des caractères valides dans la map
+- ✅ Remplissage des espaces vides par un caractère spécifique (`X`)
+- ✅ Vérification que la map est bien fermée par des murs (`check_is_closed`)
+- ✅ Gestion des erreurs et libération mémoire
+- ✅ Vérification des valeurs RGB (0-255)
+- ✅ Vérification du format RGB (3 valeurs séparées par des virgules)
+- ✅ Correction du bug 'W' vs 'O' dans `get_nb_players`
+- ✅ Correction de l'allocation mémoire dans `set_up_final_map`
+- ✅ Correction des boucles dans `check_is_closed`
+- ✅ Correction de `recup_gnl` pour éviter les memory leaks
 
 ### 🟡 À faire / À améliorer
 
 #### 🔸 Robustesse parsing
-- [ ] **Vérifier que le joueur n’est pas sur un bord de la map**  
+- [ ] **Vérifier que le joueur n'est pas sur un bord de la map**  
   → Le joueur ne doit jamais être placé sur la première/dernière ligne ou colonne.
 - [ ] **Vérifier que le joueur ne touche pas un espace ou un bord**  
   → Les cases autour du joueur doivent être des murs ou des cases valides.
-- [ ] **Vérifier l’existence réelle des fichiers de textures**  
-  → Ouvrir chaque chemin, vérifier l’accessibilité, et que le fichier est bien un `.xpm`.
-- [ ] **Gérer les erreurs de format RGB**  
-  → Vérifier qu’il y a bien 3 valeurs, séparées par des virgules, toutes entre 0 et 255, pas de doubles virgules, pas de caractères non numériques.
-- [ ] **Gérer les doublons de textures/couleurs**  
-  → Chaque identifiant (NO, SO, WE, EA, F, C) doit apparaître une seule fois.
+- [ ] **Vérifier l'existence réelle des fichiers de textures**  
+  → Ouvrir chaque chemin avec `open()`, vérifier l'accessibilité, et que le fichier est bien un `.xpm`.
 - [ ] **Gérer les cas limites**  
   → Map non rectangulaire, lignes très longues, caractères inattendus, plusieurs blocs de map, etc.
-- [ ] **Ajouter des messages d’erreur plus précis**  
-  → Indiquer la ligne et la nature exacte de l’erreur.
+- [ ] **Ajouter des messages d'erreur plus précis**  
+  → Indiquer la ligne et la nature exacte de l'erreur.
+- [ ] **Tester avec tous les maps de test**  
+  → Valider le parsing avec les maps `bad/`, `invalid/`, `valid/`, etc.
 - [ ] **Nettoyer et commenter le code pour la relecture finale**
 
 #### 🔸 Bonus parsing (optionnel)
 - [ ] **Supporter les maps avec plusieurs blocs séparés par des lignes vides**  
-  → S’assurer que seul le bloc contenant le joueur est gardé.
+  → S'assurer que seul le bloc contenant le joueur est gardé.
 - [ ] **Vérifier que la map ne contient pas de caractères interdits même dans les lignes vides**
 
 ---
@@ -48,33 +52,37 @@
 ## 🟦 EXECUTION / RAYCASTING
 
 ### ✅ Déjà fait
-- Initialisation de la fenêtre et de la structure MLX
-- Initialisation des structures player, map, assets, key, ray
-- Hook clavier pour les déplacements de base (WASD, ESC)
-- Déplacement du joueur dans la map (move)
-- Début du raycasting (fonction DDA présente)
+- ✅ Initialisation des structures player, map, assets, key
+- ✅ Hooks clavier de base (WASD, ESC)
+- ✅ Début du raycasting (fonction DDA présente)
+- ✅ Structures de données pour le raycasting
 
 ### 🟡 À faire / À améliorer
 
 #### 🔸 Affichage et moteur
+- [ ] **Réactiver l'initialisation MLX**  
+  → Décommenter `init_mlx()` dans `init_all()` pour créer la fenêtre.
 - [ ] **Affichage des murs avec textures**  
-  → Charger les fichiers `.xpm`, appliquer la texture sur les murs selon la direction du rayon.
+  → Charger les fichiers `.xpm` avec `mlx_xpm_file_to_image()`, appliquer la texture sur les murs selon la direction du rayon.
 - [ ] **Affichage du sol et du plafond**  
   → Colorier les pixels du sol et du plafond selon la couleur définie dans la map.
 - [ ] **Gestion correcte des collisions avec les murs et les espaces vides**  
   → Empêcher le joueur de traverser les murs ou les cases remplies (`X`).
 - [ ] **Gestion de la rotation du joueur (gauche/droite)**  
-  → Modifier l’angle de vue avec les touches ou la souris.
+  → Modifier l'angle de vue avec les touches fléchées ou la souris.
 - [ ] **Gestion des angles et du FOV**  
-  → S’assurer que le rendu respecte bien le champ de vision.
+  → S'assurer que le rendu respecte bien le champ de vision.
 - [ ] **Optimisation du raycasting**  
   → Correction du fish-eye, gestion des distances, optimisation des calculs.
 - [ ] **Gestion de la fermeture propre de la fenêtre (croix, ESC)**
-- [ ] **Gestion des erreurs lors du chargement des textures**
+- [ ] **Gestion des erreurs lors du chargement des textures**  
+  → Vérifier que `mlx_xpm_file_to_image()` réussit.
+- [ ] **Réactiver la game loop**  
+  → Décommenter `handle_events()` et `mlx_loop()` dans `main()`.
 
 #### 🔸 Bonus exécution (optionnel)
 - [ ] **Effets visuels (shading, animation, etc.)**
-- [ ] **Affichage d’un HUD minimal**
+- [ ] **Affichage d'un HUD minimal**
 
 ---
 
@@ -83,7 +91,7 @@
 ### 🟡 À faire
 
 #### 🔸 Mini-map
-- [ ] **Affichage d’une mini-map à l’écran**  
+- [ ] **Affichage d'une mini-map à l'écran**  
   → Vue du dessus, position du joueur, murs, direction du regard.
 
 #### 🔸 Collisions avancées
@@ -99,20 +107,58 @@
 
 ---
 
+## 🔧 BUGS CORRIGÉS
+
+### ✅ Récemment corrigés
+- ✅ **Bug 'W' vs 'O' dans `get_nb_players`** - Correction de la comparaison de caractères
+- ✅ **Allocation incorrecte dans `set_up_final_map`** - Correction de l'allocation mémoire
+- ✅ **Segfault dans `check_is_closed`** - Correction des boucles et vérifications
+- ✅ **Memory leak dans `recup_gnl`** - Correction de la libération mémoire
+- ✅ **Vérification extension `.cub`** - Correction de la vérification du nom de fichier
+- ✅ **Double tours dans `is_valid`** - Correction de la logique de validation
+- ✅ **Padding avec 'X' au lieu d'espaces** - Correction du remplissage de la map
+
+---
+
 ## 📝 Récapitulatif progression
 
-- **Parsing** : 75%  
-  (reste surtout la robustesse, les checks de bord, et la gestion des erreurs fines)
-- **Raycasting/exécution** : 40%  
-  (base posée, reste l’affichage textures, collisions, et la gestion fine du moteur)
-- **Bonus** : 0%  
+- **Parsing** : 85% ✅  
+  (parsing fonctionnel, reste surtout la robustesse et les tests finaux)
+- **Raycasting/exécution** : 15% 🟡  
+  (structures prêtes, reste tout l'affichage et la game loop)
+- **Bonus** : 0% 🔴  
   (à commencer après le core)
 
 ---
 
-**Prochaines étapes recommandées** :
-1. Finaliser la robustesse du parsing (tous les checks du sujet, gestion des erreurs)
-2. Terminer l’affichage raycasting avec textures et collisions
-3. Ajouter la mini-map et la gestion souris pour le bonus
+## 🎯 **Prochaines étapes prioritaires**
+
+1. **Finaliser les tests de parsing** avec toutes les maps de test
+2. **Vérifier l'existence des fichiers de textures** avec `open()`
+3. **Réactiver l'initialisation MLX** et la fenêtre
+4. **Charger les textures** avec `mlx_xpm_file_to_image()`
+5. **Implémenter l'affichage raycasting** de base
+6. **Ajouter les collisions** et le mouvement du joueur
 
 ---
+
+## 🧪 TESTS À FAIRE
+
+### Maps à tester :
+- `maps/maps/bad/` - Toutes les maps invalides
+- `maps/maps/invalid/` - Maps avec erreurs diverses
+- `maps/maps/valid/` - Maps valides
+- `maps/maps/perso/` - Maps personnalisées
+
+### Cas limites :
+- Fichiers inexistants
+- Permissions insuffisantes
+- Maps très grandes
+- Textures inexistantes
+- Valeurs RGB limites (0, 255)
+- Double virgules dans RGB
+- Caractères spéciaux
+
+---
+
+**État actuel : Parsing quasi terminé, prêt pour l'exécution ! 🚀**

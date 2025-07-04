@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:26:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/03 23:55:53 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/04 02:22:22 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,16 @@ void	fill_stash(t_info *info, char **av)
 		}
 		info->in_map = true;
 	}
-	printf("NO=%s\n", info->assets->path_no);
-	printf("SO=%s\n", info->assets->path_so);
-	printf("EA=%s\n", info->assets->path_ea);
-	printf("WE=%s\n", info->assets->path_we);
-	for (int i = 0; i < 3; i++)
-		printf("C[%d]=%d\n", i, info->assets->ceiling_color[i]);
-	for (int j = 0; j < 3; j++)
-		printf("F[%d]=%d\n", j, info->assets->floor_color[j]);
-	printf("VALID=%d\n\n", info->valid_assets);
+	close(info->map_file);
+	// printf("NO=%s\n", info->assets->path_no);
+	// printf("SO=%s\n", info->assets->path_so);
+	// printf("EA=%s\n", info->assets->path_ea);
+	// printf("WE=%s\n", info->assets->path_we);
+	// for (int i = 0; i < 3; i++)
+	// 	printf("C[%d]=%d\n", i, info->assets->ceiling_color[i]);
+	// for (int j = 0; j < 3; j++)
+	// 	printf("F[%d]=%d\n", j, info->assets->floor_color[j]);
+	// printf("VALID=%d\n\n", info->valid_assets);
 	info->map_info->first_map[j] = NULL;
 	print_map(info->map_info->first_map);
 	if (check_map_is_last(info, info->map_info->first_map))

@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:34:23 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/03 23:51:05 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/04 02:18:11 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	get_nb_players(t_info *info, char **map)
 		while (map[i][++j])
 		{
 			if ((map[i][j] == 'N' || map[i][j] == 'E' || map[i][j] == 'S'
-					|| map[i][j] == 'O'))
+					|| map[i][j] == 'W'))
 			{
 				count++;
 				if (count == 1)
@@ -105,7 +105,7 @@ int	is_valid(t_info *info, char *str)
     while (str[++i])
     {
         if (str[i] == '0' || str[i] == '1' || str[i] == '\n' || str[i] == ' '
-            || str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'O')
+            || str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'W')
             continue;
         else
             return (0);

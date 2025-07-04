@@ -87,4 +87,89 @@ possible de gerer le cas d un double \n dans la map comme une erreur de parsing 
 
 
 
-//gerer double player
+
+
+
+//check pourquoi la premiere ligne ne se prend pas des fois
+
+
+
+
+
+
+
+
+
+
+
+
+
+./cub3D maps/maps/bad/color_missing.cub
+
+./cub3D maps/maps/bad/color_none.cub
+
+ ./cub3D maps/maps/bad/file_letter_end.cub --> je sais pas si il doit return une erreur
+
+ ./cub3D maps/maps/bad/map_first.cub
+
+ ./cub3D maps/maps/bad/map_middle.cub
+
+ ./cub3D maps/maps/bad/map_missing.cub
+
+  ./cub3D maps/maps/bad/map_only.cub
+
+  ./cub3D maps/maps/bad/textures_missing.cub
+
+  ./cub3D maps/maps/bad/textures_none.cub
+
+
+
+  ./cub3D maps/maps/invalid/map_prank.cub   -->bizare que je revoies une erreur
+
+  ./cub3D maps/maps/invalid/map_prank2.cub --> //
+
+  ./cub3D maps/maps/invalid/no_color1.cub
+
+   ./cub3D maps/maps/invalid/no_color2.cub
+
+ ./cub3D maps/maps/invalid/no_texture2.cub
+
+ ./cub3D maps/maps/invalid/no_texture3.cub
+
+  ./cub3D maps/maps/invalid/no_texture4.cub
+
+  ./cub3D maps/maps/invalid/trash_in_map1.cub 
+
+
+  ./cub3D maps/maps/invalid/trash_in_map3.cub  --> a voir le parti pris
+
+   ./cub3D maps/maps/invalid/trash_in_map6.cub
+
+   ./cub3D maps/maps/invalid/trash_in_map7.cub
+
+    ./cub3D maps/maps/invalid/trash_in_map10.cub
+
+
+     ./cub3D maps/maps/perso/basrelief.cub 
+
+     ./cub3D maps/maps/perso/subject_map.cub
+
+
+     ./cub3D maps/maps/valid/01.cub
+
+     ./cub3D maps/maps/valid/02.cub
+
+     ./cub3D maps/maps/valid/03.cub
+
+      ./cub3D maps/maps/valid/04.cub
+
+      ./cub3D maps/maps/valid/05.cub
+
+
+      ./cub3D maps/maps/valid/weird_map02.cub
+
+
+      ./cub3D maps/maps/valid/weird_map03.cub
+
+
+       ./cub3D maps/maps/valid/weird_map04.cub
