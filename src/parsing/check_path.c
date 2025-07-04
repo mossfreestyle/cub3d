@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:27:19 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/03 23:42:39 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:24:23 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	check_double_comma(t_info *info, char *stash)
 
 	i = -1;
 	count = 0;
+	int j = 1;
 	while (stash[++i])
 	{
 		if (stash[i] == ',')
@@ -26,6 +27,15 @@ void	check_double_comma(t_info *info, char *stash)
 	}
 	if (count != 2)
 		error(info, "Wrong number of comma for rgb values", 1);
+	while(ft_isspace(stash[j]))
+		j++;
+	while(stash[j])
+	{
+		if (!ft_isdigit(stash[j]) && stash[j] != ',')
+			error(info, "only digit and ; are avaible in color", 1);
+		j++;
+	}
+		
 }
 
 static void	put_true_to_valid_assets(t_info *info)
@@ -91,7 +101,7 @@ static int	check_path(t_info *info, char **stash)
 	return (1);
 }
 
-static int	is_texture_line(char **stash)
+int	is_texture_line(char **stash)
 {
 	if (!stash[0])
 		return (0);
@@ -99,31 +109,40 @@ static int	is_texture_line(char **stash)
 		|| !ft_strncmp("EA", stash[0], 2) || !ft_strncmp("WE", stash[0], 2));
 }
 
+int	is_texture(char *stash)
+{
+	if (!stash)
+		return (0);
+	return (!ft_strncmp("NO", stash, 2) || !ft_strncmp("SO", stash, 2)
+		|| !ft_strncmp("EA", stash, 2) || !ft_strncmp("WE", stash, 2)
+		|| !ft_strncmp("C", stash, 1) || !ft_strncmp("F", stash, 1));
+}
+
 void	check_info(t_info *info, char *stash)
 {
-    char	**tmp;
+	char	**tmp;
 
-    tmp = ft_split(stash, " ");
-    if (!tmp)
-        error(info, "failed malloc", 1);
-    if (is_texture_line(tmp))
-    {
-        check_path(info, tmp);
-        free_tab(tmp);
-        put_true_to_valid_assets(info);
-        return ;
-    }
-    if (tmp[0][0] == 'C' || tmp[0][0] == 'F')
-    {
-        free_tab(tmp);
-        check_double_comma(info, stash);
-        tmp = ft_split(stash, " ,");
-        if (!tmp)
-            error(info, "Split Failed for RGB values", 1);
-        add_rgb(info, tmp, tmp[0][0]);
-        free_tab(tmp);
-        put_true_to_valid_assets(info);
-        return ;
-    }
-    free_tab(tmp);
+	tmp = ft_split(stash, " ");
+	if (!tmp)
+		error(info, "failed malloc", 1);
+	if (is_texture_line(tmp))
+	{
+		check_path(info, tmp);
+		free_tab(tmp);
+		put_true_to_valid_assets(info);
+		return ;
+	}
+	if (tmp[0][0] == 'C' || tmp[0][0] == 'F')
+	{
+		free_tab(tmp);
+		check_double_comma(info, stash);
+		tmp = ft_split(stash, " ,");
+		if (!tmp)
+			error(info, "Split Failed for RGB values", 1);
+		add_rgb(info, tmp, tmp[0][0]);
+		free_tab(tmp);
+		put_true_to_valid_assets(info);
+		return ;
+	}
+	free_tab(tmp);
 }

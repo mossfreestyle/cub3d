@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:26:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/04 13:43:56 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/04 15:30:04 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	fill_stash(t_info *info, char **av)
 		}
 		if (!ft_strncmp(info->map_info->stash[i], "\n", 1))
 			continue ;
+		if (!is_texture(info->map_info->stash[i]) && !is_valid(info, info->map_info->stash[i]))
+			error(info, "Invalid line in map file", 1);
 		if (!info->valid_assets)
 		{
 			check_info(info, info->map_info->stash[i]);

@@ -97,12 +97,12 @@ possible de gerer le cas d un double \n dans la map comme une erreur de parsing 
 //mettre des 1 uns a la place des espaces et check que s est pas une ligne completement vide
 
 
+fix check is closed
+
+C 225,255 255, gerer les cas d erreurs avec les virgules pas en checkant seulement le nombre de virgules
 
 
-
-
-
-
+  ./cub3D maps/maps/valid/04.cub 
 
 ./cub3D maps/maps/bad/color_missing.cub
 
@@ -173,3 +173,6 @@ possible de gerer le cas d un double \n dans la map comme une erreur de parsing 
 
 
        ./cub3D maps/maps/valid/weird_map04.cub
+
+
+       ./cub3D maps/maps/valid/04.cub 

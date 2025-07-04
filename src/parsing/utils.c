@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:34:23 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/04 02:18:11 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/04 15:09:00 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,19 +79,21 @@ int	get_nb_players(t_info *info, char **map)
 	return (count);
 }
 
+
 int	find_longuest_line(char **map)
 {
-	int		i;
-	size_t	max_line;
+    int	max = 0;
+    int	len;
+    int	i = 0;
 
-	i = -1;
-	max_line = 0;
-	while (map[++i])
-	{
-		if (ft_strlen(map[i]) > max_line)
-			max_line = ft_strlen(map[i]);
-	}
-	return (max_line);
+    while (map[i])
+    {
+        len = ft_strlen(map[i]);
+        if (len > max && !only_white_spaces(map[i]))
+            max = len;
+        i++;
+    }
+    return (max);
 }
 
 int	is_valid(t_info *info, char *str)

@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 18:18:04 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/04 13:05:04 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/04 15:29:10 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,8 @@ void				print_map(char **map);
 int					put_color(t_info *info, char **tmp);
 
 ///////UTILS////////////////
+int					is_texture_line(char **stash);
+int					is_texture(char *stash);
 char				*recup_gnl(int fd);
 int					close_window(t_info *info);
 int					error(t_info *info, char *msg, int exit_code);
