@@ -94,7 +94,7 @@ possible de gerer le cas d un double \n dans la map comme une erreur de parsing 
 
 
 
-
+//mettre des 1 uns a la place des espaces et check que s est pas une ligne completement vide
 
 
 

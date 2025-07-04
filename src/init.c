@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 22:54:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/03 23:23:15 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/04 13:05:19 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int	init_all(t_info *info)
 		return (1);
 	info->in_map = false;
 	info->valid_assets = false;
+	info->map_copied = false;
 	// if (init_mlx(info->mlx))
 	// 	return (1);
 	init_player(info, info->player);

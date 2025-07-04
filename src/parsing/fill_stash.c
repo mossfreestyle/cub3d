@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:26:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/04 02:22:22 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/04 13:43:56 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	fill_stash(t_info *info, char **av)
 			if (!info->map_info->first_map[j - 1])
 				error(info, "Problem during allocation when reading the map",
 					1);
+			if (info->map_info->stash[i + 1] == NULL)
+					info->map_copied = true;
 		}
 		if (!ft_strncmp(info->map_info->stash[i], "\n", 1))
 			continue ;
@@ -53,19 +55,20 @@ void	fill_stash(t_info *info, char **av)
 				info->in_map = true;
 			continue ;
 		}
-		info->in_map = true;
 	}
-	close(info->map_file);
-	// printf("NO=%s\n", info->assets->path_no);
-	// printf("SO=%s\n", info->assets->path_so);
-	// printf("EA=%s\n", info->assets->path_ea);
-	// printf("WE=%s\n", info->assets->path_we);
-	// for (int i = 0; i < 3; i++)
-	// 	printf("C[%d]=%d\n", i, info->assets->ceiling_color[i]);
-	// for (int j = 0; j < 3; j++)
-	// 	printf("F[%d]=%d\n", j, info->assets->floor_color[j]);
-	// printf("VALID=%d\n\n", info->valid_assets);
-	info->map_info->first_map[j] = NULL;
+	printf("NO=%s\n", info->assets->path_no);
+	printf("SO=%s\n", info->assets->path_so);
+	printf("EA=%s\n", info->assets->path_ea);
+	printf("WE=%s\n", info->assets->path_we);
+	for (int i = 0; i < 3; i++)
+		printf("C[%d]=%d\n", i, info->assets->ceiling_color[i]);
+	for (int j = 0; j < 3; j++)
+		printf("F[%d]=%d\n", j, info->assets->floor_color[j]);
+	printf("VALID=%d\n\n", info->valid_assets);
+	if (info->map_copied)
+		info->map_info->first_map[j] = NULL;
+	else
+		error(info, "Invalid map", 1);
 	print_map(info->map_info->first_map);
 	if (check_map_is_last(info, info->map_info->first_map))
 		error(info, "Map format isnt good", 1);
@@ -79,6 +82,7 @@ void	fill_stash(t_info *info, char **av)
 	// check_final_map_is_valid();
 	// setup struct genre indice de spawn, x max, y max, etc ...
 }
+
 
 
 // char	*ft_strjoin_to_line_max(char *src, int limit)
@@ -109,7 +113,10 @@ char	*ft_strjoin_to_line_max(char *src, int limit)
     i = 0;
     while (src[i] && i < limit)
     {
-        res[i] = src[i];
+		if (src[i] == 32)
+			res[i] = 'V';
+        else
+			res[i] = src[i];
         i++;
     }
     while (i < limit)

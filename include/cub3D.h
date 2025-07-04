@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 18:18:04 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/03 23:25:28 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/04 13:05:04 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ typedef struct s_info
 	bool			in_map;
 	bool			valid_map;
 	bool			valid_assets;
+	bool			map_copied;
 	int				map_file;
 
 }					t_info;
