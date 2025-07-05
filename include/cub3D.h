@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 18:18:04 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/05 15:16:07 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:41:45 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "../minilibx-linux/mlx.h"
 # include "../minilibx-linux/mlx_int.h"
-# include "libft.h"	
+# include "libft.h"
 # include <X11/Xlib.h>
 # include <X11/keysym.h>
 # include <fcntl.h>
@@ -26,12 +26,25 @@
 # endif
 
 # ifndef WIDTH_DISPLAY
-#  define WIDTH_DISPLAY 2560
+#  define WIDTH_DISPLAY 1024
 # endif
 
 # ifndef HEIGHT_DISPLAY
-#  define HEIGHT_DISPLAY 1440
+#  define HEIGHT_DISPLAY 768
 # endif
+# define EPS 1e-6
+# define MIN_SCALE 5
+# define MAX_SCALE 12
+# define ROT_SPEED 0.007
+# define MOUSE_SENS 0.01
+# define DIR_LEN 10
+# define MINIMAP_SCALE 8
+
+# define BLACK 0x000000
+# define WHITE 0xFFFFFF
+# define DARK_GREY 0x333333
+# define GREY 0xCCCCCC
+# define RED 0xFF0000
 
 typedef enum s_orientation
 {
@@ -59,6 +72,10 @@ typedef struct s_player
 
 	double			x;
 	double			y;
+	double			dir_x;
+	double			dir_y;
+	double			plane_x;
+	double			plane_y;
 	double			angle;
 	float			speed;
 	float			speed_rot;
@@ -72,8 +89,10 @@ typedef struct s_key
 	int				key_s;
 	int				key_a;
 	int				key_d;
+	int				key_down;
 	int				turn_left;
 	int				turn_right;
+	int				x_old;
 	int				esc;
 	bool			press_w;
 	bool			press_s;
@@ -131,7 +150,7 @@ typedef struct m_mlx
 	int				width;
 	int				height;
 	char			*adr;
-	int bpp; // bit par pixels
+	int				bpp;
 	int				size_line;
 	int				endian;
 }					t_mlx;
@@ -143,32 +162,35 @@ typedef struct s_info
 	t_assets		*assets;
 	t_mlx			*mlx;
 	t_key			*key;
-	// t_ray			*ray;
-	double *radius_buffer; // buffer qui contient toutes les tailles des rayons
+	t_ray			*ray;
+	int				minimap;
+	int				controls;
+	double			*radius_buffer;
 	bool			in_map;
 	bool			valid_map;
 	bool			valid_assets;
 	bool			map_copied;
+	int				map_scale;
 	int				map_file;
 
 }					t_info;
 
-// typedef struct s_ray
-// {
-// 	double			dir_x;
-// 	double			dir_y;
-// 	int				map_x;
-// 	int				map_y;
-// 	double			s_dist_x;
-// 	double			s_dist_y;
-// 	double			d_dist_x;
-// 	double			d_dist_y;
-// 	int				step_x;
-// 	int				step_y;
-// 	int				side;
-// 	int				hit;
-// 	double			wall_dist;
-// }					t_ray;
+typedef struct s_ray
+{
+	double			dir_x;
+	double			dir_y;
+	int				map_x;
+	int				map_y;
+	double			s_dist_x;
+	double			s_dist_y;
+	double			d_dist_x;
+	double			d_dist_y;
+	int				step_x;
+	int				step_y;
+	int				side;
+	int				hit;
+	double			wall_dist;
+}					t_ray;
 
 //////////INIT//////////
 int					init_all(t_info *info);
@@ -220,5 +242,9 @@ bool				ft_isspace(int c);
 size_t				ft_strlenlen(char **tab);
 int					check_is_closed(t_info *info, char **map);
 void				check_double_comma(t_info *info, char *stash);
+int					mouse_move(int x, int y, t_info *cub);
+int					mouse_release(int button, int x, int y, t_info *cub);
+int					mouse_press(int button, int x, int y, t_info *cub);
+void				rotate(t_player *p, double angle);
 
 #endif
