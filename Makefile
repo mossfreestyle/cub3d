@@ -44,7 +44,8 @@ PARSE_FILES = check_cnf.c \
 				final_map.c \
 				utils.c \
 				utils2.c \
-				utils3.c 
+				utils3.c \
+				utils4.c 
 
 
 SRCS		= $(addprefix $(SRC_DIR)/, $(FILES)) \

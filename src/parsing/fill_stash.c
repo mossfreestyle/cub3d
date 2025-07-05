@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:26:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/05 13:57:09 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/06 01:05:14 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ static void	add_first_map_line(t_info *info, int *j, int i)
 {
 	if (!info->map_info->first_map)
 	{
-		info->map_info->first_map = malloc(sizeof(char *)
-				* (get_nb_lines(info->map_info->stash + i) + 1));
+		info->map_info->first_map = ft_calloc(get_nb_lines(info->map_info->stash
+					+ i) + 1, sizeof(char *));
 		if (!info->map_info->first_map)
 			error(info, "problem malloc", 1);
 	}
@@ -75,6 +75,7 @@ void	fill_stash(t_info *info, char **av)
 	info->map_file = open(av[1], O_RDONLY);
 	if (info->map_file < 0)
 		error(info, "Cant open the file", 1);
+	check_file(info, av);
 	str = recup_gnl(info->map_file);
 	if (!str)
 		error(info, "error recup gnl", 1);

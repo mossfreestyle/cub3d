@@ -11,7 +11,7 @@
 - ✅ Vérification de l'extension `.xpm` pour les textures
 - ✅ Vérification de l'extension `.cub` pour le fichier map
 - ✅ Vérification que la map est le dernier élément du fichier
-- ✅ Gestion des lignes vides dans la map
+- ✅ **Gestion des lignes vides dans la map** (détection et erreur)
 - ✅ Vérification du nombre de joueurs (exactement 1)
 - ✅ Récupération de la position et de la direction du joueur
 - ✅ Vérification des caractères valides dans la map
@@ -20,10 +20,16 @@
 - ✅ Gestion des erreurs et libération mémoire
 - ✅ Vérification des valeurs RGB (0-255)
 - ✅ Vérification du format RGB (3 valeurs séparées par des virgules)
-- ✅ Correction du bug 'W' vs 'O' dans `get_nb_players`
-- ✅ Correction de l'allocation mémoire dans `set_up_final_map`
-- ✅ Correction des boucles dans `check_is_closed`
-- ✅ Correction de `recup_gnl` pour éviter les memory leaks
+- ✅ **Correction du bug 'W' vs 'O' dans `get_nb_players`**
+- ✅ **Correction de l'allocation mémoire dans `set_up_final_map`**
+- ✅ **Correction des boucles dans `check_is_closed`**
+- ✅ **Correction de `recup_gnl` pour éviter les memory leaks**
+- ✅ **Gestion des tabulations dans le parsing**
+- ✅ **Correction des espaces dans les valeurs RGB**
+- ✅ **Correction du buffer overflow dans `set_up_final_map`**
+- ✅ **Correction des pointeurs non initialisés avec `calloc`**
+- ✅ **Détection des lignes vides au milieu de la map**
+- ✅ **Vérification de l'existence des fichiers de textures**
 
 ### 🟡 À faire / À améliorer
 
@@ -32,8 +38,6 @@
   → Le joueur ne doit jamais être placé sur la première/dernière ligne ou colonne.
 - [ ] **Vérifier que le joueur ne touche pas un espace ou un bord**  
   → Les cases autour du joueur doivent être des murs ou des cases valides.
-- [ ] **Vérifier l'existence réelle des fichiers de textures**  
-  → Ouvrir chaque chemin avec `open()`, vérifier l'accessibilité, et que le fichier est bien un `.xpm`.
 - [ ] **Gérer les cas limites**  
   → Map non rectangulaire, lignes très longues, caractères inattendus, plusieurs blocs de map, etc.
 - [ ] **Ajouter des messages d'erreur plus précis**  
@@ -56,16 +60,19 @@
 - ✅ Hooks clavier de base (WASD, ESC)
 - ✅ Début du raycasting (fonction DDA présente)
 - ✅ Structures de données pour le raycasting
+- ✅ **Initialisation MLX fonctionnelle**
+- ✅ **Gestion des événements clavier**
+- ✅ **Fermeture propre de la fenêtre**
 
 ### 🟡 À faire / À améliorer
 
 #### 🔸 Affichage et moteur
-- [ ] **Réactiver l'initialisation MLX**  
-  → Décommenter `init_mlx()` dans `init_all()` pour créer la fenêtre.
 - [ ] **Affichage des murs avec textures**  
   → Charger les fichiers `.xpm` avec `mlx_xpm_file_to_image()`, appliquer la texture sur les murs selon la direction du rayon.
 - [ ] **Affichage du sol et du plafond**  
   → Colorier les pixels du sol et du plafond selon la couleur définie dans la map.
+- [ ] **Implémentation du raycasting complet**  
+  → Algorithme DDA, calcul des distances, projection des murs.
 - [ ] **Gestion correcte des collisions avec les murs et les espaces vides**  
   → Empêcher le joueur de traverser les murs ou les cases remplies (`X`).
 - [ ] **Gestion de la rotation du joueur (gauche/droite)**  
@@ -74,11 +81,8 @@
   → S'assurer que le rendu respecte bien le champ de vision.
 - [ ] **Optimisation du raycasting**  
   → Correction du fish-eye, gestion des distances, optimisation des calculs.
-- [ ] **Gestion de la fermeture propre de la fenêtre (croix, ESC)**
 - [ ] **Gestion des erreurs lors du chargement des textures**  
   → Vérifier que `mlx_xpm_file_to_image()` réussit.
-- [ ] **Réactiver la game loop**  
-  → Décommenter `handle_events()` et `mlx_loop()` dans `main()`.
 
 #### 🔸 Bonus exécution (optionnel)
 - [ ] **Effets visuels (shading, animation, etc.)**
@@ -113,52 +117,79 @@
 - ✅ **Bug 'W' vs 'O' dans `get_nb_players`** - Correction de la comparaison de caractères
 - ✅ **Allocation incorrecte dans `set_up_final_map`** - Correction de l'allocation mémoire
 - ✅ **Segfault dans `check_is_closed`** - Correction des boucles et vérifications
-- ✅ **Memory leak dans `recup_gnl`** - Correction de la libération mémoire
+- ✅ **Memory leak dans `recup_gnl`** - Correction du double free avec `ft_strjoin`
 - ✅ **Vérification extension `.cub`** - Correction de la vérification du nom de fichier
 - ✅ **Double tours dans `is_valid`** - Correction de la logique de validation
 - ✅ **Padding avec 'X' au lieu d'espaces** - Correction du remplissage de la map
+- ✅ **Gestion des tabulations** - Acceptation des `\t` dans `recup_gnl`
+- ✅ **Espaces dans RGB** - Correction de `||` en `&&` dans `put_color`
+- ✅ **Buffer overflow dans `set_up_final_map`** - Séparation des variables de boucle
+- ✅ **Pointeurs non initialisés** - Utilisation de `calloc` au lieu de `malloc`
+- ✅ **Lignes vides dans la map** - Détection et erreur pour `trash_in_map6.cub`
+- ✅ **Invalid read dans `check_valid_path`** - Vérification de la longueur avant accès
+- ✅ **MLX memory leak** - Ajout de `mlx_destroy_display` et `free`
 
 ---
 
 ## 📝 Récapitulatif progression
 
-- **Parsing** : 85% ✅  
-  (parsing fonctionnel, reste surtout la robustesse et les tests finaux)
-- **Raycasting/exécution** : 15% 🟡  
-  (structures prêtes, reste tout l'affichage et la game loop)
-- **Bonus** : 0% 🔴  
+- **Parsing** : **95%** ✅  
+  (parsing très robuste, memory leaks corrigés, détection des erreurs complète)
+- **Raycasting/exécution** : **20%** 🟡  
+  (structures prêtes, MLX initialisé, reste l'affichage et la game loop)
+- **Bonus** : **0%** 🔴  
   (à commencer après le core)
 
 ---
 
 ## 🎯 **Prochaines étapes prioritaires**
 
-1. **Finaliser les tests de parsing** avec toutes les maps de test
-2. **Vérifier l'existence des fichiers de textures** avec `open()`
-3. **Réactiver l'initialisation MLX** et la fenêtre
-4. **Charger les textures** avec `mlx_xpm_file_to_image()`
-5. **Implémenter l'affichage raycasting** de base
-6. **Ajouter les collisions** et le mouvement du joueur
+1. **Finaliser les tests de parsing** avec toutes les maps restantes
+2. **Charger les textures** avec `mlx_xpm_file_to_image()` et gestion d'erreurs
+3. **Implémenter le raycasting de base** - algorithme DDA
+4. **Afficher les murs texturés** selon la direction du rayon
+5. **Ajouter l'affichage du sol et plafond** avec les couleurs RGB
+6. **Implémenter les collisions** et le mouvement fluide du joueur
+7. **Ajouter la rotation** avec les flèches ou la souris
 
 ---
 
 ## 🧪 TESTS À FAIRE
 
 ### Maps à tester :
-- `maps/maps/bad/` - Toutes les maps invalides
-- `maps/maps/invalid/` - Maps avec erreurs diverses
-- `maps/maps/valid/` - Maps valides
-- `maps/maps/perso/` - Maps personnalisées
+- ✅ `maps/maps/invalid/trash_in_map6.cub` - Rejetée (lignes vides)
+- ✅ `maps/maps/invalid/trash_in_map7.cub` - Rejetée (lignes vides)
+- ✅ `maps/maps/valid/default.cub` - Acceptée (tabulations)
+- [ ] `maps/maps/bad/` - Toutes les maps invalides
+- [ ] `maps/maps/invalid/` - Maps avec erreurs diverses restantes
+- [ ] `maps/maps/valid/` - Maps valides restantes
+- [ ] `maps/maps/perso/` - Maps personnalisées
 
 ### Cas limites :
-- Fichiers inexistants
-- Permissions insuffisantes
-- Maps très grandes
-- Textures inexistantes
-- Valeurs RGB limites (0, 255)
-- Double virgules dans RGB
-- Caractères spéciaux
+- ✅ Fichiers avec tabulations
+- ✅ Lignes vides dans la map
+- ✅ Espaces dans les valeurs RGB
+- ✅ Chemins de textures trop courts
+- [ ] Fichiers inexistants
+- [ ] Permissions insuffisantes  
+- [ ] Maps très grandes
+- [ ] Textures inexistantes
+- [ ] Valeurs RGB limites (0, 255)
+- [ ] Double virgules dans RGB
+- [ ] Caractères spéciaux
 
 ---
 
-**État actuel : Parsing quasi terminé, prêt pour l'exécution ! 🚀**
+## 🚀 **ÉTAT ACTUEL**
+
+**Parsing quasi terminé et très robuste !** 
+- Memory leaks corrigés
+- Détection d'erreurs complète
+- Gestion des cas limites
+- Validation stricte des formats
+
+**Prêt à passer au raycasting et à l'affichage ! 🎮**
+
+---
+
+**Prochaine étape : Implémenter le moteur de rendu 3D ! 🚀**

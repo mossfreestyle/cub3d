@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 12:05:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/05 15:44:47 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/06 01:13:30 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,14 @@ void	destroy_all(t_info *info)
 		mlx_destroy_image(info->mlx->mlx, info->assets->ea);
 	if (info->assets->we)
 		mlx_destroy_image(info->mlx->mlx, info->assets->we);
-	if (info->mlx->window)
-		mlx_destroy_window(info->mlx->mlx, info->mlx->window);
-	if (info->mlx->mlx)
+	if (info->map_info->map_ready)
 	{
+		if (info->mlx->window)
+			mlx_destroy_window(info->mlx->mlx, info->mlx->window);
+		if (info->mlx->mlx)
+		{
             mlx_destroy_display(info->mlx->mlx);
             free(info->mlx->mlx);
+		}
 	}
 }

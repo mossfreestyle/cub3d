@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:29:30 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/05 15:58:46 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/06 01:08:17 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,46 +44,27 @@ static int	check_valid_rgb(t_info *info, char c)
 	return (0);
 }
 
-void	add_rgb(t_info *info, char **tmp, char c)
+static void	assign_color(t_info *info, char **tmp, int *color, bool *is_set)
 {
-	if (ft_strlenlen(tmp) != 4)
+	if (*is_set)
 	{
 		free_tab(tmp);
-		error(info, "RGB format error", 1);
+		error(info, "data x2 is forbidden !!!!!!!", 1);
 	}
-	if (c != 'C' && c != 'F')
-	{
-		free_tab(tmp);
-		error(info, "Error rgb", 1);
-	}
-	if (put_color(info, tmp))
-	{
-		free_tab(tmp);
-		error(info, "poblem with rgb", 1);
-	}
-	return ;
+	color[0] = ft_atoi(tmp[1]);
+	color[1] = ft_atoi(tmp[2]);
+	color[2] = ft_atoi(tmp[3]);
+	*is_set = true;
 }
 
 static void	check_color(t_info *info, char **tmp)
 {
 	if (tmp[0][0] == 'C')
-	{
-		if (info->assets->c_color)
-			error(info, "data x2 is forbidden !!!!!!!", 1);
-		info->assets->ceiling_color[0] = ft_atoi(tmp[1]);
-		info->assets->ceiling_color[1] = ft_atoi(tmp[2]);
-		info->assets->ceiling_color[2] = ft_atoi(tmp[3]);
-		info->assets->c_color = true;
-	}
+		assign_color(info, tmp, info->assets->ceiling_color,
+			&info->assets->c_color);
 	else if (tmp[0][0] == 'F')
-	{
-		if (info->assets->f_color)
-			error(info, "data x2 is forbidden !!!!!!!", 1);
-		info->assets->floor_color[0] = ft_atoi(tmp[1]);
-		info->assets->floor_color[1] = ft_atoi(tmp[2]);
-		info->assets->floor_color[2] = ft_atoi(tmp[3]);
-		info->assets->f_color = true;
-	}
+		assign_color(info, tmp, info->assets->floor_color,
+			&info->assets->f_color);
 	else
 	{
 		free_tab(tmp);
@@ -98,18 +79,18 @@ int	put_color(t_info *info, char **tmp)
 
 	i = 1;
 	while (tmp[i])
-    {
-        j = 0;
-        while (tmp[i][j])
-        {
-            if (!ft_isdigit(tmp[i][j]) && !ft_isspace(tmp[i][j]))
-                return (1);
-            j++;
-        }
-        if (ft_atoi(tmp[i]) > 255 || ft_atoi(tmp[i]) < 0)
-            return (1);
-        i++;
-    }
+	{
+		j = 0;
+		while (tmp[i][j])
+		{
+			if (!ft_isdigit(tmp[i][j]) && !ft_isspace(tmp[i][j]))
+				return (1);
+			j++;
+		}
+		if (ft_atoi(tmp[i]) > 255 || ft_atoi(tmp[i]) < 0)
+			return (1);
+		i++;
+	}
 	check_color(info, tmp);
 	if (!check_valid_rgb(info, tmp[0][0]))
 	{

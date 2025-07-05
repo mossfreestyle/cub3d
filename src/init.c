@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 22:54:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/05 15:45:18 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/06 01:28:53 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ static void	init_player(t_info *info, t_player *player)
 	player->speed_rot = 0.5;
 }
 
-static int	init_mlx(t_mlx *mlx)
+int	init_mlx(t_mlx *mlx)
 {
+	mlx->mlx = NULL;
+    mlx->window = NULL;
 	mlx->mlx = mlx_init();
 	if (!mlx->mlx)
 		return (1);
@@ -74,6 +76,7 @@ static void	init_map(t_map *map_info)
 	map_info->y_spawn = 5;
 	map_info->line_max = 0;
 	map_info->closed = false;
+	map_info->map_ready = false;
 	map_info->distance_to_wall = 0;
 	map_info->nb_players = 0;
 	map_info->x_max = 0;
@@ -98,14 +101,12 @@ int	init_all(t_info *info)
 	info->assets = malloc(sizeof(t_assets));
 	if (!info->assets)
 		return (1);
-	info->radius_buffer = malloc(1);
+	info->radius_buffer = malloc(1); //a fix
 	if (!info->radius_buffer)
 		return (1);
 	info->in_map = false;
 	info->valid_assets = false;
 	info->map_copied = false;
-	if (init_mlx(info->mlx))
-		return (1);
 	init_player(info, info->player);
 	init_map(info->map_info);
 	init_key(info->key);

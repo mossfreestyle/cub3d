@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 18:18:04 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/05 16:41:45 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/07/06 01:34:31 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ typedef struct s_map
 	int				x_max;
 	int				y_max;
 	bool			closed;
+	bool			map_ready;
 	int				distance_to_wall;
 	int				nb_players;
 	int				nb_lines;
@@ -155,6 +156,23 @@ typedef struct m_mlx
 	int				endian;
 }					t_mlx;
 
+typedef struct s_ray
+{
+	double			dir_x;
+	double			dir_y;
+	int				map_x;
+	int				map_y;
+	double			s_dist_x;
+	double			s_dist_y;
+	double			d_dist_x;
+	double			d_dist_y;
+	int				step_x;
+	int				step_y;
+	int				side;
+	int				hit;
+	double			wall_dist;
+}					t_ray;
+
 typedef struct s_info
 {
 	t_player		*player;
@@ -174,23 +192,6 @@ typedef struct s_info
 	int				map_file;
 
 }					t_info;
-
-typedef struct s_ray
-{
-	double			dir_x;
-	double			dir_y;
-	int				map_x;
-	int				map_y;
-	double			s_dist_x;
-	double			s_dist_y;
-	double			d_dist_x;
-	double			d_dist_y;
-	int				step_x;
-	int				step_y;
-	int				side;
-	int				hit;
-	double			wall_dist;
-}					t_ray;
 
 //////////INIT//////////
 int					init_all(t_info *info);
@@ -229,6 +230,8 @@ int					check_map_is_last(t_info *info, char **map);
 void				set_up_final_map(t_info *info);
 void				print_map(char **map);
 int					put_color(t_info *info, char **tmp);
+void				check_file(t_info *info, char **av);
+int					init_mlx(t_mlx *mlx);
 
 ///////UTILS////////////////
 int					is_texture_line(char **stash);

@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:27:19 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/05 15:29:28 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/05 23:55:15 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,39 @@ static void	put_true_to_valid_assets(t_info *info)
 		info->valid_assets = true;
 }
 
-static char	*check_valid_path(t_info *info, char *stash)
+static char	*check_valid_path(t_info *info, char *stash, char **tmp)
 {
 	char	*path;
 	int		len;
 
 	len = ft_strlen(stash);
+	if (len < 4)
+	{
+		free_tab(tmp);
+		error(info, "Path too short, need .xpm extension", 1);
+	}
 	if (ft_strncmp(stash + len - 4, ".xpm", 4))
+	{
+		free_tab(tmp);
 		error(info, "Need a valid .xpm file", 1);
+	}
 	path = ft_strdup(stash);
 	if (!path)
+	{
+		free_tab(tmp);
 		error(info, "Malloc failed when allocating for path", 1);
+	}
 	return (path);
 }
 
 static char	*assign_path(t_info *info, char *path, char **stash)
 {
 	if (path)
+	{
+		free_tab(stash);
 		error(info, "data x2 is forbidden !!!!!!!", 1);
-	path = check_valid_path(info, stash[1]);
+	}
+	path = check_valid_path(info, stash[1], stash);
 	if (!path)
 		return (NULL);
 	return (path);
