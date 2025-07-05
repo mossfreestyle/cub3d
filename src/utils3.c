@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 22:21:13 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/04 12:32:52 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/05 15:48:30 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,8 @@ int	check_arg(char *msg, int exit_code)
 
 int	error(t_info *info, char *msg, int exit_code)
 {
-	// destroy_all(info);
-	// free_all(info);
-	close(info->map_file);
+	destroy_all(info);
+	free_all(info);
 	ft_putstr_fd(ERROR_MSG, 2);
 	ft_putendl_fd(msg, 2);
 	exit(exit_code);

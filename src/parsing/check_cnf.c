@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:29:30 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/05 13:34:18 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/05 15:58:46 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,15 @@ void	add_rgb(t_info *info, char **tmp, char c)
 		error(info, "RGB format error", 1);
 	}
 	if (c != 'C' && c != 'F')
+	{
+		free_tab(tmp);
 		error(info, "Error rgb", 1);
+	}
 	if (put_color(info, tmp))
-		error(info, "problem with rgb", 1);
+	{
+		free_tab(tmp);
+		error(info, "poblem with rgb", 1);
+	}
 	return ;
 }
 
@@ -92,19 +98,18 @@ int	put_color(t_info *info, char **tmp)
 
 	i = 1;
 	while (tmp[i])
-	{
-		j = 0;
-		while (tmp[i][j])
-		{
-			if (!ft_isdigit(tmp[i][j]))
-				return (1);
-			if (ft_strlen(tmp[i]) > 3 || ft_atoi(tmp[i]) > 255
-				|| ft_atoi(tmp[i]) < 0)
-				return (1);
-			j++;
-		}
-		i++;
-	}
+    {
+        j = 0;
+        while (tmp[i][j])
+        {
+            if (!ft_isdigit(tmp[i][j]) && !ft_isspace(tmp[i][j]))
+                return (1);
+            j++;
+        }
+        if (ft_atoi(tmp[i]) > 255 || ft_atoi(tmp[i]) < 0)
+            return (1);
+        i++;
+    }
 	check_color(info, tmp);
 	if (!check_valid_rgb(info, tmp[0][0]))
 	{

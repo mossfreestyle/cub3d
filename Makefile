@@ -39,12 +39,12 @@ FILES = main.c \
 		free_n_destroy.c
 
 PARSE_FILES = check_cnf.c \
-				check_map.c \
 				check_path.c \
 				fill_stash.c \
 				final_map.c \
 				utils.c \
-				utils2.c 
+				utils2.c \
+				utils3.c 
 
 
 SRCS		= $(addprefix $(SRC_DIR)/, $(FILES)) \

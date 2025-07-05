@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 18:17:05 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/05 13:33:29 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/05 15:41:56 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ int	main(int ac, char **av)
 	t_info	*info;
 	int		len;
 
+	if (ac != 2)
+		return (check_arg("Only need a map.cub", 1));
 	len = ft_strlen(av[1]);
-	if (ac != 2 || len < 4 || ft_strncmp(av[1] + len - 4, ".cub", 4))
+	if (len < 4 || ft_strncmp(av[1] + len - 4, ".cub", 4))
 		return (check_arg("Only need a map.cub", 1));
 	info = malloc(sizeof(t_info));
 	if (!info)
@@ -29,8 +31,8 @@ int	main(int ac, char **av)
 		return (error(info, "Problem during the initiation", 1));
 	fill_stash(info, av);
 	print_all(info);
-	// handle_events(info);
-	// mlx_loop(info->mlx->mlx);
+	handle_events(info);
+	mlx_loop(info->mlx->mlx);
 	destroy_all(info);
 	free_all(info);
 	return (0);

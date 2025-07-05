@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_map.c                                        :+:      :+:    :+:   */
+/*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 20:36:36 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/05 13:43:42 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/05 15:53:04 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	check_double_comma(t_info *info, char *stash)
 		j++;
 	while (stash[j])
 	{
-		if (!ft_isdigit(stash[j]) && stash[j] != ',')
+		if (!ft_isdigit(stash[j]) && stash[j] != ',' && !ft_isspace(stash[j]))
 			error(info, "only digit and ; are avaible in color", 1);
 		j++;
 	}

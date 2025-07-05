@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:27:19 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/05 13:39:54 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/05 15:29:28 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static char	*assign_path(t_info *info, char *path, char **stash)
 	if (path)
 		error(info, "data x2 is forbidden !!!!!!!", 1);
 	path = check_valid_path(info, stash[1]);
+	if (!path)
+		return (NULL);
 	return (path);
 }
 

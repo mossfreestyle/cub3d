@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:34:23 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/05 13:43:54 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/05 15:49:18 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ char	*recup_gnl(int fd)
 		if (!tmp)
 			break ;
 		while (tmp[++i])
-			if (!ft_isprint(tmp[i]) && tmp[i] != '\n' && tmp[i] != '\0')
+			if (!ft_isprint(tmp[i]) && tmp[i] != '\n' && tmp[i] != '\0'
+				&& tmp[i] != '\t')
 				return (free(str), free(tmp), get_next_line(-1), close(fd),
 					NULL);
 		str = ft_strjoin(str, tmp);
