@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:26:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/04 15:30:04 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/05 13:41:37 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	fill_stash(t_info *info, char **av)
 {
 	int		i;
 	int		j;
-	char *str;
+	char	*str;
 
 	i = -1;
 	j = 0;
@@ -35,7 +35,8 @@ void	fill_stash(t_info *info, char **av)
 		{
 			if (!info->map_info->first_map)
 			{
-				info->map_info->first_map = malloc(sizeof(char *) * (get_nb_lines(info->map_info->stash + i) + 1));
+				info->map_info->first_map = malloc(sizeof(char *)
+						* (get_nb_lines(info->map_info->stash + i) + 1));
 				if (!info->map_info->first_map)
 					error(info, "probelem malloc", 1);
 			}
@@ -44,11 +45,12 @@ void	fill_stash(t_info *info, char **av)
 				error(info, "Problem during allocation when reading the map",
 					1);
 			if (info->map_info->stash[i + 1] == NULL)
-					info->map_copied = true;
+				info->map_copied = true;
 		}
 		if (!ft_strncmp(info->map_info->stash[i], "\n", 1))
 			continue ;
-		if (!is_texture(info->map_info->stash[i]) && !is_valid(info, info->map_info->stash[i]))
+		if (!is_texture(info->map_info->stash[i]) && !is_valid(info,
+				info->map_info->stash[i]))
 			error(info, "Invalid line in map file", 1);
 		if (!info->valid_assets)
 		{
@@ -58,36 +60,18 @@ void	fill_stash(t_info *info, char **av)
 			continue ;
 		}
 	}
-	printf("NO=%s\n", info->assets->path_no);
-	printf("SO=%s\n", info->assets->path_so);
-	printf("EA=%s\n", info->assets->path_ea);
-	printf("WE=%s\n", info->assets->path_we);
-	for (int i = 0; i < 3; i++)
-		printf("C[%d]=%d\n", i, info->assets->ceiling_color[i]);
-	for (int j = 0; j < 3; j++)
-		printf("F[%d]=%d\n", j, info->assets->floor_color[j]);
-	printf("VALID=%d\n\n", info->valid_assets);
 	if (info->map_copied)
 		info->map_info->first_map[j] = NULL;
 	else
 		error(info, "Invalid map", 1);
-	print_map(info->map_info->first_map);
 	if (check_map_is_last(info, info->map_info->first_map))
 		error(info, "Map format isnt good", 1);
-	// parse_map(info);
-	// info->map_info->final_map = add_tmp(info, tmp);
-	// permet de choisir le bout de map ou se trouve le player
-	// free_tab(tmp);
 	set_up_final_map(info);
-	printf("\n\n===================================\n\n");
-	print_map(info->map_info->final_map);
 	// check_final_map_is_valid();
 	// setup struct genre indice de spawn, x max, y max, etc ...
 }
 
-
-
-// char	*ft_strjoin_to_line_max(char *src, int limit)
+// char	*equal_line(char *src, int limit)
 // {
 // 	int		i;
 // 	char	*res;
@@ -104,25 +88,30 @@ void	fill_stash(t_info *info, char **av)
 // 	return (res);
 // }
 
-char	*ft_strjoin_to_line_max(char *src, int limit)
+char	*equal_line(char *src, int limit)
 {
-    char	*res;
-    int		i;
+	char	*res;
+	int		i;
 
-    res = malloc(sizeof(char) * (limit + 1));
-    if (!res)
-        return (NULL);
-    i = 0;
-    while (src[i] && i < limit)
-    {
+	res = malloc(sizeof(char) * (limit + 1));
+	if (!res)
+		return (NULL);
+	i = 0;
+	while (src[i] && i < limit)
+	{
 		if (src[i] == 32)
-			res[i] = 'V';
-        else
+		{
+			if (only_white_spaces(src + i))
+				res[i] = 'X';
+			else
+				res[i] = 'V';
+		}
+		else
 			res[i] = src[i];
-        i++;
-    }
-    while (i < limit)
-        res[i++] = 'X';
-    res[i] = '\0';
-    return (res);
+		i++;
+	}
+	while (i < limit)
+		res[i++] = 'X';
+	res[i] = '\0';
+	return (res);
 }

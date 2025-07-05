@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:37:20 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/04 01:43:56 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/05 13:42:12 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,52 +40,58 @@ int	check_map_is_last(t_info *info, char **map)
 	return (0);
 }
 
-void print_map(char **map)
+void	print_map(char **map)
 {
-	int i;
-	
+	int	i;
+
 	i = -1;
-	while(map[++i])
-		printf("%s\n",map[i]);
+	while (map[++i])
+		printf("%s\n", map[i]);
 }
 
+static int	is_invalid_position(char **map, int y, int x, int len)
+{
+	if (y == 0 || !map[y + 1] || x == 0 || x == len - 1)
+		return (1);
+	if (y > 0)
+	{
+		if (x >= (int)ft_strlen(map[y - 1]) || map[y - 1][x] == 'X')
+			return (1);
+	}
+	if (map[y + 1])
+	{
+		if (x >= (int)ft_strlen(map[y + 1]) || map[y + 1][x] == 'X')
+			return (1);
+	}
+	if ((x > 0 && map[y][x - 1] == 'X') || (x < len - 1 && map[y][x
+			+ 1] == 'X'))
+		return (1);
+	return (0);
+}
 
 int	check_is_closed(t_info *info, char **map)
 {
-    int	len;
-    int y, x;
-    
+	int	len;
+	int	y;
+	int	x;
+
 	(void)info;
-    if (!map)
-        return (1);
-    
-    y = 0;
-    while (map[y])
-    {
-        if (!map[y])
-            break;
-            
-        len = ft_strlen(map[y]);
-        x = 0;
-        while (x < len)
-        {
-            if (map[y][x] == '0' || map[y][x] == 'N' || map[y][x] == 'S' || 
-                map[y][x] == 'E' || map[y][x] == 'O')
-            {
-                if (y == 0 || !map[y + 1] || x == 0 || x == len - 1)
-                    return (1);
-                if (y > 0 && (x >= (int)ft_strlen(map[y - 1]) || map[y - 1][x] == 'X'))
-                    return (1);
-                if (map[y + 1] && (x >= (int)ft_strlen(map[y + 1]) || map[y + 1][x] == 'X'))
-                    return (1);
-                if (x > 0 && map[y][x - 1] == 'X')
-                    return (1);
-                if (x < len - 1 && map[y][x + 1] == 'X')
-                    return (1);
-            }
-            x++;
-        }
-        y++;
-    }
-    return (0);
+	if (!map)
+		return (1);
+	y = 0;
+	while (map[y])
+	{
+		len = ft_strlen(map[y]);
+		x = 0;
+		while (x < len)
+		{
+			if (map[y][x] == '0' || map[y][x] == 'N' || map[y][x] == 'S'
+				|| map[y][x] == 'E' || map[y][x] == 'O')
+				if (is_invalid_position(map, y, x, len))
+					return (1);
+			x++;
+		}
+		y++;
+	}
+	return (0);
 }

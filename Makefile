@@ -36,13 +36,13 @@ FILES = main.c \
 		is_pressed.c \
 		init.c \
 		handle_events.c \
+		free_n_destroy.c
 
 PARSE_FILES = check_cnf.c \
 				check_map.c \
 				check_path.c \
 				fill_stash.c \
 				final_map.c \
-				free_n_destroy.c \
 				utils.c \
 				utils2.c 
 

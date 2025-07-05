@@ -7,7 +7,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/cub3D",
             "args": [
-                "maps/maps/bad/color_missing.cub"
+                "maps/map.cub"
             ],
             "MIMode": "gdb",
             "cwd": "${workspaceFolder}",

@@ -6,20 +6,18 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:29:30 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/03 23:42:07 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/05 13:34:18 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-
-static bool ft_is_rgb(int c)
+static bool	ft_is_rgb(int c)
 {
 	if (c >= 0 && c <= 255)
 		return (true);
 	return (false);
 }
-
 
 static int	check_valid_rgb(t_info *info, char c)
 {
@@ -60,26 +58,8 @@ void	add_rgb(t_info *info, char **tmp, char c)
 	return ;
 }
 
-int	put_color(t_info *info, char **tmp)
+static void	check_color(t_info *info, char **tmp)
 {
-	int i;
-	int j;
-
-	i = 1;
-	while (tmp[i])
-	{
-		j = 0;
-		while(tmp[i][j])
-		{
-			if (!ft_isdigit(tmp[i][j]))
-				return 1;
-			if (ft_strlen(tmp[i]) > 3 || ft_atoi(tmp[i]) > 255
-					|| ft_atoi(tmp[i]) < 0)
-					return 1;
-			j++;
-		}
-		i++;
-	}
 	if (tmp[0][0] == 'C')
 	{
 		if (info->assets->c_color)
@@ -103,6 +83,29 @@ int	put_color(t_info *info, char **tmp)
 		free_tab(tmp);
 		error(info, "Wrong character to add rgb values", 1);
 	}
+}
+
+int	put_color(t_info *info, char **tmp)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (tmp[i])
+	{
+		j = 0;
+		while (tmp[i][j])
+		{
+			if (!ft_isdigit(tmp[i][j]))
+				return (1);
+			if (ft_strlen(tmp[i]) > 3 || ft_atoi(tmp[i]) > 255
+				|| ft_atoi(tmp[i]) < 0)
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	check_color(info, tmp);
 	if (!check_valid_rgb(info, tmp[0][0]))
 	{
 		free_tab(tmp);
@@ -110,4 +113,3 @@ int	put_color(t_info *info, char **tmp)
 	}
 	return (0);
 }
-

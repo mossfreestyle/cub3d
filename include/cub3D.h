@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 18:18:04 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/04 15:29:10 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/05 13:41:33 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ int					get_nb_lines(char **map);
 int					only_white_spaces(char *str);
 int					get_nb_players(t_info *info, char **map);
 int					is_valid(t_info *info, char *str);
-char				*ft_strjoin_to_line_max(char *src, int limit);
+char				*equal_line(char *src, int limit);
 char				**add_tmp(t_info *info, char **tmp);
 int					check_map_is_last(t_info *info, char **map);
 void				set_up_final_map(t_info *info);
@@ -219,5 +219,6 @@ int					move(t_info *info);
 bool				ft_isspace(int c);
 size_t				ft_strlenlen(char **tab);
 int					check_is_closed(t_info *info, char **map);
+void				check_double_comma(t_info *info, char *stash);
 
 #endif

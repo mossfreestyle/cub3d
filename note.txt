@@ -24,6 +24,7 @@ fix makefile make fclean puis make
 
 
 
+
 Pour les espace dans la map
 Comme le dit le sujet en anglais Spaces are a valid part of the map and are up to you to handle. 
 Ou en francais Les espaces sont une partie valable de la carte, c’est à vous de les gérer correctement.

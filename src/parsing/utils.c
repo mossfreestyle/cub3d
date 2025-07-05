@@ -6,35 +6,35 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:34:23 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/04 15:09:00 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/05 13:43:54 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	get_nb_lines(char **map)
+static void	check_player(t_info *info, int count, char c)
 {
-	int	i;
-
-	i = -1;
-	while (map[++i])
-		continue ;
-	return (i);
+	if (count == 1)
+	{
+		if (c == 'N')
+			info->player->view = N;
+		else if (c == 'S')
+			info->player->view = S;
+		else if (c == 'E')
+			info->player->view = E;
+		else if (c == 'W')
+			info->player->view = W;
+	}
 }
 
-int	only_white_spaces(char *str)
+static char	assign_player(t_info *info, int i, int j, char value_pos_player)
 {
-    int	i;
+	char	c;
 
-    if (!str)
-        return (1);
-    i = -1;
-    while (str[++i])
-    {
-        if (str[i] != ' ' && str[i] != '\t' && str[i] != '\n')
-            return (0);
-    }
-    return (1);
+	c = value_pos_player;
+	info->map_info->x_spawn = j;
+	info->map_info->y_spawn = i;
+	return (c);
 }
 
 int	get_nb_players(t_info *info, char **map)
@@ -57,64 +57,31 @@ int	get_nb_players(t_info *info, char **map)
 			{
 				count++;
 				if (count == 1)
-				{
-					c = map[i][j];
-					info->map_info->x_spawn = j;
-					info->map_info->y_spawn = i;
-				}
+					c = assign_player(info, i, j, map[i][j]);
 			}
 		}
 	}
-	if (count == 1)
-	{
-		if (c == 'N')
-			info->player->view = N;
-		else if (c == 'S')
-			info->player->view = S;
-		else if (c == 'E')
-			info->player->view = E;
-		else if (c == 'W')
-			info->player->view = W;
-	}
+	check_player(info, count, c);
 	return (count);
 }
 
-
 int	find_longuest_line(char **map)
 {
-    int	max = 0;
-    int	len;
-    int	i = 0;
+	int	max;
+	int	len;
+	int	i;
 
-    while (map[i])
-    {
-        len = ft_strlen(map[i]);
-        if (len > max && !only_white_spaces(map[i]))
-            max = len;
-        i++;
-    }
-    return (max);
+	max = 0;
+	i = 0;
+	while (map[i])
+	{
+		len = ft_strlen(map[i]);
+		if (len > max && !only_white_spaces(map[i]))
+			max = len;
+		i++;
+	}
+	return (max);
 }
-
-int	is_valid(t_info *info, char *str)
-{
-    int	i;
-
-    if (!str)
-        return (0);
-    (void)info;
-    i = -1;
-    while (str[++i])
-    {
-        if (str[i] == '0' || str[i] == '1' || str[i] == '\n' || str[i] == ' '
-            || str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'W')
-            continue;
-        else
-            return (0);
-    }
-    return (1);
-}
-
 
 char	*recup_gnl(int fd)
 {
@@ -133,55 +100,12 @@ char	*recup_gnl(int fd)
 			break ;
 		while (tmp[++i])
 			if (!ft_isprint(tmp[i]) && tmp[i] != '\n' && tmp[i] != '\0')
-				return (free(str), free(tmp), get_next_line(-1), NULL);
+				return (free(str), free(tmp), get_next_line(-1), close(fd),
+					NULL);
 		str = ft_strjoin(str, tmp);
 		if (!str)
-			return (NULL);
+			return (close(fd), NULL);
 	}
 	close(fd);
 	return (str);
 }
-
-// char	*recup_gnl(int fd) //new version
-// {
-//     char	*str;
-//     char	*tmp;
-//     char	*new_str;
-//     int		i;
-
-//     str = NULL;
-//     if (fd == -1)
-//         return (NULL);
-//     while (1)
-//     {
-//         tmp = get_next_line(fd);
-//         if (!tmp)
-//             break ;
-        
-//         i = -1;
-//         while (tmp[++i])
-//         {
-//             if (!ft_isprint(tmp[i]) && tmp[i] != '\n' && tmp[i] != '\0')
-//             {
-//                 free(str);
-//                 free(tmp);
-//                 get_next_line(-1);
-//                 close(fd);
-//                 return (NULL);
-//             }
-//         }
-        
-//         new_str = ft_strjoin(str, tmp);
-//         free(tmp);  // ✅ Libère tmp
-//         if (!new_str)
-//         {
-//             free(str);  // ✅ Libère str
-//             close(fd);
-//             return (NULL);
-//         }
-//         free(str);  // ✅ Libère l'ancien str
-//         str = new_str;
-//     }
-//     close(fd);
-//     return (str);
-// }
