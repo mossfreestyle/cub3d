@@ -6,11 +6,63 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:26:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/05 13:41:37 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/05 13:57:09 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+static char	*ft_dup(const char *s)
+{
+	int		i;
+	char	*tab;
+
+	tab = (char *)s;
+	i = 0;
+	tab = malloc(sizeof(char) * ft_strlen(s) + 1);
+	if (!tab)
+		return (NULL);
+	while (s[i])
+	{
+		tab[i] = s[i];
+		i++;
+	}
+	tab[i] = '\0';
+	return (tab);
+}
+
+static void	add_first_map_line(t_info *info, int *j, int i)
+{
+	if (!info->map_info->first_map)
+	{
+		info->map_info->first_map = malloc(sizeof(char *)
+				* (get_nb_lines(info->map_info->stash + i) + 1));
+		if (!info->map_info->first_map)
+			error(info, "problem malloc", 1);
+	}
+	info->map_info->first_map[(*j)++] = ft_dup(info->map_info->stash[i]);
+	if (!info->map_info->first_map[(*j) - 1])
+		error(info, "Problem during allocation when reading the map", 1);
+	if (info->map_info->stash[i + 1] == NULL)
+		info->map_copied = true;
+}
+
+static void	process_stash_line(t_info *info, int *j, int i)
+{
+	if (info->in_map)
+		add_first_map_line(info, j, i);
+	if (!ft_strncmp(info->map_info->stash[i], "\n", 1))
+		return ;
+	if (!is_texture(info->map_info->stash[i]) && !is_valid(info,
+			info->map_info->stash[i]))
+		error(info, "Invalid line in map file", 1);
+	if (!info->valid_assets)
+	{
+		check_info(info, info->map_info->stash[i]);
+		if (info->valid_assets)
+			info->in_map = true;
+	}
+}
 
 void	fill_stash(t_info *info, char **av)
 {
@@ -28,38 +80,8 @@ void	fill_stash(t_info *info, char **av)
 		error(info, "error recup gnl", 1);
 	info->map_info->stash = ft_split(str, "\n");
 	free(str);
-	i = -1;
-	while (info->map_info->stash[++i] != NULL)
-	{
-		if (info->in_map)
-		{
-			if (!info->map_info->first_map)
-			{
-				info->map_info->first_map = malloc(sizeof(char *)
-						* (get_nb_lines(info->map_info->stash + i) + 1));
-				if (!info->map_info->first_map)
-					error(info, "probelem malloc", 1);
-			}
-			info->map_info->first_map[j++] = ft_strdup(info->map_info->stash[i]);
-			if (!info->map_info->first_map[j - 1])
-				error(info, "Problem during allocation when reading the map",
-					1);
-			if (info->map_info->stash[i + 1] == NULL)
-				info->map_copied = true;
-		}
-		if (!ft_strncmp(info->map_info->stash[i], "\n", 1))
-			continue ;
-		if (!is_texture(info->map_info->stash[i]) && !is_valid(info,
-				info->map_info->stash[i]))
-			error(info, "Invalid line in map file", 1);
-		if (!info->valid_assets)
-		{
-			check_info(info, info->map_info->stash[i]);
-			if (info->valid_assets)
-				info->in_map = true;
-			continue ;
-		}
-	}
+	while (info->map_info->stash[++i])
+		process_stash_line(info, &j, i);
 	if (info->map_copied)
 		info->map_info->first_map[j] = NULL;
 	else
@@ -67,26 +89,7 @@ void	fill_stash(t_info *info, char **av)
 	if (check_map_is_last(info, info->map_info->first_map))
 		error(info, "Map format isnt good", 1);
 	set_up_final_map(info);
-	// check_final_map_is_valid();
-	// setup struct genre indice de spawn, x max, y max, etc ...
 }
-
-// char	*equal_line(char *src, int limit)
-// {
-// 	int		i;
-// 	char	*res;
-
-// 	i = -1;
-// 	res = malloc(sizeof(char) * (limit + 1));
-// 	if (!res)
-// 		return (NULL);
-// 	ft_strlcpy(res, src, limit + 1);
-// 	i = ft_strlen(res);
-// 	while (i < limit)
-// 		res[i++] = 'X';
-// 	res[i] = '\0';
-// 	return (res);
-// }
 
 char	*equal_line(char *src, int limit)
 {
