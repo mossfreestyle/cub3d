@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 18:18:04 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/06 01:34:31 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/07 16:02:33 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@
 # include <X11/Xlib.h>
 # include <X11/keysym.h>
 # include <fcntl.h>
+# include <math.h>
 # include <stdbool.h>
+# include <stdlib.h>
+# include <unistd.h>
 
 # ifndef ERROR_MSG
 #  define ERROR_MSG "Error\n"
@@ -29,6 +32,7 @@
 #  define WIDTH_DISPLAY 1024
 # endif
 
+# define WIN_TITLE "cub3D"
 # ifndef HEIGHT_DISPLAY
 #  define HEIGHT_DISPLAY 768
 # endif
@@ -39,6 +43,8 @@
 # define MOUSE_SENS 0.01
 # define DIR_LEN 10
 # define MINIMAP_SCALE 8
+# define MAX_TEX 800
+# define MOVE_SPEED 0.007
 
 # define BLACK 0x000000
 # define WHITE 0xFFFFFF
@@ -102,45 +108,6 @@ typedef struct s_key
 	bool			press_turn_right;
 
 }					t_key;
-//////////////ASSETS/////////////////////
-
-typedef struct s_assets
-{
-	char			*path_no;
-	char			*path_so;
-	char			*path_we;
-	char			*path_ea;
-	int				ceiling_color[3];
-	int				floor_color[3];
-	bool			c_color;
-	bool			f_color;
-	bool			valid_cardinals;
-	void			*no;
-	void			*so;
-	void			*we;
-	void			*ea;
-}					t_assets;
-
-//////////MAP//////////////
-
-typedef struct s_map
-{
-	char **stash;     // mettre tout le file ici
-	char **final_map; // map final bien parse
-	char **first_map; // map sans les texture et rgb
-	char			player_dir;
-	int				x_max;
-	int				y_max;
-	bool			closed;
-	bool			map_ready;
-	int				distance_to_wall;
-	int				nb_players;
-	int				nb_lines;
-	int				x_spawn;
-	int				y_spawn;
-	int				line_max;
-
-}					t_map;
 
 ///////////MLX//////////////
 typedef struct m_mlx
@@ -155,6 +122,48 @@ typedef struct m_mlx
 	int				size_line;
 	int				endian;
 }					t_mlx;
+//////////////ASSETS/////////////////////
+
+typedef struct s_assets
+{
+	char			*path_no;
+	char			*path_so;
+	char			*path_we;
+	char			*path_ea;
+	int				ceiling_color[3];
+	int				floor_color[3];
+	int				floor_col;
+	int				ceiling_col;
+	bool			c_color;
+	bool			f_color;
+	bool			valid_cardinals;
+	t_mlx			*no;
+	t_mlx			*so;
+	t_mlx			*we;
+	t_mlx			*ea;
+}					t_assets;
+
+//////////MAP//////////////
+
+typedef struct s_map
+{
+	char **stash;     // mettre tout le file ici
+	char **final_map; // map final bien parse
+	char **first_map; // map sans les texture et rgb
+	char			player_dir;
+	int				x_max;
+	int				y_max;
+	int				fd;
+	bool			closed;
+	bool			map_ready;
+	int				distance_to_wall;
+	int				nb_players;
+	int				nb_lines;
+	int				x_spawn;
+	int				y_spawn;
+	int				line_max;
+
+}					t_map;
 
 typedef struct s_ray
 {
@@ -181,6 +190,7 @@ typedef struct s_info
 	t_mlx			*mlx;
 	t_key			*key;
 	t_ray			*ray;
+	void			*win;
 	int				minimap;
 	int				controls;
 	double			*radius_buffer;
@@ -193,28 +203,62 @@ typedef struct s_info
 
 }					t_info;
 
-//////////INIT//////////
-int					init_all(t_info *info);
+//////////MAIN//////////
+void				exit_failure(char *msg);
+void				free_all(t_info *info);
 
-//////////KEY//////////
+//////////PARSING//////////
+void				parse_scene_file(char *filename, t_info *cub);
+
+//////////RENDER//////////
+void				render_frame(t_info *cub);
+void				render_rays(t_info *cub);
+void				draw_wall(t_info *cub, int x);
+void				draw_minimap(t_info *cub);
+void				put_pixel(t_mlx *img, int x, int y, int color);
+
+//////////PLAYER//////////
+void				set_player_direction(t_info *cub, char c);
+
+//////////MOVEMENT//////////
+void				move_forward(t_info *cub);
+void				move_backward(t_info *cub);
+void				strafe_left(t_info *cub);
+void				strafe_right(t_info *cub);
+void				rotate(t_player *p, double angle);
+
+//////////EVENTS//////////
+void				init_hooks(t_info *cub);
+int					mouse_move(int x, int y, t_info *cub);
+int					mouse_release(int button, int x, int y, t_info *cub);
+int					mouse_press(int button, int x, int y, t_info *cub);
+
+//////////TEXTURE//////////
+void				load_textures(t_info *cub);
+void				load_texture(t_info *cub, t_mlx *tex, char *path);
+int					get_tex_x(t_ray *ray, t_mlx *wall, t_player *player);
+int					get_tex_y(int y, int line_h, int tex_h);
+
+//////////UTILS//////////
+void				error_exit(t_info *cub, char *msg);
+void				exit_code(t_info *cub, int code);
+int					clamp_int(int value, int min, int max);
+void				free_map(t_map **map);
+void				free_textures(t_info *cub);
+void				free_tab(char **tab);
+
+//////////LEGACY (ancienne architecture)//////////
+int					init_all(t_info *info);
 int					key_info(int keycode, void *param);
 void				reset_key(t_info *info);
-
-///////IS_PRESSED//////////
 void				is_w(t_info *info, t_player *player);
 void				is_s(t_info *info, t_player *player);
 void				is_a(t_info *info, t_player *player);
 void				is_d(t_info *info, t_player *player);
 void				is_esc(t_info *info);
-
-//////Handle events////////////
 void				handle_events(t_info *info);
-
-/////////CLOSE N DESTROY//////////
 void				free_all(t_info *info);
 void				destroy_all(t_info *info);
-
-///////PARSING///////////////
 void				fill_stash(t_info *info, char **av);
 void				check_info(t_info *info, char *stash);
 void				add_rgb(t_info *info, char **tmp, char c);
@@ -232,8 +276,6 @@ void				print_map(char **map);
 int					put_color(t_info *info, char **tmp);
 void				check_file(t_info *info, char **av);
 int					init_mlx(t_mlx *mlx);
-
-///////UTILS////////////////
 int					is_texture_line(char **stash);
 int					is_texture(char *stash);
 char				*recup_gnl(int fd);
@@ -245,9 +287,5 @@ bool				ft_isspace(int c);
 size_t				ft_strlenlen(char **tab);
 int					check_is_closed(t_info *info, char **map);
 void				check_double_comma(t_info *info, char *stash);
-int					mouse_move(int x, int y, t_info *cub);
-int					mouse_release(int button, int x, int y, t_info *cub);
-int					mouse_press(int button, int x, int y, t_info *cub);
-void				rotate(t_player *p, double angle);
 
 #endif

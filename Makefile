@@ -29,27 +29,39 @@ LIBS		= -L$(LIBFT_DIR) -lft -lreadline $(MLX_FLAGS)
 
 SRC_DIR		= src
 PARSE_DIR = $(SRC_DIR)/parsing
+RENDER_DIR	= $(SRC_DIR)/render
 
 FILES = main.c \
-		utils3.c \
-		key.c \
-		is_pressed.c \
-		init.c \
-		handle_events.c \
-		free_n_destroy.c
+        utils3.c \
+        key.c \
+        is_pressed.c \
+        init.c \
+        handle_events.c \
+        free_n_destroy.c
 
 PARSE_FILES = check_cnf.c \
-				check_path.c \
-				fill_stash.c \
-				final_map.c \
-				utils.c \
-				utils2.c \
-				utils3.c \
-				utils4.c 
+                check_path.c \
+                fill_stash.c \
+                final_map.c \
+                utils.c \
+                utils2.c \
+                utils3.c \
+                utils4.c
 
+RENDER_FILES = raycasting.c \
+                player.c \
+                move.c \
+                rotate.c \
+                render.c \
+                utils.c \
+                texture.c \
+                minimap.c \
+                events.c \
+                draw.c
 
 SRCS		= $(addprefix $(SRC_DIR)/, $(FILES)) \
-			$(addprefix $(PARSE_DIR)/, $(PARSE_FILES))
+            $(addprefix $(PARSE_DIR)/, $(PARSE_FILES)) \
+            $(addprefix $(RENDER_DIR)/, $(RENDER_FILES))
 OBJ_DIR		= obj
 OBJS		= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

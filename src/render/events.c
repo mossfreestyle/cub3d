@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 15:23:11 by rwassim           #+#    #+#             */
-/*   Updated: 2025/07/05 15:40:10 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/07/07 18:58:12 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ static int	game_loop(t_info *cub)
 	if (cub->key->key_d)
 		strafe_right(cub);
 	if (cub->key->turn_left)
-		rotate(&cub->player, -ROT_SPEED);
+		rotate(cub->player, -ROT_SPEED);
 	if (cub->key->turn_right)
-		rotate(&cub->player, ROT_SPEED);
+		rotate(cub->player, ROT_SPEED);
 	render_frame(cub);
 	return (0);
 }

@@ -1,10 +1,10 @@
-EA ./assests/east.xpm
-WE ./assests/west.xpm
+EA assets/crystal.xpm
+WE assets/crystal.xpm
 
-NO ./assests/north.xpm
+NO assets/crystal.xpm
 C 225,255,255
 F 220,16,  1
-SO ./assests/south.xpm   
+SO assets/crystal.xpm   
 
 
 11111111

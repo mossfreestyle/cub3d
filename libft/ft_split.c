@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:55:38 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/03 02:41:17 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/07 19:01:53 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,6 @@
 // //     return (0);
 // // }
 
-
-
 int	in_charset(char c, char *charset)
 {
 	int	i;
@@ -169,16 +167,19 @@ void	free_tab(char **tab)
 
 	i = 0;
 	while (tab[i])
-		free(tab[i++]);
+	{
+		if (tab[i])
+			free(tab[i++]);
+	}
 	free(tab);
 }
 
 char	**ft_split(char *str, char *charset)
 {
-	int		i;
-	int		j;
-	int		k;
-	char	**res;
+	int i;
+	int j;
+	int k;
+	char **res;
 
 	res = malloc(sizeof(char *) * (count_words(str, charset, &j, &i) + 1));
 	if (!res)

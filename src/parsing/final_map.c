@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   final_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:26:16 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/06 01:34:24 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/07 18:51:34 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 static void	init_some_data(t_info *info)
 {
 	info->map_info->line_max = find_longuest_line(info->map_info->first_map);
-	if (info->map_info->line_max > 100)
-		error(info, "line too long", 1);
 	info->map_info->nb_lines = get_nb_lines(info->map_info->first_map);
 	info->map_info->nb_players = get_nb_players(info,
 			info->map_info->first_map);
@@ -64,12 +62,13 @@ int	is_valid(t_info *info, char *str)
 	if (!str)
 		return (0);
 	(void)info;
-	i = -1;
-	while (str[++i])
+	i = 0;
+	while (str[i])
 	{
 		if (str[i] == '0' || str[i] == '1' || str[i] == '\n' || str[i] == ' '
-			|| str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'W')
-			continue ;
+			|| str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'W'
+			|| str[i] == '\t')
+			i++;
 		else
 			return (0);
 	}

@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 15:59:03 by rwassim           #+#    #+#             */
-/*   Updated: 2025/07/05 16:31:55 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/07/07 18:59:05 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	mouse_move(int x, int y, t_info *cub)
 		return (0);
 	delta_x = x - cub->key->x_old;
 	if (delta_x != 0)
-		rotate(&cub->player, delta_x * MOUSE_SENS);
+		rotate(cub->player, delta_x * MOUSE_SENS);
 	cub->key->x_old = x;
 	return (0);
 }

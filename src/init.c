@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 22:54:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/06 01:28:53 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/07 18:59:54 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,43 @@
 
 static void	init_key(t_key *key)
 {
-	key->key_w = 119;
-	key->key_s = 115;
-	key->key_a = 97;
-	key->key_d = 100;
-	key->esc = 65307;
-	key->press_w = False;
-	key->press_s = False;
-	key->press_a = False;
-	key->press_d = False;
-	key->press_turn_left = False;
-	key->press_turn_right = False;
+	key->key_w = 0;
+	key->key_s = 0;
+	key->key_a = 0;
+	key->key_d = 0;
+	key->key_down = 0;
+	key->turn_left = 0;
+	key->turn_right = 0;
+	key->x_old = 0;
+	key->esc = 0;
+	key->press_w = false;
+	key->press_s = false;
+	key->press_a = false;
+	key->press_d = false;
+	key->press_turn_left = false;
+	key->press_turn_right = false;
 }
 
-static void	init_player(t_info *info, t_player *player)
+static void	init_player(t_player *player)
 {
-	player->view = N;
-	player->move = m_forward;
-	player->angle = 0;
-	player->x = info->map_info->x_spawn;
-	player->y = info->map_info->y_spawn;
-	player->speed = 0.5;
-	player->speed_rot = 0.5;
+    player->view = N;
+    player->move = m_forward;
+    player->angle = 0;
+    player->x = 0;
+    player->y = 0;
+    player->dir_x = 0;
+    player->dir_y = -1;
+    player->plane_x = 0.66;
+    player->plane_y = 0;
+    player->speed = 0.5;
+    player->speed_rot = 0.5;
 }
 
 int	init_mlx(t_mlx *mlx)
 {
 	mlx->mlx = NULL;
     mlx->window = NULL;
+	mlx->img = NULL;
 	mlx->mlx = mlx_init();
 	if (!mlx->mlx)
 		return (1);
@@ -49,22 +58,45 @@ int	init_mlx(t_mlx *mlx)
 			"Cub3D");
 	if (!mlx->window)
 		return (1);
+	mlx->img = mlx_new_image(mlx->mlx, WIDTH_DISPLAY, HEIGHT_DISPLAY);
+	if (!mlx->img)
+		return (1);
+	mlx->adr = mlx_get_data_addr(mlx->img, &mlx->bpp, &mlx->size_line,
+			&mlx->endian);
+	if (!mlx->adr)
+		return (1);
 	return (0);
 }
 
-static void	init_assets(t_assets *assets)
+static int	init_assets(t_assets *assets)
 {
-	assets->path_no = NULL;
-	assets->path_so = NULL;
-	assets->path_ea = NULL;
-	assets->path_we = NULL;
-	assets->no = NULL;
-	assets->so = NULL;
-	assets->ea = NULL;
-	assets->we = NULL;
-	assets->c_color = false;
-	assets->f_color = false;
-	assets->valid_cardinals = false;
+    assets->path_no = NULL;
+    assets->path_so = NULL;
+    assets->path_ea = NULL;
+    assets->path_we = NULL;
+    assets->no = malloc(sizeof(t_mlx));
+    assets->so = malloc(sizeof(t_mlx));
+    assets->ea = malloc(sizeof(t_mlx));
+    assets->we = malloc(sizeof(t_mlx));
+    if (!assets->no || !assets->so || !assets->ea || !assets->we)
+    {
+        if (assets->no) free(assets->no);
+        if (assets->so) free(assets->so);
+        if (assets->ea) free(assets->ea);
+        if (assets->we) free(assets->we);
+        return (1);
+    }
+    ft_bzero(assets->no, sizeof(t_mlx));
+    ft_bzero(assets->so, sizeof(t_mlx));
+    ft_bzero(assets->ea, sizeof(t_mlx));
+    ft_bzero(assets->we, sizeof(t_mlx));
+    assets->c_color = false;
+    assets->f_color = false;
+    assets->floor_col = 0;
+    assets->ceiling_col = 0;
+    assets->valid_cardinals = false;
+    
+    return (0);
 }
 
 static void	init_map(t_map *map_info)
@@ -107,10 +139,11 @@ int	init_all(t_info *info)
 	info->in_map = false;
 	info->valid_assets = false;
 	info->map_copied = false;
-	init_player(info, info->player);
-	init_map(info->map_info);
-	init_key(info->key);
-	init_assets(info->assets);
-	// init_ray(info->)
-	return (0);
+	init_player(info->player);
+    init_map(info->map_info);
+    init_key(info->key);
+    if (init_assets(info->assets))
+        return (1);
+    // Les textures seront chargées après le parsing
+    return (0);
 }

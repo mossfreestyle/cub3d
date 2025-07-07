@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 12:43:07 by rwassim           #+#    #+#             */
-/*   Updated: 2025/07/05 16:39:59 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/07/07 18:58:19 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	draw_cell(t_info *cub, int x, int y, int scale)
 		j = 0;
 		while (j < scale)
 		{
-			put_pixel(&cub->mlx->img, x * scale + i, y * scale + j, color);
+			put_pixel(cub->mlx->img, x * scale + i, y * scale + j, color);
 			j++;
 		}
 		i++;
@@ -58,7 +58,7 @@ static void	dir_line(t_info *cub, int px, int py)
 	{
 		dx = (int)(cub->player->dir_x * i);
 		dy = (int)(cub->player->dir_y * i);
-		put_pixel(&cub->mlx->img, px + dx, py + dy, RED);
+		put_pixel(cub->mlx->img, px + dx, py + dy, RED);
 		i++;
 	}
 }
@@ -78,7 +78,7 @@ static void	draw_player(t_info *cub, int scale)
 		j = -2;
 		while (j <= 2)
 		{
-			put_pixel(&cub->mlx->img, px + i, py + j, RED);
+			put_pixel(cub->mlx->img, px + i, py + j, RED);
 			j++;
 		}
 		i++;
@@ -88,19 +88,19 @@ static void	draw_player(t_info *cub, int scale)
 
 void	draw_minimap(t_info *cub)
 {
-	int	x;
-	int	y;
+    int	x;
+    int	y;
 
-	y = 0;
-	while (y < cub->map_info->x_max)
-	{
-		x = 0;
-		while (x < cub->map_info->y_max)
-		{
-			draw_cell(cub, x, y, cub->map_scale);
-			x++;
-		}
-		y++;
-	}
-	draw_player(cub, cub->map_scale);
+    y = 0;
+    while (y < cub->map_info->nb_lines)
+    {
+        x = 0;
+        while (x < cub->map_info->line_max)
+        {
+            draw_cell(cub, x, y, cub->map_scale);
+            x++;
+        }
+        y++;
+    }
+    draw_player(cub, cub->map_scale);
 }
