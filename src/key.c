@@ -17,17 +17,16 @@ int	key_info(int keycode, void *param)
 	t_info	*info;
 
 	info = (t_info *)param;
-	if (keycode == info->key->esc)
+	if (keycode == XK_Escape)
 		is_esc(info);
-	else if (keycode == info->key->key_w)
+	else if (keycode == XK_w || keycode == XK_W)
 		is_w(info, info->player);
-	else if (keycode == info->key->key_s)
+	else if (keycode == XK_s || keycode == XK_S)
 		is_s(info, info->player);
-	else if (keycode == info->key->key_a)
+	else if (keycode == XK_a || keycode == XK_A)
 		is_a(info, info->player);
-	else if (keycode == info->key->key_d)
+	else if (keycode == XK_d || keycode == XK_D)
 		is_d(info, info->player);
-	// move(info);
 	return (0);
 }
 

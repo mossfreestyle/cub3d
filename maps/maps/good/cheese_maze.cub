@@ -1,10 +1,10 @@
-NO assets/crystal.xpm
-SO assets/crystal.xpm
-WE assets/crystal.xpm
-EA assets/crystal.xpm
+NO assets/dembouz.xpm
+SO assets/dembouz.xpm
+WE assets/dembouz.xpm
+EA assets/dembouz.xpm
 
-F 164,169,20
-C 255,0,0
+F 180, 255, 150
+C 230, 180, 255
 
 111111111111111111111
 101000001000000000001

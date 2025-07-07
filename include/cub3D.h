@@ -216,6 +216,14 @@ void				render_rays(t_info *cub);
 void				draw_wall(t_info *cub, int x);
 void				draw_minimap(t_info *cub);
 void				put_pixel(t_mlx *img, int x, int y, int color);
+void				convert_colors_to_int(t_info *info);
+void				init_render_system(t_info *info);
+int					create_rgb_color(int r, int g, int b);
+int					game_loop(t_info *info);
+void				start_game_loop(t_info *info);
+int					key_press(int keycode, t_info *info);
+int					key_release(int keycode, t_info *info);
+void				init_player_position(t_info *info);
 
 //////////PLAYER//////////
 void				set_player_direction(t_info *cub, char c);
@@ -287,5 +295,6 @@ bool				ft_isspace(int c);
 size_t				ft_strlenlen(char **tab);
 int					check_is_closed(t_info *info, char **map);
 void				check_double_comma(t_info *info, char *stash);
+void	handle_movement(t_info *info);
 
 #endif

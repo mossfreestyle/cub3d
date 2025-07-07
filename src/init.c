@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: moss <moss@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 22:54:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/07 18:59:54 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/07/07 21:23:20 by moss             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,5 @@ int	init_all(t_info *info)
     init_key(info->key);
     if (init_assets(info->assets))
         return (1);
-    // Les textures seront chargées après le parsing
     return (0);
 }

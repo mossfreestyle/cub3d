@@ -5,32 +5,39 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 10:09:43 by rwassim           #+#    #+#             */
-/*   Updated: 2025/07/07 18:59:00 by rwassim          ###   ########.fr       */
+/*   Created: 2025/07/07 19:00:00 by rwassim          #+#    #+#             */
+/*   Updated: 2025/07/07 19:00:00 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	put_pixel(t_mlx *img, int x, int y, int color)
+static void	clear_image(t_info *info)
 {
-	int	offset;
+	int	x;
+	int	y;
 
-	if (x >= 0 && x < WIDTH_DISPLAY && y >= 0 && y < HEIGHT_DISPLAY)
+	y = 0;
+	while (y < HEIGHT_DISPLAY)
 	{
-		offset = (x * img->bpp / 8) + (y * img->size_line);
-		*(int *)(img->adr + offset) = color;
+		x = 0;
+		while (x < WIDTH_DISPLAY)
+		{
+			put_pixel(info->mlx, x, y, BLACK);
+			x++;
+		}
+		y++;
 	}
 }
 
 static void	put_text(t_info *cub, char *text, int *y)
 {
-    int	x0;
+	int	x0;
 
-    x0 = WIDTH_DISPLAY - 220;
-    mlx_string_put(cub->mlx->mlx, cub->mlx->window, x0 + 1, *y + 1, BLACK, text);
-    mlx_string_put(cub->mlx->mlx, cub->mlx->window, x0, *y, WHITE, text);
-    *y += 15;
+	x0 = WIDTH_DISPLAY - 220;
+	mlx_string_put(cub->mlx->mlx, cub->mlx->window, x0 + 1, *y + 1, BLACK, text);
+	mlx_string_put(cub->mlx->mlx, cub->mlx->window, x0, *y, WHITE, text);
+	*y += 15;
 }
 
 static void	draw_controls(t_info *cub)
@@ -49,36 +56,47 @@ static void	draw_controls(t_info *cub)
 	put_text(cub, "Quit        ESC", &y);
 }
 
-static void	draw_background(t_info *cub)
+static void	draw_floor_ceiling(t_info *info)
 {
-	int	i;
-	int	j;
-	int	color;
+	int	x;
+	int	y;
 
-	i = 0;
-	while (i < HEIGHT_DISPLAY)
+	y = 0;
+	while (y < HEIGHT_DISPLAY / 2)
 	{
-		j = 0;
-		if (i < HEIGHT_DISPLAY / 2)
-			color = cub->assets->ceiling_col;
-		else
-			color = cub->assets->floor_col;
-		while (j < WIDTH_DISPLAY)
+		x = 0;
+		while (x < WIDTH_DISPLAY)
 		{
-			put_pixel(cub->mlx, j, i, color);
-			j++;
+			put_pixel(info->mlx, x, y, info->assets->ceiling_col);
+			x++;
 		}
-		i++;
+		y++;
+	}
+	y = HEIGHT_DISPLAY / 2;
+	while (y < HEIGHT_DISPLAY)
+	{
+		x = 0;
+		while (x < WIDTH_DISPLAY)
+		{
+			put_pixel(info->mlx, x, y, info->assets->floor_col);
+			x++;
+		}
+		y++;
 	}
 }
 
-void	render_frame(t_info *cub)
+void	render_frame(t_info *info)
 {
-	draw_background(cub);
-	render_rays(cub);
-	if (cub->minimap)
-		draw_minimap(cub);
-	mlx_put_image_to_window(cub->mlx->mlx, cub->mlx->window, cub->mlx->img, 0, 0);
-	if (cub->controls)
-		draw_controls(cub);
+	if (!info || !info->mlx || !info->mlx->img)
+		return ;
+	
+	clear_image(info);
+	draw_floor_ceiling(info);
+	render_rays(info);
+	if (info->minimap)
+		draw_minimap(info);
+	mlx_put_image_to_window(info->mlx->mlx, info->mlx->window, 
+		info->mlx->img, 0, 0);
+	if (info->controls)
+		draw_controls(info);
 }

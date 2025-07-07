@@ -16,7 +16,7 @@ GREEN = \033[38;5;46m
 # ================================ VARIABLES ================================== #
 NAME		= cub3D
 CC			= gcc
-CFLAGS		= -g3 -Wall -Wextra -Werror 
+CFLAGS		= -g3 -Wall -Wextra -Werror
 INCLUDES	= -I./include -I./libft
 LIBFT_DIR	= ./libft
 LIBFT		= $(LIBFT_DIR)/libft.a
@@ -48,16 +48,18 @@ PARSE_FILES = check_cnf.c \
                 utils3.c \
                 utils4.c
 
-RENDER_FILES = raycasting.c \
-                player.c \
-                move.c \
-                rotate.c \
-                render.c \
-                utils.c \
-                texture.c \
-                minimap.c \
+RENDER_FILES = render.c \
+                raycasting.c \
+                wall_rendering.c \
+                texture_loader.c \
+                player_movement.c \
+                player_init.c \
+                game_loop.c \
                 events.c \
-                draw.c
+                color_utils.c \
+                minimap.c \
+                render_init.c \
+                render_compat.c
 
 SRCS		= $(addprefix $(SRC_DIR)/, $(FILES)) \
             $(addprefix $(PARSE_DIR)/, $(PARSE_FILES)) \
