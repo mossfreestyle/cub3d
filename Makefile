@@ -60,7 +60,8 @@ RENDER_FILES = render.c \
                 color_utils.c \
                 minimap.c \
                 render_init.c \
-                render_compat.c
+                render_compat.c \
+				rotate.c
 
 SRCS		= $(addprefix $(SRC_DIR)/, $(FILES)) \
             $(addprefix $(PARSE_DIR)/, $(PARSE_FILES)) \

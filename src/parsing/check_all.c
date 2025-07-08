@@ -36,9 +36,9 @@ int	v_or_x(t_info *info, char **map, size_t i, size_t j)
 	else
 	{
 		if ((map[i - 1][j] == '1' || is_player_char(map[i - 1][j]) || map[i
-				- 1][j] == '0' || map[i - 1][j] == 'V') && (map[i + 1][j] == '1'
+				- 1][j] == '0' || map[i - 1][j] == 'V' || (flag && info->map_info->final_map[i - 1][j] == 'V')) && (map[i + 1][j] == '1'
 				|| is_player_char(map[i + 1][j]) || map[i + 1][j] == '0'
-				|| map[i + 1][j] == 'V') && (map[i][j - 1] == '1'
+				|| map[i + 1][j] == 'V' || flag) && (map[i][j - 1] == '1'
 				|| is_player_char(map[i][j - 1]) || map[i][j - 1] == '0'
 				|| map[i][j - 1] == 'V' || info->map_info->final_map[i][j
 				- 1] == 'V' || (flag && info->map_info->final_map[i][j
@@ -110,5 +110,6 @@ void	equal_line(t_info *info, char **map)
 		add_x(info, i, (int)j);
 	}
 	info->map_info->final_map[i] = NULL;
+	print_map(info->map_info->final_map);
 	check_surrounded(info, info->map_info->final_map);
 }

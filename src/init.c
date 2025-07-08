@@ -121,6 +121,7 @@ int	init_all(t_info *info)
 	info->mlx = malloc(sizeof(t_mlx));
 	if (!info->mlx)
 		return (1);
+    // ft_bzero(info->mlx)
 	info->player = malloc(sizeof(t_player));
 	if (!info->player)
 		return (1);
