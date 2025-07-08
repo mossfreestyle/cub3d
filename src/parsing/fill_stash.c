@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_stash.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:26:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/07 18:51:29 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/07/08 21:34:35 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,32 +90,4 @@ void	fill_stash(t_info *info, char **av)
 	if (check_map_is_last(info, info->map_info->first_map))
 		error(info, "Map format isnt good", 1);
 	set_up_final_map(info);
-}
-
-char	*equal_line(char *src, int limit)
-{
-	char	*res;
-	int		i;
-
-	res = malloc(sizeof(char) * (limit + 1));
-	if (!res)
-		return (NULL);
-	i = 0;
-	while (src[i] && i < limit)
-	{
-		if (src[i] == 32)
-		{
-			if (only_white_spaces(src + i))
-				res[i] = 'X';
-			else
-				res[i] = 'V';
-		}
-		else
-			res[i] = src[i];
-		i++;
-	}
-	while (i < limit)
-		res[i++] = 'X';
-	res[i] = '\0';
-	return (res);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   final_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 12:26:16 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/07 18:51:34 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/07/08 21:35:21 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,7 @@ void	set_up_final_map(t_info *info)
 		info->map_info->final_map[i] = NULL;
 	if (check_is_closed(info, info->map_info->first_map))
 		error(info, "The map is not closed by only wall", 1);
-	info->map_info->closed = true;
-	i = -1;
-	while (info->map_info->first_map[++i])
-	{
-		info->map_info->final_map[i] = equal_line(info->map_info->first_map[i],
-				info->map_info->line_max);
-		if (!info->map_info->final_map[i])
-			error(info, "Problem when replacing empty char for final map", 1);
-	}
-	info->map_info->final_map[i] = NULL;
+	equal_line(info, info->map_info->first_map);
 	info->map_info->closed = true;
 	info->map_info->x_max = info->map_info->line_max - 1;
 	info->map_info->y_max = (int)ft_strlenlen(info->map_info->final_map) - 1;
@@ -92,4 +83,11 @@ int	is_map(t_info *info, char *str)
 			return (0);
 	}
 	return (1);
+}
+
+void	add_x(t_info *info, size_t i, int j)
+{
+	while (j < info->map_info->line_max)
+		info->map_info->final_map[i][j++] = 'X';
+	info->map_info->final_map[i][j] = '\0';
 }

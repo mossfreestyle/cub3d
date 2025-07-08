@@ -46,7 +46,8 @@ PARSE_FILES = check_cnf.c \
                 utils.c \
                 utils2.c \
                 utils3.c \
-                utils4.c
+                utils4.c \
+				check_all.c
 
 RENDER_FILES = render.c \
                 raycasting.c \

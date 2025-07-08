@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 00:46:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/07 18:51:55 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/07/08 21:34:50 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,9 @@ void	check_file(t_info *info, char **av)
 	info->map_file = open(av[1], O_RDONLY);
 	if (info->map_file < 0)
 		error(info, "Cant open the file", 1);
+}
+
+int	is_player_char(char c)
+{
+	return (c == 'N' || c == 'S' || c == 'E' || c == 'W');
 }

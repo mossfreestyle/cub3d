@@ -40,34 +40,33 @@
 // 	return (0);
 // }
 
-// // static void	print_all(t_info *info)
-// // {
-// // 	printf("NO=%s\n", info->assets->path_no);
-// // 	printf("SO=%s\n", info->assets->path_so);
-// // 	printf("EA=%s\n", info->assets->path_ea);
-// // 	printf("WE=%s\n", info->assets->path_we);
-// // 	for (int i = 0; i < 3; i++)
-// // 		printf("C[%d]=%d\n", i, info->assets->ceiling_color[i]);
-// // 	for (int j = 0; j < 3; j++)
-// // 		printf("F[%d]=%d\n", j, info->assets->floor_color[j]);
-// // 	printf("VALID=%d\n\n", info->valid_assets);
-// // 		printf("PLAYER_VIEW = ");
-// //     if (info->player->view == N)
-// //         printf("N (North)\n");
-// //     else if (info->player->view == S)
-// //         printf("S (South)\n");
-// //     else if (info->player->view == E)
-// //         printf("E (East)\n");
-// //     else if (info->player->view == W)
-// //         printf("W (West)\n");
-// //     else
-// //         printf("UNKNOWN\n");
-// //     printf("SPAWN_POS = (%d, %d)\n", info->map_info->x_spawn,
-// info->map_info->y_spawn);
-// // 	print_map(info->map_info->first_map);
-// // 	printf("\n\n===================================\n\n");
-// // 	print_map(info->map_info->final_map);
-// // }
+// static void	print_all(t_info *info)
+// {
+// 	printf("NO=%s\n", info->assets->path_no);
+// 	printf("SO=%s\n", info->assets->path_so);
+// 	printf("EA=%s\n", info->assets->path_ea);
+// 	printf("WE=%s\n", info->assets->path_we);
+// 	for (int i = 0; i < 3; i++)
+// 		printf("C[%d]=%d\n", i, info->assets->ceiling_color[i]);
+// 	for (int j = 0; j < 3; j++)
+// 		printf("F[%d]=%d\n", j, info->assets->floor_color[j]);
+// 	printf("VALID=%d\n\n", info->valid_assets);
+// 		printf("PLAYER_VIEW = ");
+//     if (info->player->view == N)
+//         printf("N (North)\n");
+//     else if (info->player->view == S)
+//         printf("S (South)\n");
+//     else if (info->player->view == E)
+//         printf("E (East)\n");
+//     else if (info->player->view == W)
+//         printf("W (West)\n");
+//     else
+//         printf("UNKNOWN\n");
+//     printf("SPAWN_POS = (%d, %d)\n", info->map_info->x_spawn, info->map_info->y_spawn);
+// 	print_map(info->map_info->first_map);
+// 	printf("\n\n===================================\n\n");
+// 	print_map(info->map_info->final_map);
+// }
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -178,6 +177,5 @@ int	main(int argc, char **argv)
     start_game_loop(&cub);
     destroy_all(&cub);
     free_all(&cub);
-    
     return (EXIT_SUCCESS);
 }

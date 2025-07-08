@@ -254,6 +254,7 @@ int					clamp_int(int value, int min, int max);
 void				free_map(t_map **map);
 void				free_textures(t_info *cub);
 void				free_tab(char **tab);
+void add_x(t_info *info, size_t i, int j);
 
 //////////LEGACY (ancienne architecture)//////////
 int					init_all(t_info *info);
@@ -276,7 +277,7 @@ int					get_nb_lines(char **map);
 int					only_white_spaces(char *str);
 int					get_nb_players(t_info *info, char **map);
 int					is_valid(t_info *info, char *str);
-char				*equal_line(char *src, int limit);
+void			    equal_line(t_info *info, char **map);
 char				**add_tmp(t_info *info, char **tmp);
 int					check_map_is_last(t_info *info, char **map);
 void				set_up_final_map(t_info *info);
@@ -295,6 +296,6 @@ bool				ft_isspace(int c);
 size_t				ft_strlenlen(char **tab);
 int					check_is_closed(t_info *info, char **map);
 void				check_double_comma(t_info *info, char *stash);
-void	handle_movement(t_info *info);
-
+void				handle_movement(t_info *info);
+int					is_player_char(char c);
 #endif

@@ -7,7 +7,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/cub3D",
             "args": [
-                "maps/map.cub"
+                "maps/maps/valid/default.cub"
             ],
             "MIMode": "gdb",
             "cwd": "${workspaceFolder}",
