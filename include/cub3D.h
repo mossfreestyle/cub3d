@@ -255,6 +255,7 @@ void				free_map(t_map **map);
 void				free_textures(t_info *cub);
 void				free_tab(char **tab);
 void add_x(t_info *info, size_t i, int j);
+int	v_or_x(t_info *info, char **map, size_t i, size_t j);
 
 //////////LEGACY (ancienne architecture)//////////
 int					init_all(t_info *info);

@@ -6,49 +6,11 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 21:20:19 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/08 21:35:24 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/09 00:25:04 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-int	is_full_whitespaces(char **map, size_t i, size_t k)
-{
-	while (map[i][k] && ft_isspace(map[i][k]))
-		k++;
-	if (!map[i][k])
-		return ('1');
-	return (0);
-}
-
-int	v_or_x(t_info *info, char **map, size_t i, size_t j)
-{
-	size_t	k;
-	int		flag;
-
-	flag = 1;
-	k = j;
-	if (i == 0 || j == 0 || i == ft_strlenlen(map) - 1 || j == ft_strlen(map[i])
-		- 1)
-		return ('X');
-	if (is_full_whitespaces(map, i, k))
-		return ('X');
-	else
-	{
-		if ((map[i - 1][j] == '1' || is_player_char(map[i - 1][j]) || map[i
-				- 1][j] == '0' || map[i - 1][j] == 'V' || (flag && info->map_info->final_map[i - 1][j] == 'V')) && (map[i + 1][j] == '1'
-				|| is_player_char(map[i + 1][j]) || map[i + 1][j] == '0'
-				|| map[i + 1][j] == 'V' || flag) && (map[i][j - 1] == '1'
-				|| is_player_char(map[i][j - 1]) || map[i][j - 1] == '0'
-				|| map[i][j - 1] == 'V' || info->map_info->final_map[i][j
-				- 1] == 'V' || (flag && info->map_info->final_map[i][j
-					- 1] != ' ')) && (map[i][j + 1] == '1'
-				|| is_player_char(map[i][j + 1]) || map[i][j + 1] == '0'
-				|| map[i][j + 1] == 'V' || flag))
-			return ('V');
-	}
-	return ('X');
-}
 
 int	check_around(char **map, size_t i, size_t j)
 {
@@ -82,6 +44,7 @@ void	check_surrounded(t_info *info, char **map)
 					error(info, "map not close", 1);
 		}
 	}
+	print_map(info->map_info->final_map);
 }
 
 void	equal_line(t_info *info, char **map)
@@ -110,6 +73,5 @@ void	equal_line(t_info *info, char **map)
 		add_x(info, i, (int)j);
 	}
 	info->map_info->final_map[i] = NULL;
-	print_map(info->map_info->final_map);
 	check_surrounded(info, info->map_info->final_map);
 }

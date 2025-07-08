@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moss <moss@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 22:54:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/07 21:23:20 by moss             ###   ########.fr       */
+/*   Updated: 2025/07/08 23:38:46 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,31 +116,68 @@ static void	init_map(t_map *map_info)
 	map_info->nb_lines = 0;
 }
 
+// int	init_all(t_info *info)
+// {
+// 	info->mlx = malloc(sizeof(t_mlx));
+// 	if (!info->mlx)
+// 		return (1);
+//     ft_bzero(info->mlx, sizeof(t_mlx));
+// 	info->player = malloc(sizeof(t_player));
+// 	if (!info->player)
+// 		return (1);
+// 	info->map_info = malloc(sizeof(t_map));
+// 	if (!info->map_info)
+// 		return (1);
+// 	info->key = malloc(sizeof(t_key));
+// 	if (!info->key)
+// 		return (1);
+// 	info->assets = malloc(sizeof(t_assets));
+// 	if (!info->assets)
+// 		return (1);
+// 	info->radius_buffer = malloc(1); //a fix
+// 	if (!info->radius_buffer)
+// 		return (1);
+// 	info->in_map = false;
+// 	info->valid_assets = false;
+// 	info->map_copied = false;
+// 	init_player(info->player);
+//     init_map(info->map_info);
+//     init_key(info->key);
+//     if (init_assets(info->assets))
+//         return (1);
+//     return (0);
+// }
+
+
 int	init_all(t_info *info)
 {
-	info->mlx = malloc(sizeof(t_mlx));
-	if (!info->mlx)
-		return (1);
-    // ft_bzero(info->mlx)
-	info->player = malloc(sizeof(t_player));
-	if (!info->player)
-		return (1);
-	info->map_info = malloc(sizeof(t_map));
-	if (!info->map_info)
-		return (1);
-	info->key = malloc(sizeof(t_key));
-	if (!info->key)
-		return (1);
-	info->assets = malloc(sizeof(t_assets));
-	if (!info->assets)
-		return (1);
-	info->radius_buffer = malloc(1); //a fix
-	if (!info->radius_buffer)
-		return (1);
-	info->in_map = false;
-	info->valid_assets = false;
-	info->map_copied = false;
-	init_player(info->player);
+    info->mlx = malloc(sizeof(t_mlx));
+    if (!info->mlx)
+        return (1);
+    ft_bzero(info->mlx, sizeof(t_mlx));
+    info->player = malloc(sizeof(t_player));
+    if (!info->player)
+        return (1);
+    ft_bzero(info->player, sizeof(t_player));
+    info->map_info = malloc(sizeof(t_map));
+    if (!info->map_info)
+        return (1);
+    ft_bzero(info->map_info, sizeof(t_map));
+    info->key = malloc(sizeof(t_key));
+    if (!info->key)
+        return (1);
+    ft_bzero(info->key, sizeof(t_key));
+    info->assets = malloc(sizeof(t_assets));
+    if (!info->assets)
+        return (1);
+    ft_bzero(info->assets, sizeof(t_assets));
+    info->radius_buffer = malloc(1); //a fix
+    if (!info->radius_buffer)
+        return (1);
+    info->in_map = false;
+    info->valid_assets = false;
+    info->map_copied = false;
+    init_player(info->player);
     init_map(info->map_info);
     init_key(info->key);
     if (init_assets(info->assets))
