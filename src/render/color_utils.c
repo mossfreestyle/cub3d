@@ -18,7 +18,6 @@ void	put_pixel(t_mlx *img, int x, int y, int color)
 
 	if (x < 0 || y < 0 || x >= WIDTH_DISPLAY || y >= HEIGHT_DISPLAY)
 		return ;
-	
 	dst = img->adr + (y * img->size_line + x * (img->bpp / 8));
 	*(unsigned int *)dst = color;
 }
@@ -34,7 +33,6 @@ void	convert_colors_to_int(t_info *info)
 		info->assets->floor_color[0],
 		info->assets->floor_color[1], 
 		info->assets->floor_color[2]);
-	
 	info->assets->ceiling_col = create_rgb_color(
 		info->assets->ceiling_color[0],
 		info->assets->ceiling_color[1], 

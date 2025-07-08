@@ -49,13 +49,21 @@ int	key_release(int keycode, t_info *info)
 		info->key->press_turn_left = false;
 	else if (keycode == XK_Right)
 		info->key->press_turn_right = false;
+	else if (keycode == XK_KP_Add && info->map_scale < MAX_SCALE)
+		info->map_scale++;
+	else if (keycode == XK_KP_Subtract && info->map_scale > MIN_SCALE)
+		info->map_scale--;
 	return (0);
 }
 
 void	init_hooks(t_info *info)
 {
-	mlx_hook(info->mlx->window, KeyPress, KeyPressMask, key_press, info);
-	mlx_hook(info->mlx->window, KeyRelease, KeyReleaseMask, key_release, info);
-	mlx_hook(info->mlx->window, DestroyNotify, StructureNotifyMask, 
-		close_window, info);
+    mlx_hook(info->mlx->window, KeyPress, KeyPressMask, key_press, info);
+    mlx_hook(info->mlx->window, KeyRelease, KeyReleaseMask, key_release, info);
+    mlx_hook(info->mlx->window, DestroyNotify, StructureNotifyMask, 
+        close_window, info);
+    mlx_hook(info->mlx->window, ButtonPress, ButtonPressMask, mouse_press, info);
+    mlx_hook(info->mlx->window, ButtonRelease, ButtonReleaseMask, mouse_release, info);
+    mlx_hook(info->mlx->window, MotionNotify, PointerMotionMask, mouse_move, info);
+    mlx_mouse_hide(info->mlx->mlx, info->mlx->window);
 }

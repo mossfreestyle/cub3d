@@ -89,7 +89,6 @@ void	render_frame(t_info *info)
 {
 	if (!info || !info->mlx || !info->mlx->img)
 		return ;
-	
 	clear_image(info);
 	draw_floor_ceiling(info);
 	render_rays(info);

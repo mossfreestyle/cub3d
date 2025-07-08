@@ -12,7 +12,6 @@
 
 #include "cub3D.h"
 
-// Fonction de compatibilité pour l'ancien système de clés
 void	init_key_codes(t_info *info)
 {
 	info->key->esc = XK_Escape;
@@ -24,7 +23,6 @@ void	init_key_codes(t_info *info)
 	info->key->turn_right = XK_Right;
 }
 
-// Wrapper pour la fonction move qui utilise maintenant le nouveau système
 int	move_player(t_info *info)
 {
 	handle_movement(info);
@@ -32,7 +30,6 @@ int	move_player(t_info *info)
 	return (0);
 }
 
-// Fonction de compatibilité pour démarrer le rendu
 void	start_rendering(t_info *info)
 {
 	init_render_system(info);

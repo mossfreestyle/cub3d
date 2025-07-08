@@ -57,16 +57,13 @@ static void	draw_textured_wall(t_info *info, int x, int line_height,
 	texture = get_wall_texture(info);
 	if (!texture || !texture->adr)
 		return ;
-	
 	tex_x = get_wall_x(info);
 	if (info->ray->side == 0 && info->ray->dir_x > 0)
 		tex_x = texture->width - tex_x - 1;
 	if (info->ray->side == 1 && info->ray->dir_y < 0)
 		tex_x = texture->width - tex_x - 1;
-	
 	step = 1.0 * texture->height / line_height;
 	tex_pos = (draw_start - HEIGHT_DISPLAY / 2 + line_height / 2) * step;
-	
 	y = draw_start;
 	while (y < draw_end)
 	{

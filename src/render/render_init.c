@@ -40,11 +40,8 @@ void	init_render_system(t_info *info)
 			error_exit(info, "Ray allocation failed");
 		ft_bzero(info->ray, sizeof(t_ray));
 	}
-	
 	convert_colors_to_int(info);
 	load_textures(info);
-	
-	// Chercher la position du joueur dans la map
 	int	i = 0;
 	while (i < info->map_info->nb_lines)
 	{
