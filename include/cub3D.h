@@ -147,9 +147,9 @@ typedef struct s_assets
 
 typedef struct s_map
 {
-	char **stash;     // mettre tout le file ici
-	char **final_map; // map final bien parse
-	char **first_map; // map sans les texture et rgb
+	char **stash;   
+	char **final_map;
+	char **first_map;
 	char			player_dir;
 	int				x_max;
 	int				y_max;
@@ -258,7 +258,7 @@ void				free_tab(char **tab);
 void add_x(t_info *info, size_t i, int j);
 int	v_or_x(t_info *info, char **map, size_t i, size_t j);
 
-//////////LEGACY (ancienne architecture)//////////
+//////////LEGACY//////////
 int					init_all(t_info *info);
 int					key_info(int keycode, void *param);
 void				reset_key(t_info *info);
