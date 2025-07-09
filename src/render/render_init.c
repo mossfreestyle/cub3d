@@ -33,20 +33,17 @@ void	error_exit(t_info *cub, char *msg)
 
 void	init_render_system(t_info *info)
 {
-	if (!info->ray)
-	{
-		info->ray = malloc(sizeof(t_ray));
-		if (!info->ray)
-			error_exit(info, "Ray allocation failed");
-		ft_bzero(info->ray, sizeof(t_ray));
-	}
+	int	i;
+	int	j;
+
+	i = -1;
 	convert_colors_to_int(info);
 	load_textures(info);
-	int i = 0;
-	while (i < info->map_info->nb_lines)
+	while (++i < info->map_info->nb_lines)
 	{
-		int j = 0;
-		while (j < info->map_info->line_max && info->map_info->final_map[i][j])
+		j = 0;
+		while (++j < info->map_info->line_max
+			&& info->map_info->final_map[i][j])
 		{
 			if (ft_strchr("NSWE", info->map_info->final_map[i][j]))
 			{
@@ -56,8 +53,6 @@ void	init_render_system(t_info *info)
 				info->map_info->final_map[i][j] = '0';
 				return ;
 			}
-			j++;
 		}
-		i++;
 	}
 }

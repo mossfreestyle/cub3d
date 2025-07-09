@@ -66,7 +66,6 @@ typedef enum s_move
 	m_backward,
 	m_left,
 	m_right,
-
 }					t_move;
 
 /////////PLAYER///////////////
@@ -147,9 +146,9 @@ typedef struct s_assets
 
 typedef struct s_map
 {
-	char **stash;   
-	char **final_map;
-	char **first_map;
+	char			**stash;
+	char			**final_map;
+	char			**first_map;
 	char			player_dir;
 	int				x_max;
 	int				y_max;
@@ -182,6 +181,16 @@ typedef struct s_ray
 	double			wall_dist;
 }					t_ray;
 
+typedef struct s_draw
+{
+	int				tex_x;
+	int				y;
+	int				end;
+	double			step;
+	double			tex_pos;
+	int				line_height;
+}					t_draw;
+
 typedef struct s_info
 {
 	t_player		*player;
@@ -190,6 +199,7 @@ typedef struct s_info
 	t_mlx			*mlx;
 	t_key			*key;
 	t_ray			*ray;
+	t_draw			*draw;
 	void			*win;
 	int				minimap;
 	int				controls;
@@ -208,6 +218,7 @@ void				free_all(t_info *info);
 
 //////////PARSING//////////
 void				parse_scene_file(char *filename, t_info *cub);
+t_mlx				*get_wall_texture(t_info *info);
 
 //////////RENDER//////////
 void				render_frame(t_info *cub);
@@ -245,7 +256,6 @@ int					mouse_press(int button, int x, int y, t_info *cub);
 //////////TEXTURE//////////
 void				load_textures(t_info *cub);
 void				load_texture(t_info *cub, t_mlx *tex, char *path);
-int					get_tex_x(t_ray *ray, t_mlx *wall, t_player *player);
 int					get_tex_y(int y, int line_h, int tex_h);
 
 //////////UTILS//////////
@@ -255,8 +265,8 @@ int					clamp_int(int value, int min, int max);
 void				free_map(t_map **map);
 void				free_textures(t_info *cub);
 void				free_tab(char **tab);
-void add_x(t_info *info, size_t i, int j);
-int	v_or_x(t_info *info, char **map, size_t i, size_t j);
+void				add_x(t_info *info, size_t i, int j);
+int					v_or_x(t_info *info, char **map, size_t i, size_t j);
 
 //////////LEGACY//////////
 int					init_all(t_info *info);
@@ -279,7 +289,7 @@ int					get_nb_lines(char **map);
 int					only_white_spaces(char *str);
 int					get_nb_players(t_info *info, char **map);
 int					is_valid(t_info *info, char *str);
-void			    equal_line(t_info *info, char **map);
+void				equal_line(t_info *info, char **map);
 char				**add_tmp(t_info *info, char **tmp);
 int					check_map_is_last(t_info *info, char **map);
 void				set_up_final_map(t_info *info);

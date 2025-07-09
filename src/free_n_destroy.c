@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 12:05:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/09 17:48:54 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/09 19:36:07 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static void	free_assets(t_info *info)
 		if (info->assets->we)
 			free(info->assets->we);
 		free(info->assets);
+		if (info->draw)
+			free(info->draw);
 	}
 }
 

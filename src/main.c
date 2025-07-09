@@ -12,6 +12,24 @@
 
 #include "cub3D.h"
 
+t_mlx	*get_wall_texture(t_info *info)
+{
+	if (info->ray->side == 0)
+	{
+		if (info->ray->dir_x > 0)
+			return (info->assets->ea);
+		else
+			return (info->assets->we);
+	}
+	else
+	{
+		if (info->ray->dir_y > 0)
+			return (info->assets->so);
+		else
+			return (info->assets->no);
+	}
+}
+
 static void	check_args(int argc, char **argv)
 {
 	char	*s;

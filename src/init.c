@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 22:54:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/09 17:56:59 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/09 19:48:46 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,17 @@ void	init_other(t_info *info)
 	info->in_map = false;
 	info->valid_assets = false;
 	info->map_copied = false;
+	info->draw = malloc(sizeof(t_draw));
+	if (!info->draw)
+		error(info, "malloc tdraw failed", 1);
+	ft_bzero(info->draw, sizeof(t_draw));
 	init_player(info->player);
 	init_map(info->map_info);
 	init_key(info->key);
+	info->ray = malloc(sizeof(t_ray));
+	if (!info->ray)
+		error_exit(info, "Ray allocation failed");
+	ft_bzero(info->ray, sizeof(t_ray));
 }
 
 int	init_all(t_info *info)
