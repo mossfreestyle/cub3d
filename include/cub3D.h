@@ -40,11 +40,11 @@
 # define MIN_SCALE 5
 # define MAX_SCALE 12
 # define ROT_SPEED 0.007
-# define MOUSE_SENS 0.01
+# define MOUSE_SENS 0.007
 # define DIR_LEN 10
 # define MINIMAP_SCALE 8
 # define MAX_TEX 800
-# define MOVE_SPEED 0.007
+# define MOVE_SPEED 0.009
 
 # define BLACK 0x000000
 # define WHITE 0xFFFFFF

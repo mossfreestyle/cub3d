@@ -2,19 +2,15 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   wall_rendering.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
-/*   Created: 2025/07/07 19:00:00 by rwassim          #+#    #+#             */
-/*   Updated: 2025/07/07 19:00:00 by rwassim          ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/09 17:35:16 by rwassim           #+#    #+#             */
+/*   Updated: 2025/07/09 17:36:46 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
 
 static t_mlx	*get_wall_texture(t_info *info)
 {

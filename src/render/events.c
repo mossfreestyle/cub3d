@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 10:05:23 by rwassim           #+#    #+#             */
-/*   Updated: 2025/07/09 10:05:23 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/07/09 17:33:13 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,4 @@ void	init_hooks(t_info *info)
 		info);
 	mlx_hook(info->mlx->window, MotionNotify, PointerMotionMask, mouse_move,
 		info);
-	mlx_mouse_hide(info->mlx->mlx, info->mlx->window);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_all.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 21:20:19 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/09 00:25:04 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/07/09 17:25:05 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	check_surrounded(t_info *info, char **map)
 					error(info, "map not close", 1);
 		}
 	}
-	print_map(info->map_info->final_map);
 }
 
 void	equal_line(t_info *info, char **map)

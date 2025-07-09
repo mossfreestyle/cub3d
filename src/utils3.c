@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 22:21:13 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/07 18:55:41 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/07/09 17:32:19 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,12 @@ int	move(t_info *info)
 		info->player->x -= 1;
 	else if (key_pressed->press_d)
 		info->player->x += 1;
-	// update_map(info);
 	return (0);
 }
+
 bool	ft_isspace(int c)
 {
 	if ((c >= 9 && c <= 13) || c == ' ')
 		return (1);
 	return (0);
 }
-
-

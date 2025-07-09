@@ -20,7 +20,7 @@ static int	cell_color(t_info *cub, int x, int y)
 	char	tile;
 
 	tile = cub->map_info->final_map[y][x];
-	if (tile == '1')
+	if (tile == '1' || tile == 'X')
 		return (DARK_GREY);
 	if (tile == '0' || tile == 'V')
 		return (GREY);
