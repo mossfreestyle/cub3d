@@ -70,11 +70,3 @@ void	set_player_direction(t_info *info, char c)
 		set_direction_west(info->player);
 	}
 }
-
-void	init_player_position(t_info *info)
-{
-	info->player->x = (double)info->map_info->x_spawn + 0.5;
-	info->player->y = (double)info->map_info->y_spawn + 0.5;
-	info->player->speed = MOVE_SPEED;
-	info->player->speed_rot = ROT_SPEED;
-}

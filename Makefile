@@ -37,7 +37,8 @@ FILES = main.c \
         is_pressed.c \
         init.c \
         handle_events.c \
-        free_n_destroy.c
+        free_n_destroy.c \
+		init2.c
 
 PARSE_FILES = check_cnf.c \
                 check_path.c \

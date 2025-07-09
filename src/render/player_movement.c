@@ -82,17 +82,3 @@ void	strafe_right(t_info *info)
 	if (is_valid_position(info, info->player->x, new_y))
 		info->player->y = new_y;
 }
-
-void	rotate(t_player *player, double angle)
-{
-	double	old_dir_x;
-	double	old_plane_x;
-
-	old_dir_x = player->dir_x;
-	player->dir_x = player->dir_x * cos(angle) - player->dir_y * sin(angle);
-	player->dir_y = old_dir_x * sin(angle) + player->dir_y * cos(angle);
-	old_plane_x = player->plane_x;
-	player->plane_x = player->plane_x * cos(angle) - player->plane_y
-		* sin(angle);
-	player->plane_y = old_plane_x * sin(angle) + player->plane_y * cos(angle);
-}

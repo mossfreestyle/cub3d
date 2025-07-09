@@ -193,7 +193,6 @@ typedef struct s_info
 	void			*win;
 	int				minimap;
 	int				controls;
-	double			*radius_buffer;
 	bool			in_map;
 	bool			valid_map;
 	bool			valid_assets;
@@ -224,6 +223,8 @@ void				start_game_loop(t_info *info);
 int					key_press(int keycode, t_info *info);
 int					key_release(int keycode, t_info *info);
 void				init_player_position(t_info *info);
+void				init_other(t_info *info);
+int					init_assets(t_assets *assets);
 
 //////////PLAYER//////////
 void				set_player_direction(t_info *cub, char c);

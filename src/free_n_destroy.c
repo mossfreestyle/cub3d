@@ -3,21 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   free_n_destroy.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 12:05:34 by mfernand          #+#    #+#             */
-/*   Updated: 2025/07/09 17:24:10 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/07/09 17:48:54 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	free_all(t_info *info)
+static void	free_assets(t_info *info)
 {
-	if (!info)
-		return ;
-	if (info->map_file > 0)
-		close(info->map_file);
 	if (info->assets)
 	{
 		if (info->assets->path_no)
@@ -38,6 +34,15 @@ void	free_all(t_info *info)
 			free(info->assets->we);
 		free(info->assets);
 	}
+}
+
+void	free_all(t_info *info)
+{
+	if (!info)
+		return ;
+	if (info->map_file > 0)
+		close(info->map_file);
+	free_assets(info);
 	if (info->map_info)
 	{
 		if (info->map_info->stash)
@@ -48,8 +53,6 @@ void	free_all(t_info *info)
 			free_tab(info->map_info->first_map);
 		free(info->map_info);
 	}
-	if (info->radius_buffer)
-		free(info->radius_buffer);
 	if (info->key)
 		free(info->key);
 	if (info->player)
