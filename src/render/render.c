@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2025/07/07 19:00:00 by rwassim          #+#    #+#             */
 /*   Updated: 2025/07/07 19:00:00 by rwassim          ###   ########.fr       */
 /*                                                                            */
@@ -35,7 +38,8 @@ static void	put_text(t_info *cub, char *text, int *y)
 	int	x0;
 
 	x0 = WIDTH_DISPLAY - 220;
-	mlx_string_put(cub->mlx->mlx, cub->mlx->window, x0 + 1, *y + 1, BLACK, text);
+	mlx_string_put(cub->mlx->mlx, cub->mlx->window, x0 + 1, *y + 1, BLACK,
+		text);
 	mlx_string_put(cub->mlx->mlx, cub->mlx->window, x0, *y, WHITE, text);
 	*y += 15;
 }
@@ -94,8 +98,8 @@ void	render_frame(t_info *info)
 	render_rays(info);
 	if (info->minimap)
 		draw_minimap(info);
-	mlx_put_image_to_window(info->mlx->mlx, info->mlx->window, 
-		info->mlx->img, 0, 0);
+	mlx_put_image_to_window(info->mlx->mlx, info->mlx->window, info->mlx->img,
+		0, 0);
 	if (info->controls)
 		draw_controls(info);
 }

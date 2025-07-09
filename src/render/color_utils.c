@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   color_utils.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2025/07/07 19:00:00 by rwassim          #+#    #+#             */
 /*   Updated: 2025/07/07 19:00:00 by rwassim          ###   ########.fr       */
 /*                                                                            */
@@ -29,12 +32,8 @@ int	create_rgb_color(int r, int g, int b)
 
 void	convert_colors_to_int(t_info *info)
 {
-	info->assets->floor_col = create_rgb_color(
-		info->assets->floor_color[0],
-		info->assets->floor_color[1], 
-		info->assets->floor_color[2]);
-	info->assets->ceiling_col = create_rgb_color(
-		info->assets->ceiling_color[0],
-		info->assets->ceiling_color[1], 
-		info->assets->ceiling_color[2]);
+	info->assets->floor_col = create_rgb_color(info->assets->floor_color[0],
+			info->assets->floor_color[1], info->assets->floor_color[2]);
+	info->assets->ceiling_col = create_rgb_color(info->assets->ceiling_color[0],
+			info->assets->ceiling_color[1], info->assets->ceiling_color[2]);
 }

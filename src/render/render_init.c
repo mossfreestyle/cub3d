@@ -2,15 +2,19 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   render_init.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2025/07/07 19:00:00 by rwassim          #+#    #+#             */
 /*   Updated: 2025/07/07 19:00:00 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
 
 void	exit_failure(char *msg)
 {
@@ -42,7 +46,7 @@ void	init_render_system(t_info *info)
 	}
 	convert_colors_to_int(info);
 	load_textures(info);
-	int	i = 0;
+	int i = 0;
 	while (i < info->map_info->nb_lines)
 	{
 		int j = 0;
